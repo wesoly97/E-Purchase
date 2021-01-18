@@ -50,7 +50,7 @@ app.post("/register",(req,res)=>{
         }
         db.query(
             "INSERT INTO login_system (username, password, role) VALUES (?,?,?)",
-            [username,hash,"visitor"],
+            [username,hash,"user"],
             (err,result)=>{
                 console.log(err);
             }
@@ -67,6 +67,13 @@ app.get("/login", (req, res) => {
         res.send({ loggedIn: false });
     }
 });
+
+app.post("/logout", (req,res)=>{
+   if(req.session.user){
+       req.session.destroy()
+   }
+});
+
 
 app.post("/login",(req,res)=>{
     const username = req.body.username;

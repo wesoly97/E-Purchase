@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react"
 import Axios from "axios"; //http request library
+import { useHistory } from 'react-router-dom';
 
 export default function Register(){
     const [usernameReg, setUsernameReg] = useState('');
@@ -8,7 +9,9 @@ export default function Register(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const [loginStatus, setLoginStatus] = useState("")
+    const [loginStatus, setLoginStatus] = useState("");
+
+    const history = useHistory();
 
     Axios.defaults.withCredentials = true;
 
@@ -35,8 +38,14 @@ export default function Register(){
             else{
                 console.log(response);
                 setLoginStatus(response.data[0].username);
+                history.push("/");
             }
         });
+    };
+
+    const logout=()=>{
+        Axios.post('http://localhost:3001/logout').then(r => {})
+        setLoginStatus(false);
     };
 
     useEffect(() => {
@@ -49,7 +58,7 @@ export default function Register(){
 
     return(
         <div className="App">
-            <div className="register">
+            <div>
                 <h1>Register</h1>
                 <label>Username</label>
                 <input
@@ -67,7 +76,7 @@ export default function Register(){
                 />
                 <button onClick={register}>Register</button>
             </div>
-            <div className="login">
+            <div>
                 <h1>Login</h1>
                 <label>Username</label>
                 <input
@@ -86,6 +95,7 @@ export default function Register(){
                 />
                 <button onClick={login}>Login</button>
             </div>
+            <button onClick={logout}>LOGOUT</button>
             <h1>{loginStatus}</h1>
         </div>
     );
