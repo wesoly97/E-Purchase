@@ -26,7 +26,7 @@ export default function Main(){
     return(
         <div>
             <Navbar/>
-            <h1>Informacje o koncie</h1>
+            <h1>AUKCJE</h1>
         </div>
     )
 }

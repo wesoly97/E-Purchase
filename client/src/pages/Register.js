@@ -47,7 +47,7 @@ export default function Register(){
         Axios.post('http://localhost:3001/logout').then(r => {})
         setLoginStatus(false);
     };
-
+    
     useEffect(() => {
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
@@ -96,8 +96,7 @@ export default function Register(){
                 />
                 <button onClick={login}>Login</button>
             </div>
-            <button onClick={logout}>LOGOUT</button>
-            <h1>{loginStatus}</h1>
+
         </div>
     );
 }
