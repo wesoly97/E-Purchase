@@ -36,8 +36,8 @@ app.use(session({
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "Password123",
-    database: "epurchase_db",
+    password: "Haslo123",
+    database: "epurchase",
 });
 
 app.post("/register",(req,res)=>{
