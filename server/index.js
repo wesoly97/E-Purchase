@@ -44,14 +44,17 @@ app.post("/register",(req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
 
-    bcrypt.hash(password,saltRounds,(err,hash)=>{
-        if(err){
+    console.log("username= " + username);
+    console.log("password= " + password);
+
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+        if (err) {
             console.log(err);
         }
         db.query(
             "INSERT INTO login_system (username, password, role) VALUES (?,?,?)",
-            [username,hash,"user"],
-            (err,result)=>{
+            [username, hash, "user"],
+            (err, result) => {
                 console.log(err);
             }
         )

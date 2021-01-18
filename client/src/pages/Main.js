@@ -4,6 +4,7 @@ import Axios from "axios";
 import User from "../components/User";
 import Admin from "../components/Admin";
 import { useHistory } from 'react-router-dom';
+import Navbar from "../layout/Navbar";
 
 export default function Main(){
 
@@ -24,6 +25,7 @@ export default function Main(){
     
     return(
         <div>
+            <Navbar/>
             {role === "user" && <User />}
             {role === "admin" && <Admin />}
         </div>

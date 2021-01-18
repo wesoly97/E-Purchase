@@ -69,13 +69,14 @@ export default function Register(){
                 />
                 <label>Password</label>
                 <input
-                    type="text"
+                    type="password"
                     onChange={(e)=>
                         setPasswordReg(e.target.value)
                     }
                 />
                 <button onClick={register}>Register</button>
             </div>
+            <br></br><br></br><br></br><br></br><br></br>
             <div>
                 <h1>Login</h1>
                 <label>Username</label>
