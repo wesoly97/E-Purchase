@@ -35,6 +35,7 @@ export default function Account(){
         });
     }
 
+
     return(
         
         <div>
@@ -49,6 +50,7 @@ export default function Account(){
                 <h3>Rola: {role}</h3>
                 <h3>Reputacja: <a class="btn-floating pulse "><i class=" material-icons">star</i></a></h3>
                 <h3>Zweryfikowany : <a class="btn-floating green pulse"><i class="material-icons">done</i></a></h3>
+                <a class="tooltipped btn" data-tooltip="I am a tooltip">Hover me!</a>
             </div>
 
             <div class="col s6">
@@ -70,5 +72,6 @@ export default function Account(){
             </div>
         </div>
         </div>
+        
     )
 }
