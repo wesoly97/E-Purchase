@@ -112,3 +112,21 @@ app.post("/login",(req,res)=>{
 app.listen(3001,()=>{
     console.log("server is running!");
 });
+
+
+app.get("/accountInfo", (req, res) => {
+    db.query(
+        "SELECT username FROM login_system",
+        (err,result)=>{
+            console.log("zadzialalem");
+            if(err){
+                res.send({err:err});
+            }
+            if(result.length > 0){
+            res.send({result});
+            }
+        }
+    )
+        res.send({ loggedIn: false });
+    
+});
