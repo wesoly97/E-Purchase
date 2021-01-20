@@ -26,6 +26,7 @@ export default function Main(){
     return(
         <div>
             <Navbar/>
+
             {role === "user" && <User />}
             {role === "admin" && <Admin />}
         </div>
