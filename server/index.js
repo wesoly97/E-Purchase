@@ -58,9 +58,7 @@ app.post("/register",(req,res)=>{
                 console.log(err);
             }
         )
-
     });
-
 })
 
 app.post("/addNewAuctions",(req,res)=>{
@@ -132,10 +130,25 @@ app.post("/login",(req,res)=>{
             }
         }
     )
-
-})
+});
 
 app.listen(3001,()=>{
     console.log("server is running!");
 });
+
+
+app.post("/message/send", (req, res)=>{
+    const message = req.body.messageText;
+    const idFrom = req.body.idFrom;
+    const idTo = req.body.idTo;
+
+    db.query(
+        "INSERT INTO message (contents, UsersFrom, UsersTo) VALUES (?,?,?)",
+        [message, idFrom, idTo],
+        (err, result) => {
+            console.log(err);
+        }
+    )
+});
+
 
