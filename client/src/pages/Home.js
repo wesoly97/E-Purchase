@@ -1,11 +1,10 @@
 import React,{useState, useEffect} from "react";
 import Axios from "axios";
-
-import User from "../components/User";
-import Admin from "../components/Admin";
 import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
-
+import Carousel from"../layout/Carousel";
+import Card from"../layout/Card";
+import '../styles/Home.css'
 export default function Main(){
 
     const[role,setRole] = useState("");
@@ -25,8 +24,31 @@ export default function Main(){
     
     return(
         <div>
-            <Navbar/>
-            <h1>Home</h1>
-        </div>
+        <Navbar/>
+        <div class="container">
+            <Carousel/>
+            
+            <div class="row grey lighten-1">
+                <h3>Najbardziej popularne!</h3>
+                     
+                 <div class="col s3 center-align">
+                     <Card/>
+                 </div>
+
+                 <div class="col s3 center-align">
+                     <Card/>
+                 </div>
+
+                 <div class="col s3 center-align">
+                     <Card/>
+                 </div>
+                 <div class="col s3 center-align">
+                     <Card/>
+                 </div>   
+                 
+            </div>
+          
+      </div>
+      </div>
     )
 }

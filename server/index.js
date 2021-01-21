@@ -36,7 +36,7 @@ app.use(session({
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "Haslo123",
+    password: "Password123",
     database: "epurchase",
 });
 

@@ -5,7 +5,7 @@ import User from "../components/User";
 import Admin from "../components/Admin";
 import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
-
+import '../styles/App.css'
 export default function Main(){
 
     const[role,setRole] = useState("");
@@ -26,6 +26,7 @@ export default function Main(){
     return(
         <div>
             <Navbar/>
+
             {role === "user" && <User />}
             {role === "admin" && <Admin />}
         </div>
