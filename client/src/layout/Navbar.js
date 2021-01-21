@@ -19,17 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <nav>
         <div className="nav-wrapper grey darken-3">
             <div className="container">
-
-            <Link to="/home" className="brand-logo left">E-Purchase</Link>
-           
-            <ul className="right hide-on-med-and-down">
-                <li> <form>
-            </form></li>
-            <li> <NavLink to="/home"><i class="material-icons left">home</i>HOME</NavLink></li>
-            <li> <NavLink to="/account" ><i class="material-icons left">account_circle</i>KONTO</NavLink></li>
-            <li> <NavLink to="/message" ><i class="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
-            <li> <NavLink to="/auctions" ><i class="material-icons left">shop</i>AUKCJE</NavLink></li>
-
             <div class="row">
       <div class="col s2">
 
