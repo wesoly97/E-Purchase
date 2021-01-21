@@ -61,6 +61,32 @@ app.post("/register",(req,res)=>{
     });
 })
 
+app.post("/addNewAuctions",(req,res)=>{
+
+    const itemName = req.body.itemName;
+    const itemCategory = req.body.itemCategory;
+    const itemDesc = req.body.itemDesc;
+    const itemQuant = req.body.itemQuant;
+    const itemPrice = req.body.itemPrice;
+
+    db.query(
+        "INSERT INTO items (name, price, description, quantity, opinions_id, category_id) VALUES (?,?,?,?,?,?)",
+        [itemName, itemPrice, itemDesc, itemQuant, 1, 1], //test input, no opinions and category
+        (err, result) => {
+            console.log(err);
+        }
+    );
+});
+
+app.get("/getAllAuctions",(req,res)=>{
+    db.query(
+        "SELECT * FROM items",
+        (err, result) => {
+            res.send(result);
+        }
+    )
+});
+
 app.get("/login", (req, res) => {
     if (req.session.user) {
         res.send({ loggedIn: true, user: req.session.user });
@@ -110,6 +136,7 @@ app.listen(3001,()=>{
     console.log("server is running!");
 });
 
+
 app.post("/message/send", (req, res)=>{
     const message = req.body.messageText;
     const idFrom = req.body.idFrom;
@@ -123,4 +150,5 @@ app.post("/message/send", (req, res)=>{
         }
     )
 });
+
 

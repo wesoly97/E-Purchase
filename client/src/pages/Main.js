@@ -1,8 +1,6 @@
 import React,{useState, useEffect} from "react";
 import Axios from "axios";
 
-import User from "../components/User";
-import Admin from "../components/Admin";
 import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import '../styles/App.css'
@@ -27,8 +25,7 @@ export default function Main(){
         <div>
             <Navbar/>
 
-            {role === "user" && <User />}
-            {role === "admin" && <Admin />}
+
         </div>
     )
 }

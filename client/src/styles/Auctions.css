@@ -1,0 +1,16 @@
+ul, li {
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+.listWrapper {
+    min-height:750px;
+    max-height:750px;
+    overflow-y:auto;
+    width: 100%;
+}
+
+#opinions{
+    min-width: 95%;
+    margin-right: 5%;
+}
