@@ -40,9 +40,12 @@ export default function Main(){
             idFrom: idFrom,
             idTo: idTo
         }).then((response) => {
-            console.log(response);
-            document.getElementById('message').reset();
+
         });
+        document.getElementById("messageText").value = "";
+        history.push('/message');
+        setMessageText("");
+        Materialize.toast({html: 'Wiadomość została wysłana'});
     };
     
     return(
@@ -110,14 +113,14 @@ export default function Main(){
                         </div>
                         <div className="row">
                             <div className="input-field col s9">
-                                <input style={{color: "#ebfafa"}}  id="message" type="text" className="validate" onChange={(e) =>
+                                <input style={{color: "#ebfafa"}}  id="messageText" type="text" className="validate" onChange={(e) =>
                                     setMessageText(e.target.value)
                                 }/>
                                 <label htmlFor="message">Wpisz wiadomość</label>
                             </div>
                             <div class="col s3 ">
                                 <br/>
-                                <a className="waves-effect waves-light btn valign-wrapper" onClick={sendMessage}><i className="material-icons left">send</i>Wyślij wiadomość</a>
+                                <a id="sendButton" className="waves-effect waves-light btn valign-wrapper" onClick={sendMessage}><i className="material-icons left">send</i>Wyślij wiadomość</a>
                             </div>
                         </div>
                     </div>
