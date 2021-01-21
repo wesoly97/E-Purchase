@@ -45,57 +45,47 @@ export default function Main(){
     if(typeof(itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null)
     {
         return (
-            <div className="row">
 
+            <div>
                 <Navbar/>
-                <div className="col s4">
-                    <h1>AUKCJE</h1>
-                    <button onClick={addAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj
-                        aukcję
-                        <i className="material-icons right">send</i>
-                    </button>
-                </div>
-                {/* <div className="col s8">
-                    Jakis ladny froncik
-                    {itemsToShow.map((item, index) => (
-                        <div key={index}>
-                            <p>{item.name}</p>
-                            <p>{item.description}</p>
-                            <p>{item.price}</p>
-                            <p>{item.quantity}</p>
-                            <p>============================</p>
-                        </div>
-                    ))}
+                <div className="container">
+                <div className="row">
 
-                </div>*/}
-
-                <div className="col s8">
-                    <div className="listWrapper">
-                        <div id="opinions" className="right">
-                        <ul className="collection">
-                            {/*listing of items*/}
-                            {itemsToShow.map((item, index) => (
-                                <li className="collection-item ">
-                                    <div key={index}>
-                                        <p><b>Nazwa:</b>    {item.name}</p>
-                                        <p><b>Opis:</b>     {item.description}</p>
-                                        <p><b>Ilosc:</b>    {item.quantity}szt</p>
-                                        <p><b>Cena:</b>     {item.price}zł</p>
-                                        {/*WYSKAKUJECE OKIENKO Z INFO*/}
-                                        <button data-target="modal1" className="btn modal-trigger">Modal</button>
-                                        {/*WYSKAKUJECE OKIENKO Z INFO*/}
-
-                                    </div>
-                                </li>
-
-                            ))}
-                        </ul>
+                    <div className="col s4">
+                        <h1>AUKCJE</h1>
+                        <button onClick={addAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj
+                            aukcję
+                            <i className="material-icons right">send</i>
+                        </button>
                     </div>
+
+                    <div className="col s8">
+                        <div className="listWrapper">
+                            <div id="opinions" className="right">
+                            <ul className="collection">
+                                {/*listing of items*/}
+                                {itemsToShow.map((item, index) => (
+                                    <li className="collection-item ">
+                                        <div key={index}>
+                                            <p><b>Nazwa:</b>    {item.name}</p>
+                                            <p><b>Opis:</b>     {item.description}</p>
+                                            <p><b>Ilosc:</b>    {item.quantity}szt</p>
+                                            <p><b>Cena:</b>     {item.price}zł</p>
+                                            {/*WYSKAKUJECE OKIENKO Z INFO*/}
+                                            <button data-target="modal1" className="btn modal-trigger">Modal</button>
+                                            {/*WYSKAKUJECE OKIENKO Z INFO*/}
+
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    </div>
+
                 </div>
-
-    </div>
-
-
+                </div>
             </div>
         )
     }

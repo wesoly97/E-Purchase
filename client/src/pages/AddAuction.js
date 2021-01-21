@@ -65,17 +65,6 @@ export default function AddAuction(){
         return(
             <div>
                 <Navbar/>
-                {/*
-                    Dodane przez użytkownika:
-                        nazwa
-                        opis
-                        kategoria
-                        cena
-                        zdjęcia? (jedno)?
-                    Dodane automatyczne:
-                        id użytkownika
-                        data dodania
-                */}
                 <div className="row">
                     <div className="col s2">
 
