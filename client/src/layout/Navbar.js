@@ -61,7 +61,23 @@ document.addEventListener('DOMContentLoaded', function() {
                </div>
                </div>
         </nav>
-       </div>
+        <ul className="sidenav sidenav-close" id="mobile-nav">
+                <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
+            <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>KONTO</NavLink></li>
+            <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
+            <li> <NavLink to="/auctions" ><i className="material-icons left">shop</i>AUKCJE</NavLink></li>
+            <li> 
+            <a href="#1" onClick={() => {
+                            Axios.post('http://localhost:3001/logout').then(r => {})
+                            setLoginStatus(false);
+                            history.push("/register");
+               }}>
+                <i className="material-icons">exit_to_app</i>WYLOGUJ
+            </a>
+             </li>
+            
+                </ul>
+                </div>
    );
 };
 
