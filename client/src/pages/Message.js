@@ -41,6 +41,7 @@ export default function Main(){
             idTo: idTo
         }).then((response) => {
             console.log(response);
+            document.getElementById('message').reset();
         });
     };
     
@@ -49,12 +50,12 @@ export default function Main(){
             <Navbar/>
             <div className="container">
             <h1>Wiadomości</h1>
-                <div className="row">
+                <div className="row grey darken-4">
                     <div className="col s3">
                         <div class="row">
                             <div class="col s9">
                                 <div className="input-field inline">
-                                    <input id="searchUser" type="text" class="validate"/>
+                                    <input style={{color: "rgb(51, 204, 204)"}} id="searchUser" type="text" class="validate"/>
                                     <label htmlFor="searchUser">Wyszukaj użytkownika</label>
                                 </div>
                             </div>
@@ -70,7 +71,7 @@ export default function Main(){
                             <a href="#!" className="collection-item">Tadeusz Norek</a>
                         </div>
                     </div>
-                    <div className="col s9 lime lighten-5">
+                    <div className="col s9">
                         <div style={{overflowY: "auto", height: "400px", overflowX: "hidden"}}>
                             <div className="row">
                                 <div className="col s10 m10 l10">
@@ -109,7 +110,7 @@ export default function Main(){
                         </div>
                         <div className="row">
                             <div className="input-field col s9">
-                                <input id="message" type="text" className="validate" onChange={(e) =>
+                                <input style={{color: "#ebfafa"}}  id="message" type="text" className="validate" onChange={(e) =>
                                     setMessageText(e.target.value)
                                 }/>
                                 <label htmlFor="message">Wpisz wiadomość</label>
