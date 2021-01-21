@@ -1,6 +1,11 @@
 .carousel .carousel-item>img {
-    width: 230%; 
+
     
-    margin-left: -70%;
-    margin-top:-40%;
+   
+    margin-top:-15%;
+}
+.carousel
+{
+    margin-top: 1%;
+    
 }

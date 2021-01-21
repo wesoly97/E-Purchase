@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import {Link} from 'react-router-dom'
 import {NavLink} from 'react-router-dom'
 import Axios from "axios"; 
+import '../styles/Navbar.css'
 import { useHistory } from 'react-router-dom';
 const Navbar = () => {
     
@@ -11,7 +12,7 @@ const history = useHistory();
    return(
         <nav className="nav-wrapper grey darken-3">
             <div className="container">
-            <Link to="/register" className="brand-logo left">E-Purchase</Link>
+            <Link to="/Home" className="brand-logo left">E-Purchase</Link>
            
             <ul className="right hide-on-med-and-down">
                 <li> <form>
