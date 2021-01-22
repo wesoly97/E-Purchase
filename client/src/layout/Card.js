@@ -17,13 +17,13 @@ const [loginStatus, setLoginStatus] = useState("");
 Axios.defaults.withCredentials = true;
 const history = useHistory();
    return(
-    <div class="card  grey lighten-1">
+    <div className="card  grey lighten-1">
     <a href="#1">            
-    <div class="card-image ">
+    <div className="card-image ">
    
     <img src={logo} class="responsive-img circle" height="256" width="256"></img>
      </div>
-     <div class="card-content">
+     <div className="card-content">
      <p>tylko teraz 10 zl!</p>
     </div>
     </a>  
