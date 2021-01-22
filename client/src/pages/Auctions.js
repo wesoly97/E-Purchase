@@ -6,6 +6,7 @@ import Navbar from "../layout/Navbar";
 import "../styles/Auctions.css"
 import $ from "jquery"
 import M from "materialize-css"
+import logo from '../img/1.jpg';
 
 export default function Main(){
 
@@ -13,9 +14,17 @@ export default function Main(){
     const[itemsToShow,setItemsToShow] = useState("");
     const history = useHistory();
 
-
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
+        //jQuerry reload page once after load to make 'select' work - stupid but works
+        $(document).ready(function(){
+            if(document.URL.indexOf("#")===-1){
+                let url = document.URL+"#";
+                window.location = "#";
+                window.location.reload(true);
+            }
+        });
+
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setRole(response.data.user[0].role);
@@ -36,9 +45,24 @@ export default function Main(){
         history.push("/addAuction");
     };
 
+    const getImage = (imgNum) =>{
+        Axios.post('http://localhost:3001/getImage',
+            {
+                imgNum: imgNum
+            }).then((response)=> {
+            //console.log(response.data.imgBase64);
+            let img64 = response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, "");
+            document.getElementById(imgNum)
+                .setAttribute(
+                    'src', 'data:image/png;base64,'+img64
+                );
+        });
+    }
+
+
     document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems);
+        let elems = document.querySelectorAll('.modal');
+        let instances = M.Modal.init(elems);
     });
 
 
@@ -67,12 +91,20 @@ export default function Main(){
                                 {itemsToShow.map((item, index) => (
                                     <li className="collection-item ">
                                         <div key={index}>
-                                            <p><b>Nazwa:</b>    {item.name}</p>
-                                            <p><b>Opis:</b>     {item.description}</p>
-                                            <p><b>Ilosc:</b>    {item.quantity}szt</p>
-                                            <p><b>Cena:</b>     {item.price}zł</p>
+                                            <div className="row">
+                                                <div className="col s6">
+                                                    <p><b>Nazwa:</b>    {item.name}</p>
+                                                    <p><b>Opis:</b>     {item.description}</p>
+                                                    <p><b>Ilosc:</b>    {item.quantity}szt</p>
+                                                    <p><b>Cena:</b>     {item.price}zł</p>
+                                                </div>
+                                                <div id="imgDiv" className="col s6">
+                                                    <img id={item.id} width="50%" height="50%"/>
+                                                    {getImage(item.id)}
+                                                </div>
+                                            </div>
                                             {/*WYSKAKUJECE OKIENKO Z INFO*/}
-                                            <button data-target="modal1" className="btn modal-trigger">Modal</button>
+                                            <button data-target="modal1" className="btn modal-trigger">Dodaj do koszyka</button>
                                             {/*WYSKAKUJECE OKIENKO Z INFO*/}
 
                                         </div>
@@ -86,12 +118,28 @@ export default function Main(){
 
                 </div>
                 </div>
+
+                {/*AREA FOR MODAL*/}
+
+
             </div>
         )
     }
     else{
         return(
-            <Navbar/>
+            <div>
+                <Navbar/>
+                <div className="container">
+                    <div className="row">
+                        <div className="col s4">
+                            <h1>AUKCJE</h1>
+                            <button onClick={addAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj aukcję
+                                <i className="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

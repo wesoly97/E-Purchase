@@ -12,6 +12,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+const fs = require('fs');
+const fetch = require('node-fetch');
+
 const app = express();
 
 app.use(express.json());
@@ -68,14 +71,24 @@ app.post("/addNewAuctions",(req,res)=>{
     const itemDesc = req.body.itemDesc;
     const itemQuant = req.body.itemQuant;
     const itemPrice = req.body.itemPrice;
+    const imgBase64 = req.body.imgBase64;
 
+    let imageTitle = "image.png";
+
+    //Input to db
     db.query(
-        "INSERT INTO items (name, price, description, quantity, opinions_id, category_id) VALUES (?,?,?,?,?,?)",
-        [itemName, itemPrice, itemDesc, itemQuant, 1, 1], //test input, no opinions and category
+        "INSERT INTO items (name, price, description, quantity) VALUES (?,?,?,?)",
+        [itemName, itemPrice, itemDesc, itemQuant],
         (err, result) => {
             console.log(err);
+            imageTitle = result.insertId +".png"
+            console.log(imageTitle);
+            fs.writeFile("./productImages/"+imageTitle+"", imgBase64, 'base64', function(err) {
+                console.log(err);
+            });
         }
     );
+
 });
 
 app.get("/getAllAuctions",(req,res)=>{
@@ -101,6 +114,18 @@ app.post("/logout", (req,res)=>{
    }
 });
 
+app.post("/getImage", (req,res)=>{
+    const imgNum = req.body.imgNum;
+
+    function base64_encode(file) {
+        let bitmap = fs.readFileSync(file);
+        return new Buffer.from(bitmap).toString('base64');
+    }
+
+    let base64str = base64_encode( "./productImages/"+imgNum+".png");
+
+    res.send({imgBase64:base64str});
+});
 
 app.post("/login",(req,res)=>{
     const username = req.body.username;

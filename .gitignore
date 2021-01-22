@@ -107,3 +107,4 @@ client/node_modules/
 
 .idea/
 .dist/
+.server/productImages/

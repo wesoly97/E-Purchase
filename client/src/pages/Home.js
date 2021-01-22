@@ -35,31 +35,25 @@ export default function Main(){
     
     return(
         <div>
-        <Navbar/>
-        <div class="container">
-            <Carousel/>
-            
-            <div class="row grey lighten-1">
-                <h3>Najbardziej popularne!</h3>
-                     
-                 <div class="col s3 center-align">
-                     <Card/>
-                 </div>
-
-                 <div class="col s3 center-align">
-                     <Card/>
-                 </div>
-
-                 <div class="col s3 center-align">
-                     <Card/>
-                 </div>
-                 <div class="col s3 center-align">
-                     <Card/>
-                 </div>   
-                 
+            <Navbar/>
+            <div className="container">
+                <Carousel/>
+                <div className="row grey lighten-1">
+                    <h3>Najbardziej popularne!</h3>
+                    <div className="col s3 center-align">
+                        <Card/>
+                    </div>
+                    <div className="col s3 center-align">
+                        <Card/>
+                    </div>
+                    <div className="col s3 center-align">
+                        <Card/>
+                    </div>
+                    <div className="col s3 center-align">
+                        <Card/>
+                    </div>
+                </div>
             </div>
-          
-      </div>
-      </div>
+        </div>
     )
 }

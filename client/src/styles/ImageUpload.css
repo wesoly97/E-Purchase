@@ -1,0 +1,9 @@
+#uploadedImg{
+    max-width:100%;
+    max-height:100%;
+}
+
+#imageDiv{
+    margin: auto;
+    width: 50%;
+}

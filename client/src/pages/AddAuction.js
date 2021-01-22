@@ -5,6 +5,7 @@ import Navbar from "../layout/Navbar";
 import "../styles/AddAuctions.css"
 import $ from "jquery"
 import M from "materialize-css"
+import ImageUpload from "../components/ImageUpload"
 
 //#4db6ac
 
@@ -50,31 +51,47 @@ export default function AddAuction(){
 
 
         const addNewAuction=()=>{
+            let imgBase64 = getBase64Image(document.getElementById("uploadedImg"));
+
+
             Axios.post("http://localhost:3001/addNewAuctions",{
                 itemName: itemName,
                 itemCategory: itemCategory,
                 itemDesc: itemDesc,
                 itemQuant: itemQuant,
-                itemPrice: itemPrice
+                itemPrice: itemPrice,
+                imgBase64: imgBase64
             }).then((response) => {
 
             });
             history.push("/auctions")
         };
 
+        //Change img to base64 string
+        function getBase64Image(img) {
+            let canvas = document.createElement("canvas");
+            canvas.width = 128;//img.width;
+            canvas.height = 128;//img.height;
+            let ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0,128,128);
+            let dataURL = canvas.toDataURL("image/png");
+            return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        }
+
+
         return(
             <div>
                 <Navbar/>
                 <div className="row">
-                    <div className="col s2">
+                    <div className="col s1">
 
                     </div>
-                    <div className="col s8">
-                        <h3 id="napisDodaj">Dodaj nową ofertę</h3>
+                    <div className="col s5">
+                        <h3 id="napisDodaj" className="textWhite"><b>Dodaj nową ofertę</b></h3>
                         <form id="newOfferForm">
 
                             <div className="row">
-                                <label htmlFor="last_name">Nazwa produktu:</label>
+                                <label className="textWhite" htmlFor="last_name"><b>Nazwa produktu:</b></label>
                                 <input
                                     id="itemName"
                                     type="text"
@@ -87,7 +104,7 @@ export default function AddAuction(){
 
                             <br></br><br></br>
                             <div className="row">
-                                <label id="labelKategoria" htmlFor="itemKategoria" >Kategoria:</label>
+                                <label id="labelKategoria" htmlFor="itemKategoria" className="textWhite"><b>Kategoria:</b></label>
                                 <div id="selectInput" className="input-field">
                                     <select
                                         id="itemKategoria"
@@ -118,7 +135,7 @@ export default function AddAuction(){
 
                             <br></br><br></br>
                             <div className="row">
-                                <label htmlFor="itemTextAre">Szczegółowy opis:</label>
+                                <label htmlFor="itemTextAre" className="textWhite"><b>Szczegółowy opis:</b></label>
                                 <textarea
                                     id="itemTextAre"
                                     className="materialize-textarea"
@@ -130,7 +147,7 @@ export default function AddAuction(){
 
                             <br></br><br></br>
                             <div className="row">
-                                <label htmlFor="last_name">Ilosc dostępnych sztuk: </label>
+                                <label htmlFor="last_name" className="textWhite"><b>Ilosc dostępnych sztuk: </b></label>
                                 <input
                                     id="itemCena"
                                     type="text"
@@ -143,7 +160,7 @@ export default function AddAuction(){
 
                             <br></br><br></br>
                             <div className="row">
-                                <label htmlFor="last_name">Cena jednostkowa produktu: </label>
+                                <label htmlFor="last_name" className="textWhite"><b>Cena jednostkowa produktu: </b></label>
                                 <input
                                     id="itemCena"
                                     type="text"
@@ -154,29 +171,23 @@ export default function AddAuction(){
                                 />zł
                             </div>
 
-                            <br></br><br></br>
-                            <div className="row">
-                                <div className="file-field input-field">
-                                    <div className="btn">
-                                        <span>Dodaj zdjęcie</span>
-                                        <input type="file"/>
-                                    </div>
-                                </div>
-                            </div>
 
+                        </form>
+
+
+                    </div>
+                    <div id="imageCol" className="col s4">
+                            <ImageUpload/>
+                    </div>
+                    <div id="divSubmit" className="col s2">
+                        <form>
                             <div id="btnRow" className="row">
                                 <button onClick={addNewAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj ofertę
                                     <i className="material-icons right">send</i>
                                 </button>
                             </div>
                         </form>
-
-
                     </div>
-                    <div className="col s2">
-
-                    </div>
-
 
                 </div>
             </div>

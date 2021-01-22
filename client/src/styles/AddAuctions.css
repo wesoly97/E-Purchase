@@ -1,3 +1,7 @@
+.textWhite{
+    color:whitesmoke;
+}
+
 #newOfferForm{
     margin: 0 auto;
 }
@@ -39,4 +43,13 @@ label{
 
 #labelKategoria{
     font-size: 24px;
+}
+
+#imageCol{
+    margin: auto;
+}
+
+#btnDiv{
+    max-width: 30%;
+    min-width: 30%;
 }
