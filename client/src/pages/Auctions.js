@@ -104,7 +104,9 @@ export default function Main(){
                                                 </div>
                                             </div>
                                             {/*WYSKAKUJECE OKIENKO Z INFO*/}
-                                            <button data-target="modal1" className="btn modal-trigger">Dodaj do koszyka</button>
+                                            <a className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
+                                            <a id="simpleBtn" className="waves-effect waves-light btn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
+
                                             {/*WYSKAKUJECE OKIENKO Z INFO*/}
 
                                         </div>
