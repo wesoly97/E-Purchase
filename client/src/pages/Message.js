@@ -17,12 +17,16 @@ export default function Main(){
     const [messageText, setMessageText] = useState("");
     const [idFrom, setIdFrom] = useState(1);
     const [idTo, setIdTo] = useState(2);
+    const [messages, setMessages] = useState([]);
+    let messes = [];
+
 
     useEffect(()=>{
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setRole(response.data.user[0].role);
                 setIdFrom(response.data.user[0].id);
+                getMessages();
             }
             else{
                 history.push("/register");
@@ -33,6 +37,41 @@ export default function Main(){
     function abc(){
         Materialize.updateTextFields();
     }
+
+    const getMessages = () => {
+        Axios.get("http://localhost:3001/message/get", {
+            idFrom: idFrom,
+            idTo: idTo
+        }).then((response) => {
+            setMessages(response.data.result);
+            // = response.data.result;
+        })
+    };
+
+    for (const [index, value] of messages.entries()){
+        if(value.UsersFrom === idTo){
+            messes.push(<div className="col s10 m10 l10">
+                            <div className="card blue-grey darken-1">
+                                <div className="card-content white-text">
+                                    <span className="card-title">{value.username}</span>
+                                    <p>{value.contents}</p>
+                                </div>
+                            </div>
+                        </div>)
+        }
+        if(value.UsersFrom === idFrom) {
+            messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
+                <div className="card lime lighten-4">
+                    <div className="card-content black-text">
+                        <span className="card-title right-align">Ja</span>
+                        <p className="right-align">{value.contents}</p>
+                    </div>
+                </div>
+            </div>)
+        }
+
+    }
+
 
     const sendMessage = () => {
         Axios.post("http://localhost:3001/message/send", {
@@ -46,6 +85,8 @@ export default function Main(){
         history.push('/message');
         setMessageText("");
         Materialize.toast({html: 'Wiadomość została wysłana'});
+        getMessages();
+        history.push("/message");
     };
     
     return(
@@ -105,10 +146,11 @@ export default function Main(){
                                     <div className="card lime lighten-4">
                                         <div className="card-content black-text">
                                             <span className="card-title right-align">Ja</span>
-                                            <p className="right-align">A dlaczego pytasz?</p>
+                                                <p className="right-align"></p>
                                         </div>
                                     </div>
                                 </div>
+                                {messes}
                             </div>
                         </div>
                         <div className="row">

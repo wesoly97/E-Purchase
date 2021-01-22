@@ -124,3 +124,22 @@ app.post("/message/send", (req, res)=>{
     )
 });
 
+app.get("/message/get", (req, res) =>{
+    const idFrom = req.body.idFrom;
+    const idTo = req.body.idTo;
+
+    db.query(
+        "SELECT message.id, message.contents, message.UsersFrom,users.username, message.UsersTo, users.username " +
+        "FROM message " +
+        "LEFT JOIN users ON message.UsersFrom = users.id " +
+        "AND ((message.UsersFrom = 1 AND message.UsersTo = 2) OR (message.UsersFrom = 2 AND message.UsersTo = 1)) " +
+        "ORDER BY message.id ",
+        [1, 2, 2, 1],
+        (err, result) => {
+            console.log(err);
+            console.log(result);
+            res.send({result});
+        }
+    )
+});
+
