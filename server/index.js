@@ -162,6 +162,23 @@ app.listen(3001,()=>{
 });
 
 
+app.get("/accountInfo", (req, res) => {
+    db.query(
+        "SELECT username FROM login_system",
+        (err,result)=>{
+            console.log("zadzialalem");
+            if(err){
+                res.send({err:err});
+            }
+            if(result.length > 0){
+            res.send({result});
+            }
+        }
+    )
+        res.send({ loggedIn: false });
+    
+});
+
 app.post("/message/send", (req, res)=>{
     const message = req.body.messageText;
     const idFrom = req.body.idFrom;
@@ -175,5 +192,6 @@ app.post("/message/send", (req, res)=>{
         }
     )
 });
+
 
 
