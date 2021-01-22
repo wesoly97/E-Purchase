@@ -12,6 +12,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+const fs = require('fs');
+const fetch = require('node-fetch');
+
 const app = express();
 
 app.use(express.json());
@@ -36,7 +39,7 @@ app.use(session({
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "Haslo123",
+    password: "Password123",
     database: "epurchase",
 });
 
@@ -58,10 +61,44 @@ app.post("/register",(req,res)=>{
                 console.log(err);
             }
         )
-
     });
-
 })
+
+app.post("/addNewAuctions",(req,res)=>{
+
+    const itemName = req.body.itemName;
+    const itemCategory = req.body.itemCategory;
+    const itemDesc = req.body.itemDesc;
+    const itemQuant = req.body.itemQuant;
+    const itemPrice = req.body.itemPrice;
+    const imgBase64 = req.body.imgBase64;
+
+    let imageTitle = "image.png";
+
+    //Input to db
+    db.query(
+        "INSERT INTO items (name, price, description, quantity) VALUES (?,?,?,?)",
+        [itemName, itemPrice, itemDesc, itemQuant],
+        (err, result) => {
+            console.log(err);
+            imageTitle = result.insertId +".png"
+            console.log(imageTitle);
+            fs.writeFile("./productImages/"+imageTitle+"", imgBase64, 'base64', function(err) {
+                console.log(err);
+            });
+        }
+    );
+
+});
+
+app.get("/getAllAuctions",(req,res)=>{
+    db.query(
+        "SELECT * FROM items",
+        (err, result) => {
+            res.send(result);
+        }
+    )
+});
 
 app.get("/login", (req, res) => {
     if (req.session.user) {
@@ -77,6 +114,18 @@ app.post("/logout", (req,res)=>{
    }
 });
 
+app.post("/getImage", (req,res)=>{
+    const imgNum = req.body.imgNum;
+
+    function base64_encode(file) {
+        let bitmap = fs.readFileSync(file);
+        return new Buffer.from(bitmap).toString('base64');
+    }
+
+    let base64str = base64_encode( "./productImages/"+imgNum+".png");
+
+    res.send({imgBase64:base64str});
+});
 
 app.post("/login",(req,res)=>{
     const username = req.body.username;
@@ -106,8 +155,7 @@ app.post("/login",(req,res)=>{
             }
         }
     )
-
-})
+});
 
 app.listen(3001,()=>{
     console.log("server is running!");
@@ -130,3 +178,20 @@ app.get("/accountInfo", (req, res) => {
         res.send({ loggedIn: false });
     
 });
+
+app.post("/message/send", (req, res)=>{
+    const message = req.body.messageText;
+    const idFrom = req.body.idFrom;
+    const idTo = req.body.idTo;
+
+    db.query(
+        "INSERT INTO message (contents, UsersFrom, UsersTo) VALUES (?,?,?)",
+        [message, idFrom, idTo],
+        (err, result) => {
+            console.log(err);
+        }
+    )
+});
+
+
+

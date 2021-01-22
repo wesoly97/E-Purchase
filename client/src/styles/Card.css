@@ -1,0 +1,15 @@
+.card-image {
+    border-radius: 50%;
+    overflow: hidden;
+    border-style: none;
+  }
+  .card {
+    border: 0;
+    box-shadow: none
+  }
+  a {
+    color: black;
+  }
+  .card>a:hover {
+    color: Blue;
+  }

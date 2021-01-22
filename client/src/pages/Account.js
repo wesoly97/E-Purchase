@@ -9,6 +9,9 @@ import M from "materialize-css";
 
 import "../styles/accountStyles.css"
 
+
+
+
 export default function Account(){
 
     const[role,setRole] = useState("");
@@ -24,20 +27,19 @@ export default function Account(){
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
 
+        //jQuerry reload page once after load to make 'select' work - stupid but works
         $(document).ready(function(){
-            //Check if the current URL contains '#'
             if(document.URL.indexOf("#")===-1){
-                // Set the URL to whatever it was plus "#".
                 let url = document.URL+"#";
                 window.location = "#";
-
-                //Reload the page
                 window.location.reload(true);
             }
         });
 
+
         Axios.get("http://localhost:3001/login").then((response) => { 
         if (response.data.loggedIn === true) {
+
                 setRole(response.data.user[0].role);
             }
             else{

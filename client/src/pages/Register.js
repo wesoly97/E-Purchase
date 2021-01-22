@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import Axios from "axios"; //http request library
 import { useHistory } from 'react-router-dom';
+import "../styles/Register.css"
 
 export default function Register(){
     const [usernameReg, setUsernameReg] = useState('');
@@ -57,7 +58,8 @@ export default function Register(){
     }, []);
 
     return(
-        <div className="App">
+        <div className="main">
+        <div>
             <div>
                 <h1>Register</h1>
                 <label>Username</label>
@@ -74,7 +76,9 @@ export default function Register(){
                         setPasswordReg(e.target.value)
                     }
                 />
-                <button onClick={register}>Register</button>
+                <button onClick={register} className="btn waves-effect waves-light" type="submit" name="action">Register
+                    <i className="material-icons right">send</i>
+                </button>
             </div>
             <br></br><br></br><br></br><br></br><br></br>
             <div>
@@ -94,9 +98,12 @@ export default function Register(){
                            setPassword(e.target.value)
                        }
                 />
-                <button onClick={login}>Login</button>
+                <button onClick={login} className="btn waves-effect waves-light" type="submit" name="action">Login
+                    <i className="material-icons right">send</i>
+                </button>
             </div>
 
+        </div>
         </div>
     );
 }
