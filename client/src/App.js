@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Auctions from "./pages/Auctions";
 import Message from "./pages/Message";
 import AddAuction from "./pages/AddAuction"
-
+import Cart from "./pages/Cart"
 function App(){
 
     return(
@@ -21,6 +21,7 @@ function App(){
             <Route path="/message" exact render={(props) => <Message/>} />
 
             <Route path="/addAuction" exact render={(props) => <AddAuction/>} />
+            <Route path="/cart" exact render={(props) => <Cart/>} />
 
         </Router>
     )

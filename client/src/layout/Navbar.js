@@ -1,10 +1,14 @@
-import React,{useState} from 'react'
+import $ from 'jquery'
+import React,{useState,useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import {NavLink} from 'react-router-dom'
 import Axios from "axios"; 
 import '../styles/Navbar.css'
 import { useHistory } from 'react-router-dom';
+
 import M,{options} from 'materialize-css'
+
+
 const Navbar = () => {
     
 const [loginStatus, setLoginStatus] = useState("");
@@ -14,6 +18,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');
     var instances = M.Sidenav.init(elems, options);
   });
+  useEffect(() => {
+    let dropdowns = document.querySelectorAll(".dropdown-trigger");
+    let options = {
+        inDuration: 300,
+        outDuration: 225,
+        hover: true, 
+        coverTrigger: false,
+        alignment: 'right' 
+    };
+    M.Dropdown.init(dropdowns, options);
+
+  }, []);
    return(
            <div className="row">
 
@@ -21,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div className="nav-wrapper grey darken-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col s2">
+                        <div className="col s1">
                             <Link to="/Home" className="brand-logo ">E-Purchase</Link>
                         </div>
                     <div className="col s1">
@@ -29,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <i className="material-icons">menu</i>
                         </a>
                     </div>
-                    <div className="col s3">
+                    <div className="col s4">
                         <form action="" method="post">
                             <div className="input-field hide-on-med-and-down">
                                 <input id="search" type="search" name="search"></input>
@@ -39,13 +55,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </form>
                     </div>
-                    <div className="col s5">
+                    <div className="col s6">
                         <ul className="right hide-on-med-and-down">
-
-                        <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
                         <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>KONTO</NavLink></li>
+                        <li> <NavLink to="/cart"><i className="material-icons left">shopping_cart</i>KOSZYK</NavLink></li>
                         <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
-                        <li> <NavLink to="/auctions" ><i className="material-icons left">shop</i>AUKCJE</NavLink></li>
+                        <li><a class='dropdown-trigger list' href='#' data-target='dropdown1' ><i className="material-icons left">shop</i>AUKCJE
+                            
+                        </a></li>
                             <li>
                                 <a className="btn-floating btn-large waves-effect waves-light blue" onClick={() => {
                                                 Axios.post('http://localhost:3001/logout').then(r => {})
@@ -62,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                </div>
         </nav>
         <ul className="sidenav sidenav-close" id="mobile-nav">
-                <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
+            <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
             <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>KONTO</NavLink></li>
             <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
             <li> <NavLink to="/auctions" ><i className="material-icons left">shop</i>AUKCJE</NavLink></li>
@@ -76,6 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
             </a>
              </li>
             
+                </ul>
+                <ul id='dropdown1' class='dropdown-content '>
+                <li > <NavLink to="/auctions" ><i className=" material-icons left">shop</i>Wszystkie Aukcje</NavLink></li>
+                <li> <NavLink to="/addAuction" ><i className="material-icons left">shop_two</i>Dodaj Aukcje</NavLink></li>
                 </ul>
                 </div>
    );

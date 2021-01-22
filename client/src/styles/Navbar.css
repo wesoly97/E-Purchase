@@ -22,3 +22,8 @@ nav .right{
   top: 0px;
   right: 0px;
 }
+.dropdown-content
+{
+  min-width: 250px;
+}
+
