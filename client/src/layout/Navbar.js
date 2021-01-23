@@ -50,7 +50,7 @@ const Navbar = () => {
                                     <div className="input-field hide-on-med-and-down">
                                         <input id="search" type="search" name="search"></input>
                                         <label className="label-icon" for="search">
-                                            <i class="material-icons">search</i></label>
+                                            <i className="material-icons">search</i></label>
                                         <i className="material-icons">close</i>
                                     </div>
                                 </form>
@@ -60,14 +60,14 @@ const Navbar = () => {
                                     <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>KONTO</NavLink></li>
                                     <li> <NavLink to="/cart"><i className="material-icons left">shopping_cart</i>KOSZYK</NavLink></li>
                                     <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
-                                    <li><a class='dropdown-trigger list' href='#' data-target='dropdown1' ><i className="material-icons left">shop</i>AUKCJE
+                                    <li><a className='dropdown-trigger list' href='#' data-target='dropdown1' ><i className="material-icons left">shop</i>AUKCJE
 
                                     </a></li>
                                     <li>
                                         <a className="btn-floating btn-large waves-effect waves-light blue" onClick={() => {
                                             Axios.post('http://localhost:3001/logout').then(r => {})
                                             setLoginStatus(false);
-                                            history.push("/register");
+                                            history.push("/login");
                                         }}>
                                             <i className="material-icons">exit_to_app</i>
                                         </a>
@@ -94,7 +94,7 @@ const Navbar = () => {
                 </li>
 
             </ul>
-            <ul id='dropdown1' class='dropdown-content '>
+            <ul id='dropdown1' className='dropdown-content '>
                 <li > <NavLink to="/auctions" ><i className=" material-icons left">shop</i>Wszystkie Aukcje</NavLink></li>
                 <li> <NavLink to="/addAuction" ><i className="material-icons left">shop_two</i>Dodaj Aukcje</NavLink></li>
             </ul>

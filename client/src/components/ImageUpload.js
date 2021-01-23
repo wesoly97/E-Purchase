@@ -1,5 +1,4 @@
 import "../styles/ImageUpload.css"
-import AddAuction from "../pages/AddAuction";
 
 const React = require('react')
 export class Upload extends React.Component {

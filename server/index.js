@@ -44,25 +44,57 @@ const db = mysql.createConnection({
 });
 
 app.post("/register",(req,res)=>{
+    //1. Register
     const username = req.body.username;
     const password = req.body.password;
 
-    console.log("username= " + username);
-    console.log("password= " + password);
+    const name= req.body.name;
+    const surname= req.body.surname;
+    const city= req.body.city;
+    const postCode= req.body.postCode;
+    const street= req.body.street;
+    const phoneNumber= req.body.phoneNumber;
 
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-        if (err) {
+    //Insert address
+    db.query(
+        "INSERT INTO address (city, postCode, street, phone) VALUES (?,?,?,?)",
+        [city,postCode,street,phoneNumber],
+        (err, result) => {
             console.log(err);
+            //Insert user
+            bcrypt.hash(password, saltRounds, (err, hash) => {
+                if (err) {
+                    console.log(err);
+                }
+                db.query(
+                    "INSERT INTO users (username, password, reputation, isVerified, isAdmin, address_id,name,surname) VALUES (?,?,?,?,?,?,?,?)",
+                    [username, hash, 0, 0, 0, result.insertId, name, surname],
+                    (err, result) => {
+                        console.log(err);
+                        //Login user
+                        db.query(
+                            "SELECT * FROM users WHERE username = ?",
+                            username,
+                            (err,result)=>{
+                                bcrypt.compare(password, result[0].password,(error, response)=>{
+                                    if(response){
+                                        req.session.user = result; //creating a session
+                                        //console.log(req.session.user);
+                                        res.send(result);
+                                    }
+                                    else{
+                                        res.send({message: "Wrong username/password combination!"})
+                                    }
+                                });
+                            }
+                        )
+                    }
+                )
+            });
         }
-        db.query(
-            "INSERT INTO login_system (username, password, role) VALUES (?,?,?)",
-            [username, hash, "user"],
-            (err, result) => {
-                console.log(err);
-            }
-        )
-    });
-})
+    );
+
+});
 
 app.post("/addNewAuctions",(req,res)=>{
 
@@ -100,6 +132,121 @@ app.get("/getAllAuctions",(req,res)=>{
     )
 });
 
+app.post("/addItemToCart",(req,res)=>{
+    const itemId = req.body.itemId;
+    const userId = req.session.user[0].id;
+    const quantity = 1;
+
+    db.query(
+        "SELECT * FROM usercart WHERE user_id = ? AND item_id = ?",
+        [userId,itemId],
+        (err,result)=>{
+            if(result.length > 0){
+                //mamy juz taki item w bazie, zwiekszamy quantity
+                db.query(
+                    "UPDATE usercart SET quantity= quantity+1 WHERE user_id = ? AND item_id = ?",
+                    [userId,itemId],
+                    (err,result)=>{}
+                );
+            }
+            else{
+                //nie ma takiego itemu w bazie, dodajemy
+                db.query(
+                    "INSERT INTO usercart (user_id, item_id, quantity) VALUES (?,?,?)",
+                    [userId, itemId, quantity],
+                    (err, result) => {
+                    }
+                );
+            }
+        }
+    );
+});
+
+
+app.post("/removeItemFromCart",(req,res)=>{
+    const itemId = req.body.itemId;
+    const userId = req.session.user[0].id;
+
+    db.query(
+        "SELECT * FROM usercart WHERE user_id = ? AND item_id = ?",
+        [userId,itemId],
+        (err,result)=>{
+            if(result.length > 0){
+                db.query(
+                    "UPDATE usercart SET quantity= quantity-1 WHERE user_id = ? AND item_id = ?",
+                    [userId,itemId],
+                    (err,result)=>{
+                        db.query(
+                            "SELECT quantity FROM usercart WHERE user_id = ? AND item_id = ?",
+                            [userId,itemId],
+                            (err,result)=>{
+                                if(result[0].quantity === 0 || result[0].quantity < 0){
+                                    db.query(
+                                        "DELETE FROM usercart WHERE user_id = ? AND item_id = ?",
+                                        [userId,itemId],
+                                        (err,result)=>{
+                                        });
+                                }
+                            });
+                    }
+                );
+            }
+        }
+    );
+});
+
+app.post("/getCartContent",(req,res)=>{
+    const userId = req.session.user[0].id;
+
+    db.query(
+        "SELECT * FROM usercart WHERE user_id=?",
+        userId,
+        (err, resultOne) => {
+           // res.send(result);
+           // console.log(result.length)
+           // console.log(result[0].item_id)
+
+            const tableLen = resultOne.length;
+            const tableOfObject = [];
+            for(let i= 0; i < tableLen; i++){
+                //1. Get item ID
+                db.query(
+                    "SELECT * FROM items WHERE id = ?",
+                    resultOne[i].item_id,
+                    (err,resultTwo)=>{
+                        //resultOne - result from table 'usercart'
+                        //resultTwo - result from table 'items'
+                        function base64_encode(file) {
+                            let bitmap = fs.readFileSync(file);
+                            return new Buffer.from(bitmap).toString('base64');
+                        }
+                        //imageItemBase64 -> image of product base 64 string
+                        let imageItemBase64 = base64_encode( "./productImages/"+resultOne[i].item_id+".png");
+                        tableOfObject.push({
+                            itemId: resultTwo[0].id,
+                            itemName: resultTwo[0].name,
+                            itemImage64: imageItemBase64,
+                            quantity: resultOne[i].quantity,
+                            price: resultTwo[0].price
+                        });
+                        //Last iteration
+                        if(i===tableLen-1){
+                            //console.log(tableOfObject);
+                            res.send(tableOfObject);
+                        }
+                    }
+                );
+            }
+        }
+
+    );
+
+    //get item name, item image based on item_id and response
+    //let tableOfObject = [];
+    //let len
+});
+
+
 app.get("/login", (req, res) => {
     if (req.session.user) {
         res.send({ loggedIn: true, user: req.session.user });
@@ -132,7 +279,7 @@ app.post("/login",(req,res)=>{
     const password = req.body.password;
 
     db.query(
-        "SELECT * FROM login_system WHERE username = ?",
+        "SELECT * FROM users WHERE username = ?",
         username,
         (err,result)=>{
             if(err){
@@ -142,7 +289,7 @@ app.post("/login",(req,res)=>{
                 bcrypt.compare(password, result[0].password,(error, response)=>{
                    if(response){
                        req.session.user = result; //creating a session
-                       console.log(req.session.user);
+                       //console.log(req.session.user);
                        res.send(result);
                    }
                    else{
@@ -163,20 +310,16 @@ app.listen(3001,()=>{
 
 
 app.get("/accountInfo", (req, res) => {
+    const userId = req.session.user[0].id;
+
     db.query(
-        "SELECT username FROM login_system",
+        "SELECT * FROM users WHERE id = ?",
+        userId,
         (err,result)=>{
-            console.log("zadzialalem");
-            if(err){
-                res.send({err:err});
-            }
-            if(result.length > 0){
-            res.send({result});
-            }
+            res.send(result[0]);
         }
-    )
-        res.send({ loggedIn: false });
-    
+    );
+
 });
 
 app.post("/message/send", (req, res)=>{

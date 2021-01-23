@@ -12,6 +12,9 @@ export default function Main(){
 
     const[role,setRole] = useState("");
     const[itemsToShow,setItemsToShow] = useState("");
+    let tempItemId = " ";
+
+
     const history = useHistory();
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
@@ -35,7 +38,7 @@ export default function Main(){
 
             }
             else{
-                history.push("/register");
+                history.push("/login");
             }
         });
 
@@ -58,6 +61,17 @@ export default function Main(){
                 );
         });
     }
+
+
+    const addToCart=(itemId)=>{
+        //get parent id (item id) and add it to table cart with user id
+        //itemId
+        Axios.post('http://localhost:3001/addItemToCart',
+            {
+                itemId: itemId
+            }).then((response)=> {
+        });
+    };
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -103,11 +117,11 @@ export default function Main(){
                                                     {getImage(item.id)}
                                                 </div>
                                             </div>
-                                            {/*WYSKAKUJECE OKIENKO Z INFO*/}
-                                            <a className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
+
+                                            <p hidden="true">{tempItemId = item.id}</p>
+                                            <a onClick={addToCart.bind(null,tempItemId)} className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
                                             <a id="simpleBtn" className="waves-effect waves-light btn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
 
-                                            {/*WYSKAKUJECE OKIENKO Z INFO*/}
 
                                         </div>
                                     </li>
