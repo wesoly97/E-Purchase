@@ -6,6 +6,7 @@ import Admin from "../components/Admin";
 import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Materialize from "materialize-css";
+import $ from 'jquery';
 
 export default function Main(){
 
@@ -39,38 +40,72 @@ export default function Main(){
     }
 
     const getMessages = () => {
-        Axios.get("http://localhost:3001/message/get", {
+        Axios.post("http://localhost:3001/message/get", {
             idFrom: idFrom,
             idTo: idTo
         }).then((response) => {
             setMessages(response.data.result);
             // = response.data.result;
         })
+
     };
 
+
+
     for (const [index, value] of messages.entries()){
-        if(value.UsersFrom === idTo){
-            messes.push(<div className="col s10 m10 l10">
-                            <div className="card blue-grey darken-1">
-                                <div className="card-content white-text">
-                                    <span className="card-title">{value.username}</span>
-                                    <p>{value.contents}</p>
-                                </div>
-                            </div>
-                        </div>)
-        }
-        if(value.UsersFrom === idFrom) {
-            messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
-                <div className="card lime lighten-4">
-                    <div className="card-content black-text">
-                        <span className="card-title right-align">Ja</span>
-                        <p className="right-align">{value.contents}</p>
+        if(index === messages.length-1){
+            if(value.UsersFrom === idTo){
+                messes.push(<div className="col s10 m10 l10">
+                    <div className="card blue-grey darken-1">
+                        <div tabIndex="0" autofocus="autofocus" className="card-content white-text">
+                            <span className="card-title">{value.username}</span>
+                            <p>{value.contents}</p>
+                        </div>
                     </div>
-                </div>
-            </div>)
+                </div>)
+            }
+            if(value.UsersFrom === idFrom) {
+                messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
+                    <div className="card lime lighten-4">
+                        <div tabIndex="0" autofocus="autofocus" className="card-content black-text">
+                            <span className="card-title right-align">Ja</span>
+                            <p className="right-align">{value.contents}</p>
+                        </div>
+                    </div>
+                </div>)
+            }
+        }
+        else {
+            if(value.UsersFrom === idTo){
+                messes.push(<div className="col s10 m10 l10">
+                    <div className="card blue-grey darken-1">
+                        <div className="card-content white-text">
+                            <span className="card-title">{value.username}</span>
+                            <p>{value.contents}</p>
+                        </div>
+                    </div>
+                </div>)
+            }
+            if(value.UsersFrom === idFrom) {
+                messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
+                    <div className="card lime lighten-4">
+                        <div className="card-content black-text">
+                            <span className="card-title right-align">Ja</span>
+                            <p className="right-align">{value.contents}</p>
+                        </div>
+                    </div>
+                </div>)
+            }
         }
 
+
+    };
+
+    function scrollToBottom () {
+        let chatWindow = document.getElementById("scroll");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
+
 
 
     const sendMessage = () => {
@@ -88,7 +123,6 @@ export default function Main(){
         getMessages();
         history.push("/message");
     };
-    
     return(
         <div>
             <Navbar/>
@@ -116,41 +150,11 @@ export default function Main(){
                         </div>
                     </div>
                     <div className="col s9">
-                        <div style={{overflowY: "auto", height: "400px", overflowX: "hidden"}}>
+                        <div id="scroll" style={{overflowY: "auto", height: "400px", overflowX: "hidden"}}>
                             <div className="row">
-                                <div className="col s10 m10 l10">
-                                    <div className="card blue-grey darken-1">
-                                        <div className="card-content white-text">
-                                            <span className="card-title">Marcin Najman</span>
-                                            <p>Podoba Ci się moja nowa niebieska kurtka?</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col s10 m10 offset-s2 offset-l2 offset-m2">
-                                    <div className="card lime lighten-4">
-                                        <div className="card-content black-text">
-                                            <span className="card-title right-align">Ja</span>
-                                            <p className="right-align">Tak niezupełnie</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col s10 m10 l10">
-                                    <div className="card blue-grey darken-1">
-                                        <div className="card-content white-text">
-                                            <span className="card-title">Marcin Najman</span>
-                                            <p>Aha okej</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col s10 m10 offset-s2 offset-l2 offset-m2">
-                                    <div className="card lime lighten-4">
-                                        <div className="card-content black-text">
-                                            <span className="card-title right-align">Ja</span>
-                                                <p className="right-align"></p>
-                                        </div>
-                                    </div>
-                                </div>
                                 {messes}
+                                <input id="scrollHere" type="hidden"/>
+
                             </div>
                         </div>
                         <div className="row">
@@ -170,4 +174,5 @@ export default function Main(){
             </div>
         </div>
     )
+
 }
