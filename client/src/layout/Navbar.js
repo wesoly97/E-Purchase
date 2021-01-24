@@ -19,7 +19,19 @@ const Navbar = () => {
         var instances = M.Sidenav.init(elems, options);
     });
     useEffect(() => {
-        let dropdowns = document.querySelectorAll(".dropdown-trigger");
+        let dropdowns = document.querySelectorAll(".dropdown-auctions");
+        let options = {
+            inDuration: 300,
+            outDuration: 225,
+            hover: true,
+            coverTrigger: false,
+            alignment: 'right'
+        };
+        M.Dropdown.init(dropdowns, options);
+
+    }, []);
+    useEffect(() => {
+        let dropdowns = document.querySelectorAll(".dropdown-account");
         let options = {
             inDuration: 300,
             outDuration: 225,
@@ -57,12 +69,10 @@ const Navbar = () => {
                             </div>
                             <div className="col s6">
                                 <ul className="right hide-on-med-and-down">
-                                    <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>KONTO</NavLink></li>
+                                    <li><a className='dropdown-account list' href='#' data-target='dropdownAccount' ><i className="material-icons left">account_circle</i>KONTO</a></li>
                                     <li> <NavLink to="/cart"><i className="material-icons left">shopping_cart</i>KOSZYK</NavLink></li>
                                     <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
-                                    <li><a className='dropdown-trigger list' href='#' data-target='dropdown1' ><i className="material-icons left">shop</i>AUKCJE
-
-                                    </a></li>
+                                    <li><a className='dropdown-auctions list' href='#' data-target='dropdownAuctions' ><i className="material-icons left">shop</i>AUKCJE</a></li>
                                     <li>
                                         <a className="btn-floating btn-large waves-effect waves-light blue" onClick={() => {
                                             Axios.post('http://localhost:3001/logout').then(r => {})
@@ -94,9 +104,13 @@ const Navbar = () => {
                 </li>
 
             </ul>
-            <ul id='dropdown1' className='dropdown-content '>
+            <ul id='dropdownAuctions' className='dropdown-content'>
                 <li > <NavLink to="/auctions" ><i className=" material-icons left">shop</i>Wszystkie Aukcje</NavLink></li>
                 <li> <NavLink to="/addAuction" ><i className="material-icons left">shop_two</i>Dodaj Aukcje</NavLink></li>
+            </ul>
+            <ul id='dropdownAccount' className='dropdown-content'>
+                <li > <NavLink to="/account" ><i className=" material-icons left">account_circle</i>Informacje o koncie</NavLink></li>
+                <li> <NavLink to="/orders" ><i className="material-icons left">business_center</i>Zamówienia</NavLink></li>
             </ul>
         </div>
     );
