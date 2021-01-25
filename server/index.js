@@ -131,6 +131,14 @@ app.get("/getAllAuctions",(req,res)=>{
         }
     )
 });
+app.get("/getAllOpinions",(req,res)=>{
+    db.query(
+        "SELECT * FROM opinions",
+        (err, result) => {
+            res.send(result);
+        }
+    )
+});
 
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
