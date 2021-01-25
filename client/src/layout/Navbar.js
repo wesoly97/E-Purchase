@@ -88,11 +88,19 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
-            <ul className="sidenav sidenav-close" id="mobile-nav">
+            <ul className="sidenav" id="mobile-nav">
+            <li><form> <div className="input-field row">
+            <div className="col s2">
+            <i className="material-icons prefix" >search</i></div>
+            <input id="search" type="search" className="col s10" placeholder="Wyszukaj przedmioty do kupienia"></input>
+             <i className="material-icons">close</i>
+            </div></form></li>
                 <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
-                <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>KONTO</NavLink></li>
+                <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>INFORMACJE O KONCIE</NavLink></li>
+                <li> <NavLink to="/orders" ><i className="material-icons left">business_center</i>ZAMÓWIENIA</NavLink></li>
                 <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
-                <li> <NavLink to="/auctions" ><i className="material-icons left">shop</i>AUKCJE</NavLink></li>
+                <li> <NavLink to="/auctions" ><i className="material-icons left">shop</i>WSZYSTKIE AUKCJE</NavLink></li>
+                <li> <NavLink to="/addAuction" ><i className="material-icons left">shop_two</i>DODAJ AUKCJE</NavLink></li>
                 <li>
                     <a href="#1" onClick={() => {
                         Axios.post('http://localhost:3001/logout').then(r => {})
