@@ -17,38 +17,73 @@ export default function Main(){
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
     const [idFrom, setIdFrom] = useState(1);
-    const [idTo, setIdTo] = useState(2);
+    const [idTo, setIdTo] = useState(1);
     const [messages, setMessages] = useState([]);
+    const [interlocutorArray, setInterlocutorArray] = useState([]);
+    let interlocutors = [];
     let messes = [];
 
 
     useEffect(()=>{
+        getUserId();
+        getInterlocutor();
+    },[]);
+
+    function getUserId(){
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setRole(response.data.user[0].role);
                 setIdFrom(response.data.user[0].id);
-                getMessages();
+                //getMessages();
+
             }
             else{
                 history.push("/register");
             }
         });
-    },[]);
+    }
 
     function abc(){
         Materialize.updateTextFields();
     }
 
+    const getInterlocutor = () => {
+        getUserId();
+        Axios.post("http://localhost:3001/message/getlist", {
+            idFrom: idFrom
+        }).then((response) => {
+            setInterlocutorArray([]);
+            setInterlocutorArray(response.data.result);
+        })
+    }
+
     const getMessages = () => {
+        getUserId();
         Axios.post("http://localhost:3001/message/get", {
             idFrom: idFrom,
             idTo: idTo
         }).then((response) => {
             setMessages(response.data.result);
+            messes = [];
             // = response.data.result;
         })
 
     };
+
+
+
+
+    for(const [index, value] of interlocutorArray.entries()){
+        interlocutors.push(<a value={value.UsersFrom} href="#" onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+    }
+
+    const selectInterlocutor = (id) =>{
+        //getUserId();
+        setIdTo(id);
+        console.log("ID:           !!!!!!!!!    " + id);
+        setMessages([]);
+        getMessages();
+    }
 
 
 
@@ -99,7 +134,8 @@ export default function Main(){
         }
 
 
-    };
+    }
+
 
     function scrollToBottom () {
         let chatWindow = document.getElementById("scroll");
@@ -108,7 +144,9 @@ export default function Main(){
 
 
 
+
     const sendMessage = () => {
+        getUserId();
         Axios.post("http://localhost:3001/message/send", {
             messageText: messageText,
             idFrom: idFrom,
@@ -143,10 +181,7 @@ export default function Main(){
                             </div>
                         </div>
                         <div className="collection">
-                            <a href="#!" className="collection-item ">Adam Małysz</a>
-                            <a href="#!" className="collection-item active">Marcin Najman</a>
-                            <a href="#!" className="collection-item">Alina Krawczyk</a>
-                            <a href="#!" className="collection-item">Tadeusz Norek</a>
+                            {interlocutors}
                         </div>
                     </div>
                     <div className="col s9">

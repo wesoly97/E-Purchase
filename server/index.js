@@ -44,6 +44,7 @@ app.post("/register",(req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
 
+
     console.log("username= " + username);
     console.log("password= " + password);
 
@@ -124,15 +125,17 @@ app.post("/message/send", (req, res)=>{
     )
 });
 
+// getting full chat with selected user
 app.post("/message/get", (req, res) =>{
     const idFrom = req.body.idFrom;
     const idTo = req.body.idTo;
 
     db.query(
-        "SELECT message.id, message.contents, message.UsersFrom,users.username, message.UsersTo, users.username " +
+        "SELECT message.id, message.contents, message.UsersFrom, message.UsersTo, users.username " +
         "FROM message " +
         "LEFT JOIN users ON message.UsersFrom = users.id " +
         "AND ((message.UsersFrom = ? AND message.UsersTo = ?) OR (message.UsersFrom = ? AND message.UsersTo = ?)) " +
+        "WHERE users.username IS NOT NULL " +
         "ORDER BY message.id ",
         [idFrom, idTo, idTo, idFrom],
         (err, result) => {
@@ -141,5 +144,22 @@ app.post("/message/get", (req, res) =>{
             res.send({result});
         }
     )
+});
+
+// Getting list of people that user had a conversation with
+app.post("/message/getlist", (req, res) => {
+    const idFrom = req.body.idFrom;
+
+    db.query("SELECT message.id, message.UsersFrom, message.UsersTo, users.username " +
+            "FROM message " +
+            "JOIN users ON message.UsersFrom = users.id " +
+            "AND message.UsersTo = ? " +
+            "GROUP BY users.username " +
+            "ORDER BY message.id",
+            [idFrom],
+            (err, result) => {
+                res.send({result});
+                //console.log(result);
+            })
 });
 
