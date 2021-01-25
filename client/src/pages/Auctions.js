@@ -1,19 +1,17 @@
 import React,{useState, useEffect} from "react";
 import Axios from "axios";
-
 import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import "../styles/Auctions.css"
 import $ from "jquery"
 import M from "materialize-css"
-import logo from '../img/1.jpg';
-
+import { Modal, Button,Icon } from 'react-materialize';
 export default function Main(){
 
     const[role,setRole] = useState("");
     const[itemsToShow,setItemsToShow] = useState("");
     let tempItemId = " ";
-
+    const[opinionsToShow,setOpinionsToShow] = useState("");
 
     const history = useHistory();
 
@@ -34,14 +32,19 @@ export default function Main(){
                 //Get items from database
                 Axios.get("http://localhost:3001/getAllAuctions").then((response)=>{
                         setItemsToShow(response.data); //genialne <3
+                        
                 });
-
+                Axios.get("http://localhost:3001/getAllOpinions").then((response)=>{
+                    setOpinionsToShow(response.data); //genialne <3
+                    
+            });
             }
             else{
                 history.push("/login");
             }
+            
         });
-
+      
     },[]);
 
     const addAuction=()=>{
@@ -80,6 +83,25 @@ export default function Main(){
     });
 
 
+    function Opinion(props) {
+
+        
+        if (opinionsToShow[0]!== 'undefined' && opinionsToShow[0] != null) {
+            let opinionFiltered=opinionsToShow.filter(opinionsToShow => opinionsToShow.id===props.id)
+            if(opinionFiltered.length>0)
+            {
+
+           
+          return <p>{opinionFiltered.map((item, index) => (  <p><b>Opinia:</b>    {item.contents}</p> ))}</p>;
+        }
+        else
+        {
+            return <h1>Brak opinii</h1>;
+        }
+        }
+        return <h1>Brak opinii</h1>;
+      }
+    const trigger = <Button class="btn simpleBtn"><Icon left>people_outline</Icon>Sprawdź opinie!</Button>;
     if(typeof(itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null)
     {
         return (
@@ -120,9 +142,9 @@ export default function Main(){
 
                                             <p hidden="true">{tempItemId = item.id}</p>
                                             <a onClick={addToCart.bind(null,tempItemId)} className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
-                                            <a id="simpleBtn" className="waves-effect waves-light btn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
-
-
+                                            <a className="waves-effect waves-light btn simpleBtn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
+                                                <Modal  header={"Nazwa przedmiotu: "+item.name} trigger={trigger}>
+                                                <Opinion id={tempItemId}></Opinion>  </Modal>
                                         </div>
                                     </li>
                                 ))}

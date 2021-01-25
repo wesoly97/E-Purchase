@@ -21,6 +21,6 @@ ul, li {
     vertical-align: center;
 }
 
-#simpleBtn{
-    margin-left: 5px;
+.simpleBtn{
+    margin-left: 10px;
 }
