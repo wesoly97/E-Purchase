@@ -40,16 +40,16 @@ export default function Main(){
                 <Carousel/>
                 <div className="row grey lighten-1">
                     <h3>Najbardziej popularne!</h3>
-                    <div className="col s3 center-align">
+                    <div className="col s8 m5 l3 center-align">
                         <Card/>
                     </div>
-                    <div className="col s3 center-align">
+                    <div className="col s8 m5 l3 center-align">
                         <Card/>
                     </div>
-                    <div className="col s3 center-align">
+                    <div className="col s8 m5 l3 center-align">
                         <Card/>
                     </div>
-                    <div className="col s3 center-align">
+                    <div className="col s8 m5 l3 center-align">
                         <Card/>
                     </div>
                 </div>
