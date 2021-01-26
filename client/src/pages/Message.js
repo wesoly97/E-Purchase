@@ -24,7 +24,6 @@ export default function Main(){
 
 
     useEffect(()=>{
- Wiadomosci-backend
         $(document).ready(function(){
             if(document.URL.indexOf("#")===0){
               

@@ -5,7 +5,7 @@ import Navbar from "../layout/Navbar";
 import $ from "jquery";
 import M from "materialize-css";
 
-import "../styles/accountStyles.css"
+import "../styles/Account.css"
 
 
 
@@ -18,15 +18,38 @@ export default function Account(){
     const[nick,setNick] = useState("");
     const[name,setName] = useState("");
     const[surname,setSurname] = useState("");
+    const[money,setMoney] = useState("");
 
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.tooltipped');
         var instances = M.Tooltip.init(elems);
       });
 
+
+    const addMoney = (amounts) =>{
+        Axios.post('http://localhost:3001/addMoney',
+            {
+                amount:amounts
+            }).then((response)=> {
+                    
+                });
+                window.location.reload(false);
+    };
+    const subMoney = (amounts) =>{
+        Axios.post('http://localhost:3001/subMoney',
+            {
+                amount:amounts
+            }).then((response)=> {
+
+                });
+                window.location.reload(false);
+    };
+
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
+
         //jQuerry reload page once after load to make 'select' work - stupid but works
+        accountInfo();
         $(document).ready(function(){
             if(document.URL.indexOf("#")===-1){
                 let url = document.URL+"#";
@@ -34,6 +57,7 @@ export default function Account(){
                 window.location.reload(true);
             }
         });
+
 
         Axios.get("http://localhost:3001/login").then((response) => { 
         if (response.data.loggedIn === true) {
@@ -44,17 +68,18 @@ export default function Account(){
                 history.push("/register");
             }
         });
-
-        Axios.get('http://localhost:3001/accountInfo',
-        ).then((response)=> {
-            console.log(response);
-            setNick(response.data.username);
-            setName(response.data.name);
-            setSurname(response.data.surname);
-        });
-
     },[]);
 
+    const accountInfo = () =>{
+        Axios.get('http://localhost:3001/accountInfo',
+        ).then((response)=> {
+            console.log(response.data);
+            setNick(response.data[0].res1.username);
+            setName(response.data[0].res1.name);
+            setSurname(response.data[0].res1.surname);
+            setMoney(response.data[0].res2.value);
+        });
+    }
 
 
     return(
@@ -79,7 +104,7 @@ export default function Account(){
                     </div>
                     <div className="col s6">
                         <h2>Historia Zakupów</h2>
-                        <div className="listWrapper">
+                        <div className="listWrapperr">
                             <div id="buyingHistory" className="right"></div>
                             <ul className="collection">
                                 {/*listing of bought products*/}
@@ -97,13 +122,20 @@ export default function Account(){
                 <div className="row">
                         <div className="col s6">
                             <h1>Stan konta:</h1>
-                            <h3 id="h3money">pieniadze</h3>
-                            <a className="btn-large tooltipped btn-small pulse green" data-position="bottom" data-tooltip="Dodaj pieniadze"><i className=" material-icons">attach_money</i></a>
-                            <a className="btn-large tooltipped btn-small pulse red" data-position="bottom" data-tooltip="Usun pieniadze"><i className=" material-icons">money_off</i></a>
+                            <h3 id="h3money">{money} zł</h3>
+                            
+                            <button onClick={addMoney.bind(null,100)}className="btn waves-effect waves-light tooltipped green " type="submit" name="action" data-position="bottom" data-tooltip="Dodaj pieniadze">
+                            <i className=" material-icons">attach_money</i>
+                            </button>
+
+                            <button onClick={subMoney.bind(null,100)} className="btn waves-effect waves-light tooltipped red" type="submit" name="action" data-position="bottom" data-tooltip="Usun pieniadze">
+                            <i className=" material-icons">money_off</i>
+                            </button>
+
                         </div>
                         <div className="col s6">
                             <h2>Opinie kupujących</h2>
-                            <div className="listWrapper">
+                            <div className="listWrapperr">
                                 <div id="opinions" className="right"></div>
                                 <ul className="collection">
                                     {/*listing of opinions*/}
@@ -117,7 +149,6 @@ export default function Account(){
                     </div>
                 </div>
             </div>
-
         
     )
-}
+    }

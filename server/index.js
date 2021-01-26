@@ -341,18 +341,46 @@ app.listen(3001,()=>{
     console.log("server is running!");
 });
 
+app.post("/addMoney", (req, res)=>{
+    const amount=req.body.amount;
+    const userId = req.session.user[0].id;
+    db.query(
+        "update bank set value = value + ? where users_id = ?",
+        [amount,userId],
+        (err,result)=>{
+            console.log(err)
+        }
+    )
+});
+
+app.post("/subMoney", (req, res)=>{
+    const amount=req.body.amount;
+    const userId = req.session.user[0].id;
+    db.query(
+        "update bank set value = value - ? where users_id = ?",
+        [amount,userId],
+        (err,result)=>{
+            console.log(err)
+            console.log(amount)
+        }
+    )
+    });
 
 app.get("/accountInfo", (req, res) => {
     const userId = req.session.user[0].id;
-
     db.query(
         "SELECT * FROM users WHERE id = ?",
         userId,
-        (err,result)=>{
-            res.send(result[0]);
+        (err,result1)=>{
+            db.query(
+                "SELECT value FROM bank WHERE users_id = ?",
+                userId,
+                (err,result2)=>{
+                    console.log(result2[0]);
+                    res.send([{res1: result1[0], res2: result2[0]}])
+                });
         }
-    );
-
+    )
 });
 
 app.post("/message/send", (req, res)=>{
