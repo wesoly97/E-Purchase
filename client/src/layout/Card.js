@@ -1,37 +1,42 @@
-import React,{useState} from 'react'
-import {Link} from 'react-router-dom'
-import {NavLink} from 'react-router-dom'
-import Axios from "axios"; 
-import { useHistory } from 'react-router-dom';
-import logo from '../img/1.jpg';
-import M,{options} from 'materialize-css'
+import React, {useState,useEffect} from 'react'
+import Axios from "axios";
+import M, {options} from 'materialize-css'
 import '../styles/Card.css'
-  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.carousel');
-    var instances = M.Carousel.init(elems, options);
-  });
+import logo from "../img/logo.png"
 
-const Carousel = () => {
-    
-const [loginStatus, setLoginStatus] = useState("");
-Axios.defaults.withCredentials = true;
-const history = useHistory();
-   return(
-    <div className="card  grey lighten-1">
-    <a href="#1">            
-    <div className="card-image ">
-   
-    <img src={logo} class="responsive-img circle" height="256" width="256"></img>
-     </div>
-     <div className="card-content">
-     <p>tylko teraz 10 zl!</p>
-    </div>
-    </a>  
-</div>
+export default function Main(props){
 
+        Axios.defaults.withCredentials = true;
 
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.carousel');
+            var instances = M.Carousel.init(elems, options);
+        });
 
-   );
-};
-
-export default  Carousel
+    if(typeof(props.tmpImg) !== 'undefined' && props.tmpImg != null) {
+        return (
+            <div className="card  grey lighten-1">
+                <a href="#1">
+                    <div className="card-image ">
+                        <img src={props.tmpImg} className="responsive-img circle" height="256" width="256"></img>
+                    </div>
+                    <div className="card-content">
+                    </div>
+                </a>
+            </div>
+        );
+    }
+    else{
+        return (
+            <div className="card  grey lighten-1">
+                <a href="#1">
+                    <div className="card-image ">
+                        <img src={logo} className="responsive-img circle" height="256" width="256"></img>
+                    </div>
+                    <div className="card-content">
+                    </div>
+                </a>
+            </div>
+        );
+    }
+}

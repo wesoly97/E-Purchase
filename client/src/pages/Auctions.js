@@ -101,7 +101,7 @@ export default function Main(){
         }
         return <h1>Brak opinii</h1>;
       }
-    const trigger = <Button className="btn simpleBtn" ><Icon left>people_outline</Icon>Sprawdź opinie!</Button>;
+    const trigger = <Button className="btn simpleBtn deep-orange lighten-2" ><Icon left>people_outline</Icon>Sprawdź opinie!</Button>;
     if(typeof(itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null)
     {
         return (
@@ -142,7 +142,7 @@ export default function Main(){
 
                                             <p hidden="true">{tempItemId = item.id}</p>
                                             <a onClick={addToCart.bind(null,tempItemId)} className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
-                                            <a className="waves-effect waves-light btn simpleBtn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
+                                            <a className="waves-effect amber btn simpleBtn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
                                                 <Modal  header={"Nazwa przedmiotu: "+item.name} trigger={trigger}>
                                                 <Opinion id={tempItemId}></Opinion>  
                                                 </Modal>

@@ -210,10 +210,6 @@ app.post("/getCartContent",(req,res)=>{
         "SELECT * FROM usercart WHERE user_id=?",
         userId,
         (err, resultOne) => {
-           // res.send(result);
-           // console.log(result.length)
-           // console.log(result[0].item_id)
-
             const tableLen = resultOne.length;
             const tableOfObject = [];
             for(let i= 0; i < tableLen; i++){
@@ -249,9 +245,6 @@ app.post("/getCartContent",(req,res)=>{
 
     );
 
-    //get item name, item image based on item_id and response
-    //let tableOfObject = [];
-    //let len
 });
 
 
@@ -281,6 +274,27 @@ app.post("/getImage", (req,res)=>{
 
     res.send({imgBase64:base64str});
 });
+
+app.get("/getNumberOfImages",(req,res)=>{
+    fs.readdir("./productImages", (err, files) => {
+        let productImageNumber = [];
+        files.forEach(file => {
+            file = file.toString();
+            file = file.slice(0, -3);
+            file = parseInt(file);
+            productImageNumber.push(file);
+            console.log(file);
+        });
+
+        res.send([
+            productImageNumber[Math.floor(Math.random() * productImageNumber.length)],
+            productImageNumber[Math.floor(Math.random() * productImageNumber.length)],
+            productImageNumber[Math.floor(Math.random() * productImageNumber.length)],
+            productImageNumber[Math.floor(Math.random() * productImageNumber.length)]
+            ]);
+    });
+});
+
 
 app.post("/login",(req,res)=>{
     const username = req.body.username;
