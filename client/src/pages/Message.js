@@ -14,24 +14,25 @@ export default function Main(){
 
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
-    const [idFrom, setIdFrom] = useState(1);
-    const [idTo, setIdTo] = useState(null);
+    const [idFrom, setIdFrom] = useState(null); // current user id
+    const [idTo, setIdTo] = useState(null); // user id to who we write message
     const [messages, setMessages] = useState([]);
     const [interlocutorArray, setInterlocutorArray] = useState([]);
     const [username, setUsername] = useState("");
     let interlocutors = [];
     let messes = [];
 
+    Axios.get('http://localhost:3001/accountInfo',
+    ).then((response)=> {
+        console.log(response);
+        setIdFrom(response.data.id);
+        getInterlocutor();
+    });
 
     useEffect(()=>{
- Wiadomosci-backend
+
         $(document).ready(function(){
             if(document.URL.indexOf("#")===0){
-              
-        //jQuerry reload page once after load to make 'select' work - stupid but works
-        //$(document).ready(function(){
-        // if(document.URL.indexOf("#")===-1){
-        //main
                 let url = document.URL+"#";
                 window.location = "#";
                 window.location.reload(true);
@@ -47,27 +48,17 @@ export default function Main(){
                 history.push("/register");
             }
         });
+
+
+
         //getUserId();
-        getInterlocutor();
+
         //getMessages();
     },[]);
 
 
 
 
-    /*
-
-    const getUserId = () => {
-        Axios.get("http://localhost:3001/login").then((response) => {
-            if (response.data.loggedIn === true) {
-                setRole(response.data.user[0].role);
-                setIdFrom(response.data.user[0].id);
-            }
-            else{
-                history.push("/register");
-            }
-        });
-    }*/
 
     //getUserId();
 
@@ -76,12 +67,22 @@ export default function Main(){
     }
 
     const getInterlocutor = () => {
-        Axios.post("http://localhost:3001/message/getlist", {
-            idFrom: idFrom
-        }).then((response) => {
-            setInterlocutorArray([]);
-            setInterlocutorArray(response.data.result);
-        })
+        if(idFrom != null) {
+            Axios.post("http://localhost:3001/message/getlist", {
+                idFrom: idFrom
+            }).then((response) => {
+                setInterlocutorArray([]);
+                setInterlocutorArray(response.data.result);
+            })
+        }
+        else {
+            Axios.get('http://localhost:3001/accountInfo',
+            ).then((response)=> {
+                console.log(response);
+                setIdFrom(response.data.id);
+            });
+
+        }
     }
 
 
@@ -98,20 +99,12 @@ export default function Main(){
 
     };
 
-
-
-
-    for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
-    }
-
     const selectInterlocutor = (id) =>{
         history.push("/message");
         setIdTo(id);
         setMessages([]);
         getMessages();
     }
-
 
 
     for (const [index, value] of messages.entries()){
@@ -163,7 +156,11 @@ export default function Main(){
 
     }
 
-
+/*
+    for(const [index, value] of interlocutorArray.entries()){
+        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+    }
+*/
     const sendMessage = () => {
         Axios.post("http://localhost:3001/message/send", {
             messageText: messageText,
@@ -183,14 +180,14 @@ export default function Main(){
         <div>
             <Navbar/>
             <div className="container">
-            <h1>Wiadomości</h1>
+                <h1>Wiadomości</h1>
                 <div className="row grey darken-4">
                     <div className="col s3">
                         <div class="row">
                             <div class="col s9">
                                 <div className="input-field inline">
                                     <input style={{color: "rgb(51, 204, 204)"}} onChange={(e) => setUsername(e.target.value)} id="searchUser" type="text" class="validate"/>
-                                    <label htmlFor="searchUser">Wyszukaj użytkownika</label>
+                                    <label htmlFor="searchUser">Wyszukaj użytkownika {idFrom}</label>
                                 </div>
                             </div>
                             <div class="col s3">
