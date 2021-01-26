@@ -107,20 +107,19 @@ app.post("/addNewAuctions",(req,res)=>{
 
     let imageTitle = "image.png";
 
+    //Get category
+
     //Input to db
     db.query(
-        "INSERT INTO items (name, price, description, quantity) VALUES (?,?,?,?)",
-        [itemName, itemPrice, itemDesc, itemQuant],
+        "INSERT INTO items (name, price, description, quantity,id_category) VALUES (?,?,?,?,?)",
+        [itemName, itemPrice, itemDesc, itemQuant,itemCategory],
         (err, result) => {
             console.log(err);
             imageTitle = result.insertId +".png"
-            console.log(imageTitle);
             fs.writeFile("./productImages/"+imageTitle+"", imgBase64, 'base64', function(err) {
                 console.log(err);
             });
-        }
-    );
-
+        })
 });
 
 app.get("/getAllAuctions",(req,res)=>{
@@ -275,6 +274,17 @@ app.post("/getImage", (req,res)=>{
     res.send({imgBase64:base64str});
 });
 
+app.get("/getItemCategory",(req,res)=>{
+    db.query(
+        "SELECT name FROM category",
+        (err,result)=>{
+            console.log(result);
+            res.send(result);
+        })
+});
+
+
+
 app.get("/getNumberOfImages",(req,res)=>{
     fs.readdir("./productImages", (err, files) => {
         let productImageNumber = [];
@@ -283,7 +293,6 @@ app.get("/getNumberOfImages",(req,res)=>{
             file = file.slice(0, -3);
             file = parseInt(file);
             productImageNumber.push(file);
-            console.log(file);
         });
 
         res.send([

@@ -10,13 +10,16 @@ export default function Main(){
 
     const[role,setRole] = useState("");
     const[itemsToShow,setItemsToShow] = useState("");
-    let tempItemId = " ";
     const[opinionsToShow,setOpinionsToShow] = useState("");
+    const [category, setCategory] = useState("");
 
+    let helper = " ";
+    let tempItemId = " ";
     const history = useHistory();
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
+        getCategories();
         //jQuerry reload page once after load to make 'select' work - stupid but works
         $(document).ready(function(){
             if(document.URL.indexOf("#")===-1){
@@ -42,7 +45,6 @@ export default function Main(){
             else{
                 history.push("/login");
             }
-            
         });
       
     },[]);
@@ -65,6 +67,14 @@ export default function Main(){
         });
     }
 
+    const getCategories=()=>{
+        Axios.get('http://localhost:3001/getItemCategory',
+            {
+            }).then((response)=> {
+                setCategory(response.data);
+        });
+
+    };
 
     const addToCart=(itemId)=>{
         //get parent id (item id) and add it to table cart with user id
@@ -84,23 +94,22 @@ export default function Main(){
 
 
     function Opinion(props) {
+            if (opinionsToShow[0]!== 'undefined' && opinionsToShow[0] != null) {
+                let opinionFiltered=opinionsToShow.filter(opinionsToShow => opinionsToShow.id===props.id)
+                if(opinionFiltered.length>0)
+                {
 
-        
-        if (opinionsToShow[0]!== 'undefined' && opinionsToShow[0] != null) {
-            let opinionFiltered=opinionsToShow.filter(opinionsToShow => opinionsToShow.id===props.id)
-            if(opinionFiltered.length>0)
+
+              return <p>{opinionFiltered.map((item, index) => (  <p><b>Opinia:</b>    {item.contents}</p> ))}</p>;
+            }
+            else
             {
-
-           
-          return <p>{opinionFiltered.map((item, index) => (  <p><b>Opinia:</b>    {item.contents}</p> ))}</p>;
-        }
-        else
-        {
+                return <h1>Brak opinii</h1>;
+            }
+            }
             return <h1>Brak opinii</h1>;
-        }
-        }
-        return <h1>Brak opinii</h1>;
       }
+
     const trigger = <Button className="btn simpleBtn deep-orange lighten-2" ><Icon left>people_outline</Icon>Sprawdź opinie!</Button>;
     if(typeof(itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null)
     {
@@ -130,6 +139,7 @@ export default function Main(){
                                             <div className="row">
                                                 <div className="col s6">
                                                     <p><b>Nazwa:</b>    {item.name}</p>
+                                                    <p><b>Kategoria: </b> {category[item.id_category-1].name}</p>
                                                     <p><b>Opis:</b>     {item.description}</p>
                                                     <p><b>Ilosc:</b>    {item.quantity}szt</p>
                                                     <p><b>Cena:</b>     {item.price}zł</p>
@@ -157,10 +167,6 @@ export default function Main(){
 
                 </div>
                 </div>
-
-                {/*AREA FOR MODAL*/}
-
-
             </div>
         )
     }

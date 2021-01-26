@@ -14,7 +14,7 @@ export default function AddAuction(){
         const[role,setRole] = useState("");
 
         const[itemName,setItemName] = useState("");
-        const[itemCategory,setItemCategory] = useState("");
+        const[itemCategory,setItemCategory] = useState(1);
         const[itemDesc,setItemDesc] = useState("");
         const[itemQuant,setItemQuant] = useState("");
         const[itemPrice,setItemPrice] = useState("");
@@ -53,14 +53,13 @@ export default function AddAuction(){
         const addNewAuction=()=>{
             let imgBase64 = getBase64Image(document.getElementById("uploadedImg"));
 
-
             Axios.post("http://localhost:3001/addNewAuctions",{
                 itemName: itemName,
                 itemCategory: itemCategory,
                 itemDesc: itemDesc,
                 itemQuant: itemQuant,
                 itemPrice: itemPrice,
-                imgBase64: imgBase64
+                imgBase64: imgBase64,
             }).then((response) => {
 
             });
@@ -108,8 +107,9 @@ export default function AddAuction(){
                                 <div id="selectInput" className="input-field">
                                     <select
                                         id="itemKategoria"
-                                        onChange={(e)=>
-                                            setItemCategory(e.target.value)
+                                        onChange={(e)=> {
+                                            setItemCategory(e.target.value);
+                                        }
                                         }
                                     >
                                         <optgroup label="AGD">
