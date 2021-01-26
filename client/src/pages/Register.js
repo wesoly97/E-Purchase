@@ -1,53 +1,57 @@
 import React, {useState, useEffect} from "react"
 import Axios from "axios"; //http request library
 import { useHistory } from 'react-router-dom';
+import "../styles/Register.css"
 
 export default function Register(){
+    //User data to register
     const [usernameReg, setUsernameReg] = useState('');
     const [passwordReg, setPasswordReg] = useState('');
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
 
-    const [loginStatus, setLoginStatus] = useState("");
+    const [city, setCity] = useState('');
+    const [postCode, setPostCode] = useState('');
+
+    const [street, setStreet] = useState("");
+    const [phoneContact, setPhoneContact] = useState("");
 
     const history = useHistory();
-
-    Axios.defaults.withCredentials = true;
+    const [loginStatus, setLoginStatus] = useState("");
+    //
+    Axios.defaults.withCredentials = true; //enable cookies
 
     const register = () =>{
+        //1. Register
         Axios.post('http://localhost:3001/register',
             {
                 username: usernameReg,
-                password: passwordReg
+                password: passwordReg,
+                name: name,
+                surname: surname,
+                city: city,
+                postCode: postCode,
+                street: street,
+                phoneNumber: phoneContact
             }).then((response)=> {
-            console.log(response);
-        });
-    }
-
-    const login = () =>{
-        Axios.post('http://localhost:3001/login',
-            {
-                username: username,
-                password: password
-            }).then((response)=> {
-            if(response.data.message){
-                console.log(response);
-                setLoginStatus(response.data.message);
-            }
-            else{
-                console.log(response);
-                setLoginStatus(response.data[0].username);
-                history.push("/");
-            }
-        });
+                    if(response.data.message){
+                        console.log(response);
+                        setLoginStatus(response.data.message);
+                    }
+                    else{
+                        console.log(response);
+                        setLoginStatus(response.data[0].username);
+                        history.push("/");
+                    }
+                });
     };
 
-    const logout=()=>{
-        Axios.post('http://localhost:3001/logout').then(r => {})
-        setLoginStatus(false);
+    const goToLogin=()=>{
+      history.push("/login");
     };
-    
+
+
     useEffect(() => {
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
@@ -57,46 +61,85 @@ export default function Register(){
     }, []);
 
     return(
-        <div className="App">
-            <div>
-                <h1>Register</h1>
-                <label>Username</label>
-                <input
-                    type="text"
-                    onChange={(e)=>
-                        setUsernameReg(e.target.value)
-                    }
-                />
-                <label>Password</label>
-                <input
-                    type="password"
-                    onChange={(e)=>
-                        setPasswordReg(e.target.value)
-                    }
-                />
-                <button onClick={register}>Register</button>
-            </div>
-            <br></br><br></br><br></br><br></br><br></br>
-            <div>
-                <h1>Login</h1>
-                <label>Username</label>
-                <input
-                    type="text"
-                    placeholder="Username..."
-                    onChange={(e)=>
-                        setUsername(e.target.value)
-                    }
-                />
-                <label>Password</label>
-                <input type="password"
-                       placeholder="Password..."
-                       onChange={(e)=>
-                           setPassword(e.target.value)
-                       }
-                />
-                <button onClick={login}>Login</button>
-            </div>
+        <div className="main">
+                    <h1>Register</h1>
+                        <div className="row">
+                            <div className="col s4">
+                                <label>Username</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setUsernameReg(e.target.value)
+                                    }
+                                />
+                                <label>Password</label>
+                                <input
+                                    type="password"
+                                    onChange={(e)=>
+                                        setPasswordReg(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="col s4">
+                                <label>Name</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setName(e.target.value)
+                                    }
+                                />
 
+                                <label>Surname</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setSurname(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="col s4">
+                                <label>City</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setCity(e.target.value)
+                                    }
+                                />
+
+                                <label>Post code</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setPostCode(e.target.value)
+                                    }
+                                />
+
+                                <label>Street</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setStreet(e.target.value)
+                                    }
+                                />
+
+                                <label>Phone number</label>
+                                <input
+                                    type="text"
+                                    onChange={(e)=>
+                                        setPhoneContact(e.target.value)
+                                    }
+                                />
+
+
+                                <button onClick={register} className="btn waves-effect waves-light" type="submit" name="action">Register
+                                    <i className="material-icons right">send</i>
+                                </button>
+
+                                <button id="btnGoToRegsiter" onClick={goToLogin}  className="btn waves-effect amber" type="submit" name="action">Zaloguj się...
+                                    <i className="material-icons right">account_circle</i>
+                                </button>
+                            </div>
+                        </div>
         </div>
     );
 }

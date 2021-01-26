@@ -1,0 +1,55 @@
+.textWhite{
+    color:black;
+}
+
+#newOfferForm{
+    margin: 0 auto;
+}
+
+#napisDodaj{
+    text-align: center;
+}
+
+#itemName{
+    width: 20%;
+    background: #b2dfdb;
+}
+
+#btnRow{
+    text-align: right;
+}
+
+#itemCena{
+    max-width: 5%;
+    background: #b2dfdb;
+}
+
+#itemKategoria{
+    max-width: 20%;
+}
+
+label{
+    font-size: 24px;
+}
+
+#selectInput{
+    background: #b2dfdb;
+    max-width: 20%;
+}
+
+#itemTextAre{
+    background: #b2dfdb;
+}
+
+#labelKategoria{
+    font-size: 24px;
+}
+
+#imageCol{
+    margin: auto;
+}
+
+#btnDiv{
+    max-width: 30%;
+    min-width: 30%;
+}

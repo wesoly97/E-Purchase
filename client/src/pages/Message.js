@@ -1,8 +1,6 @@
 import React,{useState, useEffect} from "react";
 import Axios from "axios";
 
-import User from "../components/User";
-import Admin from "../components/Admin";
 import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Materialize from "materialize-css";
@@ -26,8 +24,14 @@ export default function Main(){
 
 
     useEffect(()=>{
+ Wiadomosci-backend
         $(document).ready(function(){
             if(document.URL.indexOf("#")===0){
+              
+        //jQuerry reload page once after load to make 'select' work - stupid but works
+        //$(document).ready(function(){
+        // if(document.URL.indexOf("#")===-1){
+        //main
                 let url = document.URL+"#";
                 window.location = "#";
                 window.location.reload(true);

@@ -1,0 +1,29 @@
+.brand-logo {
+    text-transform: uppercase;
+    background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,0,0,1) 17%, rgba(44,255,7,1) 17%, rgba(6,188,241,1) 63%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+  }
+
+  .nav-wrapper form{
+    margin: auto;
+    width: 50%;
+}
+
+.nav-wrapper .input-field{
+    padding-top: 7px;
+}
+
+.nav-wrapper form #search{
+    height: 50px;
+}
+nav .right{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+.dropdown-content
+{
+  min-width: 250px;
+}
+
