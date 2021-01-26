@@ -15,7 +15,7 @@ export default function Main(props){
 
     if(typeof(props.tmpImg) !== 'undefined' && props.tmpImg != null) {
         return (
-            <div className="card  grey lighten-1">
+            <div className="card">
                 <a href="#1">
                     <div className="card-image ">
                         <img src={props.tmpImg} className="responsive-img circle" height="256" width="256"></img>
@@ -28,7 +28,7 @@ export default function Main(props){
     }
     else{
         return (
-            <div className="card  grey lighten-1">
+            <div className="card">
                 <a href="#1">
                     <div className="card-image ">
                         <img src={logo} className="responsive-img circle" height="256" width="256"></img>

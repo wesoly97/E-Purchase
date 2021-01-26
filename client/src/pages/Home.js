@@ -120,7 +120,7 @@ export default function Main(){
                 <Navbar/>
                 <div className="container">
                     <Carousel/>
-                    <div className="row grey lighten-1">
+                    <div className="row">
                         <h3>Najbardziej popularne!</h3>
                         <div className="col s8 m5 l3 center-align">
                             <Card
