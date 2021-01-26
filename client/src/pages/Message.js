@@ -14,24 +14,60 @@ export default function Main(){
 
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
-    const [idFrom, setIdFrom] = useState(1);
-    const [idTo, setIdTo] = useState(null);
+    const [idFrom, setIdFrom] = useState("");
+    const [idTo, setIdTo] = useState(""); // user id to who we write message
     const [messages, setMessages] = useState([]);
     const [interlocutorArray, setInterlocutorArray] = useState([]);
     const [username, setUsername] = useState("");
+    const [writeTo, setWriteTo] = useState("");
     let interlocutors = [];
     let messes = [];
 
 
+/*
+    const getInterlocutor = () => {
+        if(idFrom != null) {
+            Axios.post("http://localhost:3001/message/getlist", {
+                idFrom: idFrom
+            }).then((response) => {
+                setInterlocutorArray([]);
+                setInterlocutorArray(response.data.result);
+            })
+        }
+
+        else {
+            Axios.get('http://localhost:3001/accountInfo',
+            ).then((response)=> {
+                console.log(response);
+                setIdFrom(response.data.id);
+            });
+
+        }
+    }
+  Axios.get('http://localhost:3001/accountInfo',
+    ).then((response)=> {
+        console.log(response);
+        if(idFrom == null) {
+            setIdFrom(response.data.id);
+
+            Axios.post("http://localhost:3001/message/getlist", {
+                idFrom: idFrom
+            }).then((response) => {
+                setInterlocutorArray([]);
+                setInterlocutorArray(response.data.result);
+            })
+        }
+
+        //getInterlocutor();
+    });
+    for(const [index, value] of interlocutorArray.entries()){
+        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+    }
+
     useEffect(()=>{
- Wiadomosci-backend
+
         $(document).ready(function(){
             if(document.URL.indexOf("#")===0){
-              
-        //jQuerry reload page once after load to make 'select' work - stupid but works
-        //$(document).ready(function(){
-        // if(document.URL.indexOf("#")===-1){
-        //main
                 let url = document.URL+"#";
                 window.location = "#";
                 window.location.reload(true);
@@ -41,49 +77,29 @@ export default function Main(){
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setRole(response.data.user[0].role);
-                setIdFrom(response.data.user[0].id)
+                //setIdFrom(response.data.user[0].id);
             }
             else{
                 history.push("/register");
             }
         });
+
+
+
         //getUserId();
-        getInterlocutor();
+
         //getMessages();
     },[]);
 
 
 
 
-    /*
-
-    const getUserId = () => {
-        Axios.get("http://localhost:3001/login").then((response) => {
-            if (response.data.loggedIn === true) {
-                setRole(response.data.user[0].role);
-                setIdFrom(response.data.user[0].id);
-            }
-            else{
-                history.push("/register");
-            }
-        });
-    }*/
 
     //getUserId();
 
     function abc(){
         Materialize.updateTextFields();
     }
-
-    const getInterlocutor = () => {
-        Axios.post("http://localhost:3001/message/getlist", {
-            idFrom: idFrom
-        }).then((response) => {
-            setInterlocutorArray([]);
-            setInterlocutorArray(response.data.result);
-        })
-    }
-
 
     const getMessages = () => {
         history.push("/message");
@@ -100,17 +116,116 @@ export default function Main(){
 
 
 
-
-    for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
-    }
-
     const selectInterlocutor = (id) =>{
         history.push("/message");
         setIdTo(id);
         setMessages([]);
         getMessages();
     }
+
+
+        for (const [index, value] of messages.entries()){
+            if(index === messages.length-1){
+                if(value.UsersFrom === idTo){
+                    messes.push(<div className="col s10 m10 l10">
+                        <div className="card blue-grey darken-1">
+                            <div tabIndex="0" autofocus="autofocus" className="card-content white-text">
+                                <span className="card-title">{value.username}</span>
+                                <p>{value.contents}</p>
+                            </div>
+                        </div>
+                    </div>)
+                }
+                if(value.UsersFrom === idFrom) {
+                    messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
+                        <div className="card lime lighten-4">
+                            <div tabIndex="0" autofocus="autofocus" className="card-content black-text">
+                                <span className="card-title right-align">Ja</span>
+                                <p className="right-align">{value.contents}</p>
+                            </div>
+                        </div>
+                    </div>)
+                }
+            }
+            else {
+                if(value.UsersFrom === idTo){
+                    messes.push(<div className="col s10 m10 l10">
+                        <div className="card blue-grey darken-1">
+                            <div className="card-content white-text">
+                                <span className="card-title">{value.username}</span>
+                                <p>{value.contents}</p>
+                            </div>
+                        </div>
+                    </div>)
+                }
+                if(value.UsersFrom === idFrom) {
+                    messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
+                        <div className="card lime lighten-4">
+                            <div className="card-content black-text">
+                                <span className="card-title right-align">Ja</span>
+                                <p className="right-align">{value.contents}</p>
+                            </div>
+                        </div>
+                    </div>)
+                }
+            }
+        }
+
+
+ */
+
+
+
+    Axios.get('http://localhost:3001/accountInfo',
+    ).then((response)=> {
+        console.log(response);
+        setIdFrom(response.data.id);
+    });
+
+
+    useEffect(()=>{
+        //jQuerry reload page once after load to make 'select' work - stupid but works
+        $(document).ready(function(){
+            if(document.URL.indexOf("#")===-1){
+                let url = document.URL+"#";
+                window.location = "#";
+                window.location.reload(true);
+            }
+        });
+
+        Axios.get("http://localhost:3001/login").then((response) => {
+            if (response.data.loggedIn === true) {
+                setRole(response.data.user[0].role);
+            }
+            else{
+                history.push("/register");
+            }
+        });
+
+
+
+    },[]);
+
+    useEffect(() => {
+        Axios.post("http://localhost:3001/message/getlist", {
+            idFrom: idFrom
+        }).then((response) => {
+            setInterlocutorArray([]);
+            setInterlocutorArray(response.data.result);
+        })
+    }, [idFrom, idTo]);
+
+    useEffect(() => {
+        Axios.post("http://localhost:3001/message/get", {
+            idFrom: idFrom,
+            idTo: idTo
+        }).then((response) => {
+            setMessages(response.data.result);
+            messes = [];
+            // = response.data.result;
+
+        })
+    }, [idFrom, idTo, messageText]);
 
 
 
@@ -159,9 +274,33 @@ export default function Main(){
                 </div>)
             }
         }
+    }
 
+    const newMessage = () => {
+        try{
+            Axios.post("http://localhost:3001/message/findUser", {
+                name: username
+            }).then((response) => {
+                setIdTo(response.data.result[0].id);
+                Materialize.toast({html: 'Piszesz wiadomość do ' + username});
+                setWriteTo(">> Nowa wiadomość do " + username);
+            })
+        }
+        catch {
+            Materialize.toast({html: 'Nie znaleziono użytkownika!'});
+        }
 
     }
+
+    const selectInterlocutor = (id) =>{
+        history.push("/message");
+        setIdTo(id);
+    }
+
+    for(const [index, value] of interlocutorArray.entries()){
+        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+    }
+    //getMessages();
 
 
     const sendMessage = () => {
@@ -173,17 +312,19 @@ export default function Main(){
 
         });
         document.getElementById("messageText").value = "";
-        history.push('/message');
+       // history.push('/message');
         setMessageText("");
         Materialize.toast({html: 'Wiadomość została wysłana'});
-        getMessages();
         history.push("/message");
     };
+
+
+
     return(
         <div>
             <Navbar/>
             <div className="container">
-            <h1>Wiadomości</h1>
+            <h1>Wiadomości <span style={{fontSize: "medium"}}>{writeTo}</span></h1>
                 <div className="row grey darken-4">
                     <div className="col s3">
                         <div class="row">
@@ -194,7 +335,7 @@ export default function Main(){
                                 </div>
                             </div>
                             <div class="col s3">
-                                <a className="btn-floating btn-large waves-effect waves-light red"><i
+                                <a onClick={newMessage} className="btn-floating btn-large waves-effect waves-light red"><i
                                     className="material-icons">search</i></a>
                             </div>
                         </div>

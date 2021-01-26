@@ -141,6 +141,7 @@ app.get("/getAllOpinions",(req,res)=>{
     )
 });
 
+
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
     const userId = req.session.user[0].id;
@@ -398,10 +399,10 @@ app.post("/message/getlist", (req, res) => {
     db.query("SELECT message.id, message.UsersFrom, message.UsersTo, users.username " +
             "FROM message " +
             "JOIN users ON message.UsersFrom = users.id " +
-            "AND message.UsersTo = ? " +
+            "AND (message.UsersTo = ?)" +
             "GROUP BY users.username " +
             "ORDER BY message.id",
-            idFrom,
+            [idFrom, idFrom],
             (err, result) => {
                 res.send({result});
                 //console.log(result);
@@ -417,5 +418,6 @@ app.post("/message/findUser", (req, res) => {
         name,
         (err, result) => {
             res.send({result})
+            console.log(result);
         })
 })
