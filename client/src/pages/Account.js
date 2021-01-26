@@ -19,6 +19,7 @@ export default function Account(){
     const[name,setName] = useState("");
     const[surname,setSurname] = useState("");
     const[money,setMoney] = useState("");
+    const[isVerified,setisVerified] = useState("");
 
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.tooltipped');
@@ -78,6 +79,7 @@ export default function Account(){
             setName(response.data[0].res1.name);
             setSurname(response.data[0].res1.surname);
             setMoney(response.data[0].res2.value);
+            setisVerified(response.data[0].res1.isVerified)
         });
     }
 
@@ -100,7 +102,14 @@ export default function Account(){
                         <h3><b>Imie: </b>{name}</h3>
                         <h3><b>Nazwisko:</b> {surname}</h3>
                         <h3><b>Reputacja: </b><a className="btn-floating tooltipped pulse " data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek"><i className=" material-icons">star</i></a></h3>
-                        <h3><b>Zweryfikowany :</b> <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 10 opini"><i className="material-icons">done</i></a></h3>
+                        <h3><b>Zweryfikowany : </b>
+                        {isVerified==1 &&
+                        <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 10 opini"><i className="material-icons">done</i></a>
+                        }
+                        {isVerified==0 &&
+                        <a className="btn-floating tooltipped red pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 10 opini"><i className="material-icons">close</i></a>
+                        }</h3>
+
                     </div>
                     <div className="col s6">
                         <h2>Historia Zakupów</h2>
@@ -139,7 +148,8 @@ export default function Account(){
                                 <div id="opinions" className="right"></div>
                                 <ul className="collection">
                                     {/*listing of opinions*/}
-                                    <li className="collection-item  ">
+                                    <li className="collection-item avatar">
+                                        <img src="https://www.qries.com/images/banner_logo.png" alt="" className="circle"></img>
                                         <span className="title"><h6>nick kupujacego</h6></span>
                                         <p id="description">opinia<br></br></p>
                                     </li>
