@@ -17,38 +17,61 @@ export default function Main(){
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
     const [idFrom, setIdFrom] = useState(1);
-    const [idTo, setIdTo] = useState(1);
+    const [idTo, setIdTo] = useState(null);
     const [messages, setMessages] = useState([]);
     const [interlocutorArray, setInterlocutorArray] = useState([]);
+    const [username, setUsername] = useState("");
     let interlocutors = [];
     let messes = [];
 
 
     useEffect(()=>{
-        getUserId();
-        getInterlocutor();
-    },[]);
+        $(document).ready(function(){
+            if(document.URL.indexOf("#")===0){
+                let url = document.URL+"#";
+                window.location = "#";
+                window.location.reload(true);
+            }
+        });
 
-    function getUserId(){
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setRole(response.data.user[0].role);
-                setIdFrom(response.data.user[0].id);
-                //getMessages();
-
+                setIdFrom(response.data.user[0].id)
             }
             else{
                 history.push("/register");
             }
         });
-    }
+        //getUserId();
+        getInterlocutor();
+        //getMessages();
+    },[]);
+
+
+
+
+    /*
+
+    const getUserId = () => {
+        Axios.get("http://localhost:3001/login").then((response) => {
+            if (response.data.loggedIn === true) {
+                setRole(response.data.user[0].role);
+                setIdFrom(response.data.user[0].id);
+            }
+            else{
+                history.push("/register");
+            }
+        });
+    }*/
+
+    //getUserId();
 
     function abc(){
         Materialize.updateTextFields();
     }
 
     const getInterlocutor = () => {
-        getUserId();
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
         }).then((response) => {
@@ -57,8 +80,9 @@ export default function Main(){
         })
     }
 
+
     const getMessages = () => {
-        getUserId();
+        history.push("/message");
         Axios.post("http://localhost:3001/message/get", {
             idFrom: idFrom,
             idTo: idTo
@@ -74,13 +98,12 @@ export default function Main(){
 
 
     for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a value={value.UsersFrom} href="#" onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
     }
 
     const selectInterlocutor = (id) =>{
-        //getUserId();
+        history.push("/message");
         setIdTo(id);
-        console.log("ID:           !!!!!!!!!    " + id);
         setMessages([]);
         getMessages();
     }
@@ -137,16 +160,7 @@ export default function Main(){
     }
 
 
-    function scrollToBottom () {
-        let chatWindow = document.getElementById("scroll");
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-
-
-
     const sendMessage = () => {
-        getUserId();
         Axios.post("http://localhost:3001/message/send", {
             messageText: messageText,
             idFrom: idFrom,
@@ -171,7 +185,7 @@ export default function Main(){
                         <div class="row">
                             <div class="col s9">
                                 <div className="input-field inline">
-                                    <input style={{color: "rgb(51, 204, 204)"}} id="searchUser" type="text" class="validate"/>
+                                    <input style={{color: "rgb(51, 204, 204)"}} onChange={(e) => setUsername(e.target.value)} id="searchUser" type="text" class="validate"/>
                                     <label htmlFor="searchUser">Wyszukaj użytkownika</label>
                                 </div>
                             </div>

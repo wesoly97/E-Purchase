@@ -111,7 +111,7 @@ app.listen(3001,()=>{
     console.log("server is running!");
 });
 
-app.post("/message/send", (req, res)=>{
+app.post("/message/send", (req, res) => {
     const message = req.body.messageText;
     const idFrom = req.body.idFrom;
     const idTo = req.body.idTo;
@@ -126,7 +126,7 @@ app.post("/message/send", (req, res)=>{
 });
 
 // getting full chat with selected user
-app.post("/message/get", (req, res) =>{
+app.post("/message/get", (req, res) => {
     const idFrom = req.body.idFrom;
     const idTo = req.body.idTo;
 
@@ -156,10 +156,21 @@ app.post("/message/getlist", (req, res) => {
             "AND message.UsersTo = ? " +
             "GROUP BY users.username " +
             "ORDER BY message.id",
-            [idFrom],
+            idFrom,
             (err, result) => {
                 res.send({result});
                 //console.log(result);
             })
 });
 
+
+// Get searched user id
+app.post("/message/findUser", (req, res) => {
+    const name = req.body.name;
+
+    db.query("SELECT * FROM users WHERE username = ?",
+        name,
+        (err, result) => {
+            res.send({result})
+        })
+})
