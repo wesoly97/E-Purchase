@@ -21,7 +21,7 @@ export default function Main(){
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
-        createThreeImages();
+        createThreeImages().then(r => console.log(","));
         //let img2 = getImage(imgNums[1]);
         //let img3 = getImage(imgNums[2]);
         //jQuerry reload page once after load to make 'select' work - stupid but works
