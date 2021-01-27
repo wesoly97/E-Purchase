@@ -157,7 +157,7 @@ export default function Main(){
     }, [messes]);
 
     for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+        interlocutors.push(<a href="#" value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item grey darken-3">{value.username}</a>)
     }
 
     const sendMessage = () => {
@@ -204,7 +204,6 @@ export default function Main(){
                         <div id="scroll" style={{overflowY: "auto", height: "400px", overflowX: "hidden"}}>
                             <div className="row">
                                 {messes}
-                                <input id="scrollHere" type="hidden"/>
 
                             </div>
                         </div>
