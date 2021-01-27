@@ -13,8 +13,10 @@ export default function Main(){
     const[opinionsToShow,setOpinionsToShow] = useState("");
     const [category, setCategory] = useState("");
 
-    let helper = " ";
     let tempItemId = " ";
+    let temItemName = " ";
+    let tmpItemPrice = " ";
+
     const history = useHistory();
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
@@ -76,12 +78,14 @@ export default function Main(){
 
     };
 
-    const addToCart=(itemId)=>{
+    const addToCart=(itemId, itemName, price)=>{
         //get parent id (item id) and add it to table cart with user id
         //itemId
         Axios.post('http://localhost:3001/addItemToCart',
             {
-                itemId: itemId
+                itemId: itemId,
+                itemName: itemName,
+                itemPrice: price
             }).then((response)=> {
         });
     };
@@ -151,7 +155,9 @@ export default function Main(){
                                             </div>
 
                                             <p hidden="true">{tempItemId = item.id}</p>
-                                            <a onClick={addToCart.bind(null,tempItemId)} className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
+                                            <p hidden="true">{temItemName = item.name}</p>
+                                            <p hidden="true">{tmpItemPrice = item.price}</p>
+                                            <a onClick={addToCart.bind(null,tempItemId,temItemName, tmpItemPrice)} className="waves-effect waves-light btn"><i className="material-icons left">add_shopping_cart</i>Dodaj do koszyka</a>
                                             <a className="waves-effect amber btn simpleBtn"><i className="material-icons left">monetization_on</i>Kup teraz</a>
                                                 <Modal  header={"Nazwa przedmiotu: "+item.name} trigger={trigger}>
                                                 <Opinion id={tempItemId}></Opinion>  
