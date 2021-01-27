@@ -48,12 +48,14 @@ app.post("/register",(req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
 
+
     const name= req.body.name;
     const surname= req.body.surname;
     const city= req.body.city;
     const postCode= req.body.postCode;
     const street= req.body.street;
     const phoneNumber= req.body.phoneNumber;
+
 
     //Insert address
     db.query(
@@ -139,8 +141,11 @@ app.get("/getAllOpinions",(req,res)=>{
     )
 });
 
+
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
+    const itemName = req.body.itemName;
+    const itemPrice = req.body.itemPrice
     const userId = req.session.user[0].id;
     const quantity = 1;
 
@@ -151,22 +156,96 @@ app.post("/addItemToCart",(req,res)=>{
             if(result.length > 0){
                 //mamy juz taki item w bazie, zwiekszamy quantity
                 db.query(
-                    "UPDATE usercart SET quantity= quantity+1 WHERE user_id = ? AND item_id = ?",
-                    [userId,itemId],
-                    (err,result)=>{}
-                );
+                    "SELECT quantity FROM items where id=?",
+                    itemId,
+                    (err,resultTwo)=>{
+                        if(result[0].quantity < resultTwo[0].quantity) {
+                            db.query(
+                                "UPDATE usercart SET quantity= quantity+1 WHERE user_id = ? AND item_id = ?",
+                                [userId, itemId],
+                                (err, result) => {
+                                }
+                            );
+                        }
+
+                    }
+                )
             }
             else{
                 //nie ma takiego itemu w bazie, dodajemy
                 db.query(
-                    "INSERT INTO usercart (user_id, item_id, quantity) VALUES (?,?,?)",
-                    [userId, itemId, quantity],
+                    "INSERT INTO usercart (user_id, item_id, quantity,product_name, price) VALUES (?,?,?,?,?)",
+                    [userId, itemId, quantity,itemName,itemPrice],
                     (err, result) => {
+                        console.log(err)
                     }
                 );
             }
         }
     );
+});
+
+app.post("/submitCart",(req,res)=> {
+    const userId = req.session.user[0].id;
+
+    db.query(
+        "SELECT * FROM usercart WHERE user_id = ?",
+        userId,
+        (err, itemsFromCart) => {
+            for(let i = 0; i < itemsFromCart.length; i++){
+                db.query(
+                    "SELECT quantity FROM items WHERE id=?",
+                    itemsFromCart[i].item_id,
+                    (err, auctionQuantity)=> {
+                        if(auctionQuantity[0].quantity-itemsFromCart[i].quantity===0){
+                            //usuwamy item z aukcji i dodajemy do tabeli order
+                            db.query(
+                              "DELETE FROM items WHERE id = ?",
+                                itemsFromCart[i].item_id,
+                                (err,resultEnd)=>{
+                                }
+                            );
+                        }
+                        else{
+                            //dekrementujemy quntity itemu w aukcjach i dodajemy do tabeli order
+                            db.query(
+                                "UPDATE items SET quantity=quantity-? WHERE id=?",
+                                [itemsFromCart[i].quantity,itemsFromCart[i].item_id],
+                                (err,resultEnd)=>{
+                                }
+                            );
+                        }
+                        //na koniec czyscimy koszyk
+                        db.query(
+                          "DELETE FROM usercart"
+                        );
+
+                        //Last iteration - prepare order items and create order
+                        if(i === itemsFromCart.length-1) {
+                            let orderItems = [];
+
+                            for(let j = 0; j < itemsFromCart.length; j++){
+                                let obj = {
+                                    itemName: itemsFromCart[j].product_name,
+                                    itemQuantity: itemsFromCart[j].quantity,
+                                    itemPrice: itemsFromCart[j].price * itemsFromCart[j].quantity,
+                                }
+                                orderItems.push(obj);
+
+                                if(j===itemsFromCart.length-1){
+                                    db.query(
+                                        "INSERT INTO orderdetails(user_id,orderItems) VALUES (?,?)",
+                                        [userId,JSON.stringify(orderItems)]
+                                    )
+                                }
+                            }
+
+                        }
+                    }
+                )
+            }
+
+        });
 });
 
 
@@ -205,45 +284,58 @@ app.post("/removeItemFromCart",(req,res)=>{
 app.post("/getCartContent",(req,res)=>{
     const userId = req.session.user[0].id;
 
-    db.query(
-        "SELECT * FROM usercart WHERE user_id=?",
-        userId,
-        (err, resultOne) => {
-            const tableLen = resultOne.length;
-            const tableOfObject = [];
-            for(let i= 0; i < tableLen; i++){
-                //1. Get item ID
-                db.query(
-                    "SELECT * FROM items WHERE id = ?",
-                    resultOne[i].item_id,
-                    (err,resultTwo)=>{
-                        //resultOne - result from table 'usercart'
-                        //resultTwo - result from table 'items'
-                        function base64_encode(file) {
-                            let bitmap = fs.readFileSync(file);
-                            return new Buffer.from(bitmap).toString('base64');
+        db.query(
+            "SELECT * FROM usercart WHERE user_id=?",
+            userId,
+            (err, resultOne) => {
+                const tableLen = resultOne.length;
+                const tableOfObject = [];
+                for (let i = 0; i < tableLen; i++) {
+                    //1. Get item ID
+                    db.query(
+                        "SELECT * FROM items WHERE id = ?",
+                        resultOne[i].item_id,
+                        (err, resultTwo) => {
+                            //resultOne - result from table 'usercart'
+                            //resultTwo - result from table 'items'
+                            function base64_encode(file) {
+                                let bitmap = fs.readFileSync(file);
+                                return new Buffer.from(bitmap).toString('base64');
+                            }
+
+                            //imageItemBase64 -> image of product base 64 string
+                            let imageItemBase64 = base64_encode("./productImages/" + resultOne[i].item_id + ".png");
+                            tableOfObject.push({
+                                itemId: resultTwo[0].id,
+                                itemName: resultTwo[0].name,
+                                itemImage64: imageItemBase64,
+                                quantity: resultOne[i].quantity,
+                                price: resultTwo[0].price
+                            });
+                            //Last iteration
+                            if (i === tableLen - 1) {
+                                //console.log(tableOfObject);
+                                res.send(tableOfObject);
+                            }
                         }
-                        //imageItemBase64 -> image of product base 64 string
-                        let imageItemBase64 = base64_encode( "./productImages/"+resultOne[i].item_id+".png");
-                        tableOfObject.push({
-                            itemId: resultTwo[0].id,
-                            itemName: resultTwo[0].name,
-                            itemImage64: imageItemBase64,
-                            quantity: resultOne[i].quantity,
-                            price: resultTwo[0].price
-                        });
-                        //Last iteration
-                        if(i===tableLen-1){
-                            //console.log(tableOfObject);
-                            res.send(tableOfObject);
-                        }
-                    }
-                );
+                    );
+                }
             }
+        );
+
+
+});
+
+
+app.get("/getUserOrders",(req,res)=>{
+    const userId = req.session.user[0].id;
+    db.query(
+        "SELECT * FROM orderdetails WHERE user_id=?",
+        userId,
+        (err,result)=>{
+            res.send(result);
         }
-
-    );
-
+    )
 });
 
 
@@ -278,7 +370,6 @@ app.get("/getItemCategory",(req,res)=>{
     db.query(
         "SELECT name FROM category",
         (err,result)=>{
-            console.log(result);
             res.send(result);
         })
 });
@@ -353,6 +444,17 @@ app.get("/accountInfo", (req, res) => {
 
 });
 
+app.post("/clearCart",(req,res)=>{
+    const userId = req.session.user[0].id;
+    const itemId = req.body.itemId;
+    db.query(
+        "DELETE FROM usercart WHERE user_id=? AND item_id=?",
+        [userId,itemId],
+        (err,result)=>{
+        }
+    );
+});
+
 app.post("/message/send", (req, res)=>{
     const message = req.body.messageText;
     const idFrom = req.body.idFrom;
@@ -368,4 +470,53 @@ app.post("/message/send", (req, res)=>{
 });
 
 
+// getting full chat with selected user
+app.post("/message/get", (req, res) => {
+    const idFrom = req.body.idFrom;
+    const idTo = req.body.idTo;
 
+    db.query(
+        "SELECT message.id, message.contents, message.UsersFrom, message.UsersTo, users.username " +
+        "FROM message " +
+        "LEFT JOIN users ON message.UsersFrom = users.id " +
+        "AND ((message.UsersFrom = ? AND message.UsersTo = ?) OR (message.UsersFrom = ? AND message.UsersTo = ?)) " +
+        "WHERE users.username IS NOT NULL " +
+        "ORDER BY message.id ",
+        [idFrom, idTo, idTo, idFrom],
+        (err, result) => {
+            console.log(err);
+            console.log(result);
+            res.send({result});
+        }
+    )
+});
+
+// Getting list of people that user had a conversation with
+app.post("/message/getlist", (req, res) => {
+    const idFrom = req.body.idFrom;
+
+    db.query("SELECT message.id, message.UsersFrom, message.UsersTo, users.username " +
+            "FROM message " +
+            "JOIN users ON message.UsersFrom = users.id " +
+            "AND (message.UsersTo = ?)" +
+            "GROUP BY users.username " +
+            "ORDER BY message.id",
+            [idFrom, idFrom],
+            (err, result) => {
+                res.send({result});
+                //console.log(result);
+            })
+});
+
+
+// Get searched user id
+app.post("/message/findUser", (req, res) => {
+    const name = req.body.name;
+
+    db.query("SELECT * FROM users WHERE username = ?",
+        name,
+        (err, result) => {
+            res.send({result})
+            console.log(result);
+        })
+})
