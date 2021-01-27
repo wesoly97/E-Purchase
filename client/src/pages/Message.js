@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, useRef} from "react";
 import Axios from "axios";
 
 import { useHistory } from 'react-router-dom';
@@ -22,158 +22,6 @@ export default function Main(){
     const [writeTo, setWriteTo] = useState("");
     let interlocutors = [];
     let messes = [];
-
-
-/*
-    const getInterlocutor = () => {
-        if(idFrom != null) {
-            Axios.post("http://localhost:3001/message/getlist", {
-                idFrom: idFrom
-            }).then((response) => {
-                setInterlocutorArray([]);
-                setInterlocutorArray(response.data.result);
-            })
-        }
-
-        else {
-            Axios.get('http://localhost:3001/accountInfo',
-            ).then((response)=> {
-                console.log(response);
-                setIdFrom(response.data.id);
-            });
-
-        }
-    }
-  Axios.get('http://localhost:3001/accountInfo',
-    ).then((response)=> {
-        console.log(response);
-        if(idFrom == null) {
-            setIdFrom(response.data.id);
-
-            Axios.post("http://localhost:3001/message/getlist", {
-                idFrom: idFrom
-            }).then((response) => {
-                setInterlocutorArray([]);
-                setInterlocutorArray(response.data.result);
-            })
-        }
-
-        //getInterlocutor();
-    });
-    for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
-    }
-
-    useEffect(()=>{
-
-        $(document).ready(function(){
-            if(document.URL.indexOf("#")===0){
-                let url = document.URL+"#";
-                window.location = "#";
-                window.location.reload(true);
-            }
-        });
-
-        Axios.get("http://localhost:3001/login").then((response) => {
-            if (response.data.loggedIn === true) {
-                setRole(response.data.user[0].role);
-                //setIdFrom(response.data.user[0].id);
-            }
-            else{
-                history.push("/register");
-            }
-        });
-
-
-
-        //getUserId();
-
-        //getMessages();
-    },[]);
-
-
-
-
-
-    //getUserId();
-
-    function abc(){
-        Materialize.updateTextFields();
-    }
-
-    const getMessages = () => {
-        history.push("/message");
-        Axios.post("http://localhost:3001/message/get", {
-            idFrom: idFrom,
-            idTo: idTo
-        }).then((response) => {
-            setMessages(response.data.result);
-            messes = [];
-            // = response.data.result;
-        })
-
-    };
-
-
-
-    const selectInterlocutor = (id) =>{
-        history.push("/message");
-        setIdTo(id);
-        setMessages([]);
-        getMessages();
-    }
-
-
-        for (const [index, value] of messages.entries()){
-            if(index === messages.length-1){
-                if(value.UsersFrom === idTo){
-                    messes.push(<div className="col s10 m10 l10">
-                        <div className="card blue-grey darken-1">
-                            <div tabIndex="0" autofocus="autofocus" className="card-content white-text">
-                                <span className="card-title">{value.username}</span>
-                                <p>{value.contents}</p>
-                            </div>
-                        </div>
-                    </div>)
-                }
-                if(value.UsersFrom === idFrom) {
-                    messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
-                        <div className="card lime lighten-4">
-                            <div tabIndex="0" autofocus="autofocus" className="card-content black-text">
-                                <span className="card-title right-align">Ja</span>
-                                <p className="right-align">{value.contents}</p>
-                            </div>
-                        </div>
-                    </div>)
-                }
-            }
-            else {
-                if(value.UsersFrom === idTo){
-                    messes.push(<div className="col s10 m10 l10">
-                        <div className="card blue-grey darken-1">
-                            <div className="card-content white-text">
-                                <span className="card-title">{value.username}</span>
-                                <p>{value.contents}</p>
-                            </div>
-                        </div>
-                    </div>)
-                }
-                if(value.UsersFrom === idFrom) {
-                    messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
-                        <div className="card lime lighten-4">
-                            <div className="card-content black-text">
-                                <span className="card-title right-align">Ja</span>
-                                <p className="right-align">{value.contents}</p>
-                            </div>
-                        </div>
-                    </div>)
-                }
-            }
-        }
-
-
- */
-
 
 
     Axios.get('http://localhost:3001/accountInfo',
@@ -206,6 +54,7 @@ export default function Main(){
 
     },[]);
 
+    // Pobieranie listy osób do rozmowy
     useEffect(() => {
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
@@ -213,8 +62,10 @@ export default function Main(){
             setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
         })
-    }, [idFrom, idTo]);
 
+    }, [idFrom]);
+
+    // Pobieranie wiadomości
     useEffect(() => {
         Axios.post("http://localhost:3001/message/get", {
             idFrom: idFrom,
@@ -222,11 +73,8 @@ export default function Main(){
         }).then((response) => {
             setMessages(response.data.result);
             messes = [];
-            // = response.data.result;
-
-        })
+        });
     }, [idFrom, idTo, messageText]);
-
 
 
     for (const [index, value] of messages.entries()){
@@ -234,17 +82,17 @@ export default function Main(){
             if(value.UsersFrom === idTo){
                 messes.push(<div className="col s10 m10 l10">
                     <div className="card blue-grey darken-1">
-                        <div tabIndex="0" autofocus="autofocus" className="card-content white-text">
+                        <div  className="card-content white-text">
                             <span className="card-title">{value.username}</span>
                             <p>{value.contents}</p>
                         </div>
                     </div>
                 </div>)
             }
-            if(value.UsersFrom === idFrom) {
+            if(value.UsersFrom === idFrom) { //tabIndex="0" autofocus="autofocus"
                 messes.push(<div className="col s10 m10 offset-s2 offset-l2 offset-m2">
                     <div className="card lime lighten-4">
-                        <div tabIndex="0" autofocus="autofocus" className="card-content black-text">
+                        <div  className="card-content black-text">
                             <span className="card-title right-align">Ja</span>
                             <p className="right-align">{value.contents}</p>
                         </div>
@@ -276,32 +124,41 @@ export default function Main(){
         }
     }
 
+    // Nowa wiadomość po kliknięciu lupki
     const newMessage = () => {
-        try{
-            Axios.post("http://localhost:3001/message/findUser", {
-                name: username
-            }).then((response) => {
+        Axios.post("http://localhost:3001/message/findUser", {
+            name: username
+        }).then((response) => {
+            if(response.data.result[0] != null){
                 setIdTo(response.data.result[0].id);
+                Materialize.toast({html: 'Pobieranie rozmowy...'});
                 Materialize.toast({html: 'Piszesz wiadomość do ' + username});
                 setWriteTo(">> Nowa wiadomość do " + username);
-            })
-        }
-        catch {
-            Materialize.toast({html: 'Nie znaleziono użytkownika!'});
-        }
-
+            }
+            else {
+                Materialize.toast({html: 'Nie znaleziono użytkownika!'});
+            }
+        })
     }
 
+    // Wybór osoby do rozmowy z panelu po boku
     const selectInterlocutor = (id) =>{
         history.push("/message");
         setIdTo(id);
+        Materialize.toast({html: 'Pobieranie rozmowy...'});
     }
+
+    // Scrolluje na koniec wiadomości, kiedy zostaną pobrane
+    useEffect(() => {
+        $(document).ready(function (){
+            $("#scroll").animate({ scrollTop: $('#scroll').prop("scrollHeight")});
+        });
+
+    }, [messes]);
 
     for(const [index, value] of interlocutorArray.entries()){
         interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
     }
-    //getMessages();
-
 
     const sendMessage = () => {
         Axios.post("http://localhost:3001/message/send", {
@@ -309,23 +166,23 @@ export default function Main(){
             idFrom: idFrom,
             idTo: idTo
         }).then((response) => {
-
         });
         document.getElementById("messageText").value = "";
-       // history.push('/message');
+
         setMessageText("");
         Materialize.toast({html: 'Wiadomość została wysłana'});
         history.push("/message");
-    };
 
+    };
 
 
     return(
         <div>
             <Navbar/>
-            <div className="container">
-            <h1>Wiadomości <span style={{fontSize: "medium"}}>{writeTo}</span></h1>
-                <div className="row grey darken-4">
+            <div className="container grey darken-4">
+            <h1 style={{textAlign: "center", paddingTop: "20px", color: "white", fontSize: "40px", fontWeight: "lighter"}}>Wiadomości <span style={{fontSize: "medium"}}>{writeTo}</span></h1>
+                <hr style={{border: "1px solid white"}}/>
+                <div className="row ">
                     <div className="col s3">
                         <div class="row">
                             <div class="col s9">
