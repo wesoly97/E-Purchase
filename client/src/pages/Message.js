@@ -27,7 +27,7 @@ export default function Main(){
     ).then((response)=> {
         console.log(response);
         setIdFrom(response.data.id);
-       
+
     });
 
     Axios.get('http://localhost:3001/accountInfo',
@@ -64,7 +64,7 @@ export default function Main(){
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
         }).then((response) => {
-            setInterlocutorArray([]);
+            //setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
         })
     }, [idFrom]);
@@ -162,6 +162,7 @@ export default function Main(){
 
     }, [messes]);
 
+
     for(const [index, value] of interlocutorArray.entries()){
         interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
     }
@@ -196,7 +197,7 @@ export default function Main(){
                             <div class="col s9">
                                 <div className="input-field inline">
                                     <input style={{color: "rgb(51, 204, 204)"}} onChange={(e) => setUsername(e.target.value)} id="searchUser" type="text" class="validate"/>
-                                    <label htmlFor="searchUser">Wyszukaj użytkownika {idFrom}</label>
+                                    <label htmlFor="searchUser">Wyszukaj użytkownika</label>
                                 </div>
                             </div>
                             <div class="col s3">
