@@ -27,7 +27,6 @@ export default function Main(){
     ).then((response)=> {
         console.log(response);
         setIdFrom(response.data.id);
-        getInterlocutor();
     });
 
     Axios.get('http://localhost:3001/accountInfo',
@@ -196,7 +195,7 @@ export default function Main(){
                             <div class="col s9">
                                 <div className="input-field inline">
                                     <input style={{color: "rgb(51, 204, 204)"}} onChange={(e) => setUsername(e.target.value)} id="searchUser" type="text" class="validate"/>
-                                    <label htmlFor="searchUser">Wyszukaj użytkownika {idFrom}</label>
+                                    <label htmlFor="searchUser">Wyszukaj użytkownika</label>
                                 </div>
                             </div>
                             <div class="col s3">
