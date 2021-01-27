@@ -23,6 +23,12 @@ export default function Main(){
     let interlocutors = [];
     let messes = [];
 
+    Axios.get('http://localhost:3001/accountInfo',
+    ).then((response)=> {
+        console.log(response);
+        setIdFrom(response.data.id);
+        getInterlocutor();
+    });
 
     Axios.get('http://localhost:3001/accountInfo',
     ).then((response)=> {
@@ -50,9 +56,8 @@ export default function Main(){
             }
         });
 
-
-
     },[]);
+
 
     // Pobieranie listy osób do rozmowy
     useEffect(() => {
@@ -62,7 +67,6 @@ export default function Main(){
             setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
         })
-
     }, [idFrom]);
 
     // Pobieranie wiadomości
@@ -73,6 +77,7 @@ export default function Main(){
         }).then((response) => {
             setMessages(response.data.result);
             messes = [];
+
         });
     }, [idFrom, idTo, messageText]);
 
@@ -148,6 +153,7 @@ export default function Main(){
         Materialize.toast({html: 'Pobieranie rozmowy...'});
     }
 
+
     // Scrolluje na koniec wiadomości, kiedy zostaną pobrane
     useEffect(() => {
         $(document).ready(function (){
@@ -159,6 +165,7 @@ export default function Main(){
     for(const [index, value] of interlocutorArray.entries()){
         interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
     }
+
 
     const sendMessage = () => {
         Axios.post("http://localhost:3001/message/send", {
@@ -179,6 +186,7 @@ export default function Main(){
     return(
         <div>
             <Navbar/>
+
             <div className="container grey darken-4">
             <h1 style={{textAlign: "center", paddingTop: "20px", color: "white", fontSize: "40px", fontWeight: "lighter"}}>Wiadomości <span style={{fontSize: "medium"}}>{writeTo}</span></h1>
                 <hr style={{border: "1px solid white"}}/>
@@ -188,7 +196,7 @@ export default function Main(){
                             <div class="col s9">
                                 <div className="input-field inline">
                                     <input style={{color: "rgb(51, 204, 204)"}} onChange={(e) => setUsername(e.target.value)} id="searchUser" type="text" class="validate"/>
-                                    <label htmlFor="searchUser">Wyszukaj użytkownika</label>
+                                    <label htmlFor="searchUser">Wyszukaj użytkownika {idFrom}</label>
                                 </div>
                             </div>
                             <div class="col s3">

@@ -19,6 +19,14 @@ export default function Main(){
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
+        $(document).ready(function(){
+            if(document.URL.indexOf("#")===-1){
+                let url = document.URL+"#";
+                window.location = "#";
+                window.location.reload(true);
+            }
+        });
+
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setRole(response.data.user[0].role);
@@ -33,8 +41,6 @@ export default function Main(){
             }
         });
     },[]);
-
-
 
     const addToCart=(itemId)=>{
         Axios.post('http://localhost:3001/addItemToCart',
@@ -51,7 +57,23 @@ export default function Main(){
             {
                 itemId: itemId
             }).then((response)=> {
-            window.location.reload(false);
+        });
+        window.location.reload(false)
+    };
+
+    const submitCart=()=>{
+        Axios.post('http://localhost:3001/submitCart',
+            {
+            }).then((response)=> {
+        });
+        window.location.reload(false)
+    };
+
+    const clearCart=(itemId)=>{
+        Axios.post('http://localhost:3001/clearCart',
+            {
+                itemId: itemId
+            }).then((response)=> {
         });
         window.location.reload(false);
     };
@@ -83,8 +105,10 @@ export default function Main(){
                                     <td>{item.quantity}</td>
                                     <p hidden="true">{tmpItemImageSrc = 'data:image/png;base64,'+item.itemImage64}</p>
                                     <img src={tmpItemImageSrc}/>
-                                    <td>{item.price}zł</td>
+                                    <td>{item.price * item.quantity}zł</td>
                                     <td>
+                                        <a id="btnMinusItem" onClick={clearCart.bind(null,item.itemId)} className="btn-floating btn-large waves-effect waves-light red"><i
+                                            className="material-icons">remove_shopping_cart</i></a>
                                         <a id="btnMinusItem" onClick={outFromCart.bind(null,item.itemId)} className="btn-floating btn-large waves-effect waves-light red"><i
                                             className="material-icons">exposure_neg_1</i></a>
                                         <a id="btnAddItem" onClick={addToCart.bind(null,item.itemId)} className="btn-floating btn-large waves-effect waves-light green"><i
@@ -96,7 +120,7 @@ export default function Main(){
                         </table>
                     </div>
                     <div className="col s2">
-                        <button className="btn waves-effect blue" type="submit" name="action">Do kasy...
+                        <button onClick={submitCart} className="btn waves-effect blue" type="submit" name="action">Do kasy...
                             <i className="material-icons right">monetization_on</i>
                         </button>
                     </div>
