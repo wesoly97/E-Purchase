@@ -140,7 +140,17 @@ app.get("/getAllOpinions",(req,res)=>{
         }
     )
 });
+app.post("/addOpinion",(req,res)=>{
 
+    const itemId = req.body.itemId;
+    const opinion = req.body.opinion;
+    db.query(
+        "INSERT INTO opinions (contents,itemId) VALUES (?,?)",
+        [opinion, itemId],
+        (err, result) => {
+            console.log(err);
+        })
+});
 
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
@@ -226,6 +236,7 @@ app.post("/submitCart",(req,res)=> {
 
                             for(let j = 0; j < itemsFromCart.length; j++){
                                 let obj = {
+                                    itemId: itemsFromCart[j].item_id,
                                     itemName: itemsFromCart[j].product_name,
                                     itemQuantity: itemsFromCart[j].quantity,
                                     itemPrice: itemsFromCart[j].price * itemsFromCart[j].quantity,
@@ -306,7 +317,7 @@ app.post("/getCartContent",(req,res)=>{
                             //imageItemBase64 -> image of product base 64 string
                             let imageItemBase64 = base64_encode("./productImages/" + resultOne[i].item_id + ".png");
                             tableOfObject.push({
-                                itemId: resultTwo[0].id,
+                                itemId: resultTwo[0].item_id,
                                 itemName: resultTwo[0].name,
                                 itemImage64: imageItemBase64,
                                 quantity: resultOne[i].quantity,

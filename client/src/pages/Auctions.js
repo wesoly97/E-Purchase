@@ -99,7 +99,7 @@ export default function Main(){
 
     function Opinion(props) {
             if (opinionsToShow[0]!== 'undefined' && opinionsToShow[0] != null) {
-                let opinionFiltered=opinionsToShow.filter(opinionsToShow => opinionsToShow.id===props.id)
+                let opinionFiltered=opinionsToShow.filter(opinionsToShow => opinionsToShow.itemId===props.id)
                 if(opinionFiltered.length>0)
                 {
 
