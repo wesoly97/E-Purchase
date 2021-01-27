@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react"
 import Axios from "axios"; //http request library
 import { useHistory } from 'react-router-dom';
 import "../styles/Register.css"
+import Materialize from "materialize-css";
 
 export default function Register(){
     //User data to register
@@ -23,28 +24,55 @@ export default function Register(){
     Axios.defaults.withCredentials = true; //enable cookies
 
     const register = () =>{
-        //1. Register
-        Axios.post('http://localhost:3001/register',
-            {
-                username: usernameReg,
-                password: passwordReg,
-                name: name,
-                surname: surname,
-                city: city,
-                postCode: postCode,
-                street: street,
-                phoneNumber: phoneContact
-            }).then((response)=> {
-                    if(response.data.message){
-                        console.log(response);
-                        setLoginStatus(response.data.message);
-                    }
-                    else{
-                        console.log(response);
-                        setLoginStatus(response.data[0].username);
-                        history.push("/");
-                    }
-                });
+        // Checking username
+        if (!usernameReg.match(/^[a-zA-Z0-9_]+$/)){
+            Materialize.toast({html: "Nazwa użytkownika niepoprawna!"});
+        }
+
+        // Checking password
+        if (!passwordReg.match(/^[\w\W]+$/) || passwordReg === "" || passwordReg.length < 6){
+            Materialize.toast({html: "Hasło musi zawierać inne znaki lub jest za krótkie!"});
+        }
+
+        // Checking name
+        if (!name.match(/[a-zA-Z0-9]+$/)) {
+            Materialize.toast({html: "Niedozwolone znaki w imieniu!"});
+        }
+
+        // Checking surname
+        if (!surname.match(/[a-zA-Z]+$/)) {
+            Materialize.toast({html: "Niedozwolone znaki w nazwisku!"});
+        }
+
+        // Checking city
+        if (!city.match(/[a-zA-Z\W]+$/)) {
+            Materialize.toast({html: "Niedozwolone znaki nazwie miasta!"});
+        }
+
+        // If everything is OK
+        else{
+            Axios.post('http://localhost:3001/register',
+                {
+                    username: usernameReg,
+                    password: passwordReg,
+                    name: name,
+                    surname: surname,
+                    city: city,
+                    postCode: postCode,
+                    street: street,
+                    phoneNumber: phoneContact
+                }).then((response)=> {
+                if(response.data.message){
+                    console.log(response);
+                    setLoginStatus(response.data.message);
+                }
+                else{
+                    console.log(response);
+                    setLoginStatus(response.data[0].username);
+                    history.push("/");
+                }
+            });
+        }
     };
 
     const goToLogin=()=>{
@@ -58,7 +86,15 @@ export default function Register(){
                 setLoginStatus(response.data.user[0].username);
             }
         });
+
     }, []);
+
+    // Changing first letter to upper case after changing state of variables (name, surname, city)
+    useEffect(() => {
+        setName(name.charAt(0).toUpperCase() + name.slice(1));
+        setSurname(surname.charAt(0).toUpperCase() + surname.slice(1));
+        setCity(city.charAt(0).toUpperCase() + city.slice(1));
+    }, [name, surname, city]);
 
     return(
         <div className="main">
