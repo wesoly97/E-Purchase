@@ -27,7 +27,7 @@ export default function Main(){
     ).then((response)=> {
         console.log(response);
         setIdFrom(response.data.id);
-        getInterlocutor();
+       
     });
 
     Axios.get('http://localhost:3001/accountInfo',
