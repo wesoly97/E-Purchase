@@ -21,7 +21,8 @@ export default function Account(){
     const[money,setMoney] = useState("");
     const[isVerified,setisVerified] = useState("");
     const[orders,setOrders] = useState("");
-    const[tmpImg,setTmpImg] = useState("");
+
+    let tmpImg = " ";
 
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.tooltipped');
@@ -97,13 +98,14 @@ export default function Account(){
 
         });
     }
-    function setImg(img){
+    function setImg(img, id1, id2){
+        console.log("img = "+img);
         Axios.post('http://localhost:3001/getImage',
             {
-                img: img
+                imgNum: img
             }).then((response)=> {
             let img64 = response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, "");
-            document.getElementById(img)
+            document.getElementById("img"+id1+id2)
             .setAttribute(
                 'src', 'data:image/png;base64,'+img64
             );
@@ -145,14 +147,13 @@ export default function Account(){
                             <div id="buyingHistory" className="right"></div>
                             <ul className="collection">
                                 {/*listing of bought products*/}
-                                {orders.map((order, index) => (
-                                        order.map((orderPart, index) => (
-                                            console.log(order),
-                                            console.log(orderPart),
+                                {orders.map((order, index1) => (
+                                        order.map((orderPart, index2) => (
                                             //setImg(orderPart.itemId),
                                             <li class="collection-item avatar ">
-                                                <img id={orderPart.itemId}  className="circle"></img>
-                                                {setImg(orderPart.itemId)}
+                                                {tmpImg = "img"+index1+index2}
+                                                <img id={tmpImg}  className="circle"></img>
+                                                {setImg(orderPart.itemId, index1, index2)}
                                                 <span className="title"><h6>{orderPart.itemName}</h6></span>
                                                 <p id="description">Cena: {orderPart.itemPrice+"zł"}<br></br>
                                                 Ilość: {orderPart.itemQuantity}
@@ -207,6 +208,72 @@ export default function Account(){
     )
     }
     else {
-        return("error")
+        return(
+            <div>
+            <Navbar/>
+            <div className="container">
+                <div className="row">
+                    <div className="col s6">
+                        <h1>Informacje o koncie</h1>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col s6">
+                        <br></br>
+                        <h3><b>Nick:</b> {nick}</h3>
+                        <h3><b>Imie: </b>{name}</h3>
+                        <h3><b>Nazwisko:</b> {surname}</h3>
+                        <h3><b>Reputacja: </b><a className="btn-floating tooltipped pulse " data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek"><i className=" material-icons">star</i></a></h3>
+                        <h3><b>Zweryfikowany : </b>
+                            {isVerified==1 &&
+                            <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">done</i></a>
+                            }
+                            {isVerified==0 &&
+                            <a className="btn-floating tooltipped red pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">close</i></a>
+                            }</h3>
+
+                    </div>
+                    <div className="col s6">
+                        <h2>Historia Zakupów</h2>
+                        <div className="listWrapperr">
+                            <div id="buyingHistory" className="right"></div>
+                            <ul className="collection">
+                                {/*listing of bought products*/}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col s6">
+                        <h1>Stan konta:</h1>
+                        <h3 id="h3money">{money} zł</h3>
+
+                        <button onClick={addMoney.bind(null,100)}className="btn waves-effect waves-light tooltipped green " type="submit" name="action" data-position="bottom" data-tooltip="Dodaj pieniadze">
+                            <i className=" material-icons">attach_money</i>
+                        </button>
+
+                        <button onClick={subMoney.bind(null,100)} className="btn waves-effect waves-light tooltipped red" type="submit" name="action" data-position="bottom" data-tooltip="Usun pieniadze">
+                            <i className=" material-icons">money_off</i>
+                        </button>
+
+                    </div>
+                    <div className="col s6">
+                        <h2>Opinie kupujących</h2>
+                        <div className="listWrapperr">
+                            <div id="opinions" className="right"></div>
+                            <ul className="collection">
+                                {/*listing of opinions*/}
+                                <li className="collection-item avatar">
+                                    <img src="https://www.qries.com/images/banner_logo.png" alt="" className="circle"></img>
+                                    <span className="title"><h6>nick kupujacego</h6></span>
+                                    <p id="description">opinia<br></br></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>)
     }
 }

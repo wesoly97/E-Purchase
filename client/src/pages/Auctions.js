@@ -7,8 +7,6 @@ import $ from "jquery"
 import M from "materialize-css"
 import { Modal, Button, Icon, Checkbox } from 'react-materialize';
 
-
-import { Modal, Button, Icon } from 'react-materialize';
 import Foot from "../layout/Footer";
 export default function Main() {
 
