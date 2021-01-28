@@ -24,18 +24,9 @@ export default function Main(){
 
     Axios.get('http://localhost:3001/accountInfo',
     ).then((response)=> {
-        console.log(response);
-        setIdFrom(response.data.id);
-
-       
+        console.log(response.data[0].res1.id);
+        setIdFrom(response.data[0].res1.id);
     });
-
-    Axios.get('http://localhost:3001/accountInfo',
-    ).then((response)=> {
-        console.log(response);
-        setIdFrom(response.data.id);
-    });
-
 
     useEffect(()=>{
         //jQuerry reload page once after load to make 'select' work - stupid but works
@@ -64,8 +55,6 @@ export default function Main(){
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
         }).then((response) => {
-            console.log("response = "+response);
-
             setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
 

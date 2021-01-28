@@ -486,7 +486,6 @@ app.get("/accountInfo", (req, res) => {
                 "SELECT value FROM bank WHERE users_id = ?",
                 userId,
                 (err,result2)=>{
-                    console.log(result2[0]);
                     res.send([{res1: result1[0], res2: result2[0]}])
                 });
         }
@@ -543,15 +542,15 @@ app.post("/message/get", (req, res) => {
 // Getting list of people that user had a conversation with
 app.post("/message/getlist", (req, res) => {
     const idFrom = req.body.idFrom;
-
     db.query("SELECT message.id, message.UsersFrom, message.UsersTo, users.username " +
             "FROM message " +
             "JOIN users ON message.UsersFrom = users.id " +
-            "AND (message.UsersTo = ?)" +
+            "AND message.UsersTo = ? " +
             "GROUP BY users.username " +
             "ORDER BY message.id",
             idFrom,
             (err, result) => {
+                //console.log(err)
                 res.send({result});
             })
 });
