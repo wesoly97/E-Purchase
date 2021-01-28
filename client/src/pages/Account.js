@@ -99,7 +99,6 @@ export default function Account(){
         });
     }
     function setImg(img, id1, id2){
-        console.log("img = "+img);
         Axios.post('http://localhost:3001/getImage',
             {
                 imgNum: img
@@ -151,7 +150,7 @@ export default function Account(){
                                         order.map((orderPart, index2) => (
                                             //setImg(orderPart.itemId),
                                             <li class="collection-item avatar ">
-                                                {tmpImg = "img"+index1+index2}
+                                                <p hidden="true">{tmpImg = "img"+index1+index2}</p>
                                                 <img id={tmpImg}  className="circle"></img>
                                                 {setImg(orderPart.itemId, index1, index2)}
                                                 <span className="title"><h6>{orderPart.itemName}</h6></span>
@@ -162,13 +161,6 @@ export default function Account(){
                                             </li>
                                         ))
                                 ))}
-                                 {/* <li class="collection-item avatar ">
-                                     <img src="https://www.qries.com/images/banner_logo.png" alt="" className="circle"></img>
-                                     <span className="title"><h6>Nazwa produktu</h6></span>
-                                     <p id="description">sprzedajacy<br></br>cena<br></br>
-                                         <a href="#!" className="secondary-content tooltipped" data-position="bottom" data-tooltip="Wyslij wiadomosc do sprzedajacego"><i className="material-icons">mail</i></a>
-                                     </p> 
-                                </li> */}
                             </ul>
                         </div>
                     </div>
