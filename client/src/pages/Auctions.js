@@ -6,6 +6,7 @@ import "../styles/Auctions.css"
 import $ from "jquery"
 import M from "materialize-css"
 import { Modal, Button,Icon } from 'react-materialize';
+import Foot from "../layout/Footer";
 export default function Main(){
 
     const[role,setRole] = useState("");
@@ -173,6 +174,7 @@ export default function Main(){
 
                 </div>
                 </div>
+                <Foot></Foot>
             </div>
         )
     }
@@ -190,6 +192,7 @@ export default function Main(){
                         </div>
                     </div>
                 </div>
+                <Foot></Foot>
             </div>
         )
     }

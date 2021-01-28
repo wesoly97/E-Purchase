@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import "../styles/Cart.css"
 import $ from "jquery";
-
+import Foot from "../layout/Footer";
 export default function Main(){
 
     const[role,setRole] = useState("");
@@ -125,6 +125,7 @@ export default function Main(){
                         </button>
                     </div>
                 </div>
+                <Foot></Foot>
             </div>
         )
     }
@@ -133,7 +134,9 @@ export default function Main(){
             <div>
                 <Navbar/>
                 <h1>Koszyk</h1>
+                <Foot></Foot>
             </div>
+            
         )
     }
 }

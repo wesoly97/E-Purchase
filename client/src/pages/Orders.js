@@ -6,7 +6,7 @@ import Navbar from "../layout/Navbar";
 import Carousel from"../layout/Carousel";
 import Card from"../layout/Card";
 import '../styles/Home.css'
-
+import Foot from "../layout/Footer";
 import $ from "jquery";
 import M from "materialize-css";
 import { Modal, Button,Icon,Dropdown,Autocomplete } from 'react-materialize';
@@ -144,6 +144,7 @@ export default function Main(){
                     ))}
                     
                     </div>
+                    <Foot></Foot>
                 </div>
             
         )
@@ -158,6 +159,8 @@ export default function Main(){
                         <h3>Zamówienia</h3>
                     </div>
                 </div>
+                
+                <Foot></Foot>
             </div>
 
         )
