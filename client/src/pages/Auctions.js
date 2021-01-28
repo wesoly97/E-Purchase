@@ -5,13 +5,16 @@ import Navbar from "../layout/Navbar";
 import "../styles/Auctions.css"
 import $ from "jquery"
 import M from "materialize-css"
-import { Modal, Button,Icon } from 'react-materialize';
+import { Modal, Button,Icon, Checkbox } from 'react-materialize';
+
+
 export default function Main(){
 
     const[role,setRole] = useState("");
     const[itemsToShow,setItemsToShow] = useState("");
     const[opinionsToShow,setOpinionsToShow] = useState("");
-    const [category, setCategory] = useState("");
+    const[category, setCategory] = useState("");
+    const[categoryFilter, setCategoryFilter] = useState("")
 
     let tempItemId = " ";
     let temItemName = " ";
@@ -74,9 +77,11 @@ export default function Main(){
             {
             }).then((response)=> {
                 setCategory(response.data);
+                setCategoryFilter(response.data);
         });
 
     };
+
 
     const addToCart=(itemId, itemName, price)=>{
         //get parent id (item id) and add it to table cart with user id
@@ -114,8 +119,14 @@ export default function Main(){
             return <h1>Brak opinii</h1>;
       }
 
+
     const trigger = <Button className="btn simpleBtn deep-orange lighten-2" ><Icon left>people_outline</Icon>Sprawdź opinie!</Button>;
-    if(typeof(itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null)
+
+    const test=()=>{
+      console.log("test");
+    };
+
+    if(typeof(itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null && categoryFilter[0]!== 'undefined' && categoryFilter[0] != null)
     {
         return (
 
@@ -125,11 +136,27 @@ export default function Main(){
                 <div className="row">
 
                     <div className="col s4">
-                        <h1>AUKCJE</h1>
-                        <button onClick={addAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj
-                            aukcję
-                            <i className="material-icons right">send</i>
-                        </button>
+                        <div className="row">
+                            <h1>Aukcje</h1>
+                            <button onClick={addAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj
+                                aukcję
+                                <i className="material-icons right">send</i>
+                            </button>
+                        </div>
+                        <br></br>
+                        <div className="row">
+                            <h1>Kategorie</h1>
+                            {category.map((item, index) => (
+                                <div>
+                                    <Checkbox
+                                        id={"category"+index+1}
+                                        label={item.name}
+                                        value={index+1}
+                                        onChange={test.bind(null)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="col s8">

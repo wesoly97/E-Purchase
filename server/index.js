@@ -142,6 +142,10 @@ app.get("/getAllOpinions",(req,res)=>{
 });
 
 
+
+
+
+
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
     const itemName = req.body.itemName;
@@ -375,7 +379,6 @@ app.get("/getItemCategory",(req,res)=>{
 });
 
 
-
 app.get("/getNumberOfImages",(req,res)=>{
     fs.readdir("./productImages", (err, files) => {
         let productImageNumber = [];
@@ -501,10 +504,9 @@ app.post("/message/getlist", (req, res) => {
             "AND (message.UsersTo = ?)" +
             "GROUP BY users.username " +
             "ORDER BY message.id",
-            [idFrom, idFrom],
+            idFrom,
             (err, result) => {
                 res.send({result});
-                //console.log(result);
             })
 });
 

@@ -11,7 +11,6 @@ export default function Main(){
     const history = useHistory();
     Axios.defaults.withCredentials = true;//zajebiscie wazne
 
-
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
     const [idFrom, setIdFrom] = useState("");
@@ -27,7 +26,7 @@ export default function Main(){
     ).then((response)=> {
         console.log(response);
         setIdFrom(response.data.id);
-        getInterlocutor();
+       //getInterlocutor();
     });
 
     Axios.get('http://localhost:3001/accountInfo',
@@ -64,8 +63,11 @@ export default function Main(){
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
         }).then((response) => {
+            console.log("response = "+response);
+
             setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
+
         })
     }, [idFrom]);
 
