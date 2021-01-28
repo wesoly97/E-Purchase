@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import $ from "jquery";
 import M from "materialize-css";
-
+import Foot from "../layout/Footer";
 import "../styles/accountStyles.css"
 
 
@@ -116,6 +116,7 @@ export default function Account(){
                         </div>
                     </div>
                 </div>
+                <Foot></Foot>
             </div>
 
         
