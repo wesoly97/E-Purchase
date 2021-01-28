@@ -43,6 +43,7 @@ export default function Main(){
     },[]);
 
     const addToCart=(itemId)=>{
+        console.log(itemId);
         Axios.post('http://localhost:3001/addItemToCart',
             {
                 itemId: itemId

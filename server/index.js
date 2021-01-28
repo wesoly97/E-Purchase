@@ -14,6 +14,7 @@ const session = require('express-session');
 
 const fs = require('fs');
 const fetch = require('node-fetch');
+const { Console } = require('console');
 
 const app = express();
 
@@ -158,6 +159,7 @@ app.post("/addOpinion",(req,res)=>{
 
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
+    console.log(itemId);
     const itemName = req.body.itemName;
     const itemPrice = req.body.itemPrice
     const userId = req.session.user[0].id;
@@ -321,7 +323,7 @@ app.post("/getCartContent",(req,res)=>{
                             //imageItemBase64 -> image of product base 64 string
                             let imageItemBase64 = base64_encode("./productImages/" + resultOne[i].item_id + ".png");
                             tableOfObject.push({
-                                itemId: resultTwo[0].item_id,
+                                itemId: resultTwo[0].id,
                                 itemName: resultTwo[0].name,
                                 itemImage64: imageItemBase64,
                                 quantity: resultOne[i].quantity,
