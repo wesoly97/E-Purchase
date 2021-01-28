@@ -6,7 +6,7 @@ import "../styles/AddAuctions.css"
 import $ from "jquery"
 import M from "materialize-css"
 import ImageUpload from "../components/ImageUpload"
-
+import Foot from "../layout/Footer";
 //#4db6ac
 
 export default function AddAuction(){
@@ -190,6 +190,7 @@ export default function AddAuction(){
                     </div>
 
                 </div>
+                <Foot></Foot>
             </div>
             );
 

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Materialize from "materialize-css";
 import $ from 'jquery';
-
+import Foot from "../layout/Footer";
 export default function Main(){
 
     const history = useHistory();
@@ -26,7 +26,8 @@ export default function Main(){
     ).then((response)=> {
         console.log(response);
         setIdFrom(response.data.id);
-       //getInterlocutor();
+
+       
     });
 
     Axios.get('http://localhost:3001/accountInfo',
@@ -232,7 +233,10 @@ export default function Main(){
                         </div>
                     </div>
                 </div>
+                
             </div>
+            <br></br><br></br><br></br>
+            <Foot></Foot>
         </div>
     )
 

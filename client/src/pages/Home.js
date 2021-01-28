@@ -7,8 +7,7 @@ import Carousel from "../layout/Carousel";
 import Card from "../layout/Card";
 import '../styles/Home.css'
 import $ from "jquery";
-import logo from "../img/1.jpg"
-
+import Foot from "../layout/Footer";
 export default function Main(){
 
     const[role,setRole] = useState("");
@@ -144,6 +143,7 @@ export default function Main(){
                         </div>
                     </div>
                 </div>
+                <Foot></Foot>
             </div>
         )
     }
@@ -177,6 +177,7 @@ export default function Main(){
                         </div>
                     </div>
                 </div>
+                <Foot></Foot>
             </div>
         )
     }
