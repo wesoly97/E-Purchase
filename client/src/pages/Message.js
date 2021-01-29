@@ -224,7 +224,7 @@ export default function Main(){
                 </div>
                 
             </div>
-            <br></br><br></br><br></br>
+            <br></br><br></br><br></br><br></br><br></br>
             <Foot></Foot>
         </div>
     )

@@ -4,4 +4,16 @@ table,tr, th ,td{
 }
 .background
 {
- background-image: url("../img/pattern.png");}
+ background-image: url("../img/pattern.png");
+}
+ .App {
+    text-align: center;
+    display: flex;
+    min-height: 64vh;
+    margin: 0;
+  }
+  
+  .footer {
+    align-self: flex-end;
+    width: 100%;
+  }

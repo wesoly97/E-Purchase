@@ -126,6 +126,9 @@ export default function Main(){
                         </button>
                     </div>
                 </div>
+                <div className="App background">
+        
+        </div>
                 <Foot></Foot>
             </div>
         )
@@ -135,6 +138,9 @@ export default function Main(){
             <div>
                 <Navbar/>
                 <h1>Koszyk</h1>
+                <div className="App background">
+        
+        </div>
                 <Foot></Foot>
             </div>
             

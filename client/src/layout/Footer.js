@@ -16,7 +16,7 @@ const Foot = () => {
     
     return(
       <div>
-    <footer id="first-footer" className="page-footer grey darken-4">
+    <footer id="first-footer" className="page-footer grey darken-4 footer">
       <div className="container">
         <div className="row">
         <div class="col s5 ">
