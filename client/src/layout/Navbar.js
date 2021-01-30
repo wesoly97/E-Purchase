@@ -12,6 +12,8 @@ import M,{options} from 'materialize-css'
 const Navbar = () => {
 
     const [loginStatus, setLoginStatus] = useState("");
+    const [userBalance, setUserBalance] = useState(0);
+
     Axios.defaults.withCredentials = true;
     const history = useHistory();
     document.addEventListener('DOMContentLoaded', function() {
@@ -19,6 +21,13 @@ const Navbar = () => {
         var instances = M.Sidenav.init(elems, options);
     });
     useEffect(() => {
+
+        Axios.get('http://localhost:3001/accountInfo',
+            {
+            }).then((response)=> {
+            setUserBalance(response.data[0].res2.value);
+        });
+
         let dropdowns = document.querySelectorAll(".dropdown-auctions");
         let options = {
             inDuration: 300,
@@ -57,7 +66,7 @@ const Navbar = () => {
                                     <i className="material-icons">menu</i>
                                 </a>
                             </div>
-                            <div className="col s4">
+                            <div className="col s3">
                                 <form action="" method="post">
                                     <div className="input-field hide-on-med-and-down">
                                         <input id="search" type="search" name="search"></input>
@@ -67,7 +76,12 @@ const Navbar = () => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="col s6">
+
+                            <div className="col s2 hide-on-med-and-down">
+                                <h5>${userBalance}</h5>
+                            </div>
+
+                            <div className="col s5">
                                 <ul className="right hide-on-med-and-down">
                                     <li><a className='dropdown-account list' href='#' data-target='dropdownAccount' ><i className="material-icons left">account_circle</i>KONTO</a></li>
                                     <li> <NavLink to="/cart"><i className="material-icons left">shopping_cart</i>KOSZYK</NavLink></li>
@@ -95,6 +109,7 @@ const Navbar = () => {
             <input id="search" type="search" className="col s10" placeholder="Wyszukaj przedmioty do kupienia"></input>
              <i className="material-icons">close</i>
             </div></form></li>
+                <li> <NavLink to="/account"><i className="material-icons left">attach_money</i>BALANCE: {userBalance}$</NavLink></li>
                 <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
                 <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>INFORMACJE O KONCIE</NavLink></li>
                 <li> <NavLink to="/orders" ><i className="material-icons left">business_center</i>ZAMÓWIENIA</NavLink></li>

@@ -6,15 +6,19 @@ import Navbar from "../layout/Navbar";
 import "../styles/Cart.css"
 import $ from "jquery";
 import Foot from "../layout/Footer";
+import { Modal, Button,Icon,Dropdown,Autocomplete } from 'react-materialize';
+
 export default function Main(){
 
     const[role,setRole] = useState("");
     const[cartContent, setCartContent] = useState("")
+    const[userAccBalance, setUserAccBalance] = useState("");
 
     const history = useHistory();
 
     let tmpItemImageSrc = " ";
     let tmpItemId = " "
+    let sum = 0;
 
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
@@ -62,12 +66,14 @@ export default function Main(){
         window.location.reload(false)
     };
 
-    const submitCart=()=>{
+    const submitCart=(sum)=>{
         Axios.post('http://localhost:3001/submitCart',
             {
+                cartSum: sum
             }).then((response)=> {
         });
-        window.location.reload(false)
+        //window.location.reload(false)
+        history.push("/orders")
     };
 
     const clearCart=(itemId)=>{
@@ -78,6 +84,35 @@ export default function Main(){
         });
         window.location.reload(false);
     };
+
+    const getUserAccBalance=()=>{
+        Axios.get('http://localhost:3001/accountInfo',
+            {
+            }).then((response)=> {
+                setUserAccBalance(response.data[0].res2.value);
+        });
+    };
+
+    function SubmitCart(){
+        getUserAccBalance();
+        if(userAccBalance >= sum){
+            return (
+                <Button onClick={submitCart.bind(null,sum)} className="btn simpleBtn green darken-4" ><Icon left>attach_money</Icon>Opłać zamówienie</Button>
+            )
+        }
+        else{
+            return (
+                <div>
+                    <Button className="btn simpleBtn green darken-4 disabled" ><Icon left>attach_money</Icon>Opłać zamówienie</Button>
+                    <br></br>
+                    <h4 color="red">Brak środków na koncie!</h4>
+                </div>
+            )
+        }
+    }
+
+
+    const trigger = <Button className="btn simpleBtn  blue lighten-1 btn-large" ><Icon left>people_outline</Icon>Do kasy...</Button>;
 
     if(typeof(cartContent[0]) !== 'undefined' && cartContent[0] != null) {
         return (
@@ -121,9 +156,53 @@ export default function Main(){
                         </table>
                     </div>
                     <div className="col s2">
+                        <Modal  header={"Twoje zamówienie"} trigger={trigger}>
+                                    <div className="row">
+                                        {console.log(cartContent)}
+                                        {cartContent.map((item, index) => (
+                                            <div>
+                                                <div className="col s4">
+                                                    <p><b>PRZEDMIOT:</b>{" "+item.itemName}</p>
+                                                </div>
+                                                <div className="col s4">
+                                                    <p><b>ILOŚĆ:</b>{" "+item.quantity+"szt"}</p>
+                                                </div>
+                                                <div className="col s4">
+                                                    <p><b>CENA: </b>{" "+item.price * item.quantity+"zł"}</p>
+                                                    <p hidden="true">{sum =sum+item.price * item.quantity}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <br></br>
+                                    <div className="row">
+                                        <div className="col s4">
+                                        </div>
+                                        <div className="col s4">
+                                        </div>
+                                        <div className="col s4">
+                                            <b>RAZEM:</b>{sum}zł
+
+                                        </div>
+                                    </div>
+                                <br></br>
+                                <div className="row">
+                                    <div className="col s4">
+                                    </div>
+                                    <div className="col s4">
+                                    </div>
+                                    <div className="col s4">
+                                        <SubmitCart
+                                        />
+                                    </div>
+                                </div>
+                        </Modal>
+                        {/*
                         <button onClick={submitCart} className="btn waves-effect blue" type="submit" name="action">Do kasy...
                             <i className="material-icons right">monetization_on</i>
                         </button>
+                        */}
+
                     </div>
                 </div>
                 <div className="App background">
@@ -137,9 +216,9 @@ export default function Main(){
         return(
             <div>
                 <Navbar/>
-                <h1>Koszyk</h1>
+                <h1><b>Koszyk</b></h1>
                 <div className="App background">
-        
+                <h2>W koszyku narazie pusto...</h2>
         </div>
                 <Foot></Foot>
             </div>

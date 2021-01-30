@@ -130,6 +130,9 @@ app.post("/addNewAuctions",(req,res)=>{
 });
 
 app.get("/getAllAuctions",(req,res)=>{
+
+
+
     db.query(
         "SELECT * FROM items",
         (err, result) => {
@@ -137,6 +140,8 @@ app.get("/getAllAuctions",(req,res)=>{
         }
     )
 });
+
+
 app.get("/getAllOpinions",(req,res)=>{
     db.query(
         "SELECT * FROM opinions",
@@ -205,9 +210,54 @@ app.post("/addItemToCart",(req,res)=>{
     );
 });
 
+app.post("/buyOneItem",(req,res)=>{
+    const userId = req.session.user[0].id;
+    const itemId = req.body.itemId;
+    const itemName = req.body.itemName;
+    const itemQuant = req.body.itemQuant;
+    const itemPrice = req.body.itemPrice;
+
+    let itemBougth = [{itemName: itemName, itemQuantity: itemQuant, itemPrice:itemPrice}]
+
+    console.log("ID = "+itemId)
+    db.query(
+        "SELECT quantity FROM items WHERE id=?",
+        itemId,
+        (err, auctionQuantity)=> {
+            if (auctionQuantity[0].quantity - 1 === 0) {
+                //usuwamy item z aukcji i dodajemy do tabeli order
+                db.query(
+                    "DELETE FROM items WHERE id = ?",
+                    itemId,
+                    (err, resultEnd) => {
+                    }
+                );
+            } else {
+                //dekrementujemy quntity itemu w aukcjach i dodajemy do tabeli order
+                db.query(
+                    "UPDATE items SET quantity=quantity-? WHERE id=?",
+                    [1, itemId],
+                    (err, resultEnd) => {
+                    }
+                );
+            }
+        });
+
+    db.query(
+        "INSERT INTO orderdetails(user_id,orderItems) VALUES (?,?)",
+        [userId,JSON.stringify(itemBougth)]
+    )
+    db.query(
+        "UPDATE bank SET value = value - ? WHERE users_id = ?",
+        [itemPrice,userId]
+    );
+
+
+});
+
 app.post("/submitCart",(req,res)=> {
     const userId = req.session.user[0].id;
-
+    const cartSum = req.body.cartSum;
     db.query(
         "SELECT * FROM usercart WHERE user_id = ?",
         userId,
@@ -238,6 +288,14 @@ app.post("/submitCart",(req,res)=> {
                         //na koniec czyscimy koszyk
                         db.query(
                           "DELETE FROM usercart"
+                        );
+                        //i usuwamy hajs z konta
+                        db.query(
+                            "UPDATE bank SET value = value - ? WHERE users_id = ?",
+                            [cartSum,userId],
+                            (err,resultacik)=>{
+
+                            }
                         );
 
                         //Last iteration - prepare order items and create order

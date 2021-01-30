@@ -179,20 +179,7 @@ export default function Account(){
                             </button>
 
                         </div>
-                        <div className="col s6">
-                            <h2>Opinie kupujących</h2>
-                            <div className="listWrapperr">
-                                <div id="opinions" className="right"></div>
-                                <ul className="collection">
-                                    {/*listing of opinions*/}
-                                    <li className="collection-item avatar">
-                                        <img src="https://www.qries.com/images/banner_logo.png" alt="" className="circle"></img>
-                                        <span className="title"><h6>nick kupujacego</h6></span>
-                                        <p id="description">opinia<br></br></p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -250,20 +237,7 @@ export default function Account(){
                         </button>
 
                     </div>
-                    <div className="col s6">
-                        <h2>Opinie kupujących</h2>
-                        <div className="listWrapperr">
-                            <div id="opinions" className="right"></div>
-                            <ul className="collection">
-                                {/*listing of opinions*/}
-                                <li className="collection-item avatar">
-                                    <img src="https://www.qries.com/images/banner_logo.png" alt="" className="circle"></img>
-                                    <span className="title"><h6>nick kupujacego</h6></span>
-                                    <p id="description">opinia<br></br></p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>)

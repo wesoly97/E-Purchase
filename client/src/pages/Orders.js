@@ -87,9 +87,6 @@ export default function Main(){
                 <div className="container">
                 {orders.map((order, index) => (
                     <div className="row ">
-                        
-
-                    
                         <div>
                             <Modal  header={"Zamówiene nr."+(index+1)} trigger={trigger}>
                                 {
@@ -136,7 +133,7 @@ export default function Main(){
                                     ))
              
                                 }
-                                <p>Kwota zamówienia: {tmpOrderPrice}</p>
+                                <p>Kwota zamówienia: {tmpOrderPrice}zł</p>
                             </Modal>
                             <p hidden="true">{tmpOrderPrice=0}</p>
                         </div>

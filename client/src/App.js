@@ -1,7 +1,6 @@
 import React from "react";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Login from "./pages/Login";
-import Main from "./pages/Main";
 import Account from "./pages/Account";
 import Home from "./pages/Home";
 import Auctions from "./pages/Auctions";
