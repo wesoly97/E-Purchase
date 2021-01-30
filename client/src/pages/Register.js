@@ -30,22 +30,22 @@ export default function Register(){
         }
 
         // Checking password
-        if (!passwordReg.match(/^[\w\W]+$/) || passwordReg === "" || passwordReg.length < 6){
+        else if (!passwordReg.match(/^[\w\W]+$/) || passwordReg === "" || passwordReg.length < 6){
             Materialize.toast({html: "Hasło musi zawierać inne znaki lub jest za krótkie!"});
         }
 
         // Checking name
-        if (!name.match(/[a-zA-Z0-9]+$/)) {
+        else if (!name.match(/^[a-zA-Z]+$/)) {
             Materialize.toast({html: "Niedozwolone znaki w imieniu!"});
         }
 
         // Checking surname
-        if (!surname.match(/[a-zA-Z]+$/)) {
+        else if (!surname.match(/^[a-zA-Z]+$/)) {
             Materialize.toast({html: "Niedozwolone znaki w nazwisku!"});
         }
 
         // Checking city
-        if (!city.match(/[a-zA-Z\W]+$/)) {
+        else if (!city.match(/[a-zA-Z]+\W*/)) {
             Materialize.toast({html: "Niedozwolone znaki nazwie miasta!"});
         }
 
