@@ -24,9 +24,10 @@ export default function Main(){
 
     Axios.get('http://localhost:3001/accountInfo',
     ).then((response)=> {
-        console.log(response.data[0].res1.id);
-        setIdFrom(response.data[0].res1.id);
+        console.log(response);
+        setIdFrom(response.data.id);
     });
+
 
     useEffect(()=>{
         //jQuerry reload page once after load to make 'select' work - stupid but works
@@ -55,7 +56,7 @@ export default function Main(){
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
         }).then((response) => {
-            setInterlocutorArray([]);
+            //setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
 
         })
@@ -154,6 +155,7 @@ export default function Main(){
 
     }, [messes]);
 
+
     for(const [index, value] of interlocutorArray.entries()){
         interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
     }
@@ -188,7 +190,7 @@ export default function Main(){
                             <div class="col s9">
                                 <div className="input-field inline">
                                     <input style={{color: "rgb(51, 204, 204)"}} onChange={(e) => setUsername(e.target.value)} id="searchUser" type="text" class="validate"/>
-                                    <label htmlFor="searchUser">Wyszukaj użytkownika {idFrom}</label>
+                                    <label htmlFor="searchUser">Wyszukaj użytkownika</label>
                                 </div>
                             </div>
                             <div class="col s3">
