@@ -176,6 +176,7 @@ export default function Main() {
 
 
     function setCategoryArray (categoryId){
+        
         if(catToShow.includes(categoryId)){
             let tmp = "";
             tmp = catToShow;
@@ -286,7 +287,7 @@ export default function Main() {
             </div>
         )
     }
-
+  
 
     if (typeof (itemsToShow[0]) !== 'undefined' && itemsToShow[0] != null && categoryFilter[0] !== 'undefined' && categoryFilter[0] != null) {
         return (
