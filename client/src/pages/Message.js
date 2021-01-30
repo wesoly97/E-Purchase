@@ -5,12 +5,11 @@ import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Materialize from "materialize-css";
 import $ from 'jquery';
-
+import Foot from "../layout/Footer";
 export default function Main(){
 
     const history = useHistory();
     Axios.defaults.withCredentials = true;//zajebiscie wazne
-
 
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
@@ -22,13 +21,6 @@ export default function Main(){
     const [writeTo, setWriteTo] = useState("");
     let interlocutors = [];
     let messes = [];
-
-    Axios.get('http://localhost:3001/accountInfo',
-    ).then((response)=> {
-        console.log(response);
-        setIdFrom(response.data.id);
-
-    });
 
     Axios.get('http://localhost:3001/accountInfo',
     ).then((response)=> {
@@ -66,6 +58,7 @@ export default function Main(){
         }).then((response) => {
             //setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
+
         })
     }, [idFrom]);
 
@@ -231,7 +224,10 @@ export default function Main(){
                         </div>
                     </div>
                 </div>
+                
             </div>
+            <br></br><br></br><br></br><br></br><br></br>
+            <Foot></Foot>
         </div>
     )
 

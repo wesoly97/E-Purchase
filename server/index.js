@@ -14,6 +14,7 @@ const session = require('express-session');
 
 const fs = require('fs');
 const fetch = require('node-fetch');
+const { Console } = require('console');
 
 const app = express();
 
@@ -88,7 +89,11 @@ app.post("/register",(req,res)=>{
                                         res.send({message: "Wrong username/password combination!"})
                                     }
                                 });
-                            }
+                            },
+                            db.query(
+                                "insert into bank(value,users_id) values (?,?)",
+                                [1000,result.insertId],
+                            )
                         )
                     }
                 )
@@ -140,10 +145,25 @@ app.get("/getAllOpinions",(req,res)=>{
         }
     )
 });
+app.post("/addOpinion",(req,res)=>{
+
+    const itemId = req.body.itemId;
+    const opinion = req.body.opinion;
+    db.query(
+        "INSERT INTO opinions (contents,itemId) VALUES (?,?)",
+        [opinion, itemId],
+        (err, result) => {
+            console.log(err);
+        })
+});
+
+
+
 
 
 app.post("/addItemToCart",(req,res)=>{
     const itemId = req.body.itemId;
+    console.log(itemId);
     const itemName = req.body.itemName;
     const itemPrice = req.body.itemPrice
     const userId = req.session.user[0].id;
@@ -226,6 +246,7 @@ app.post("/submitCart",(req,res)=> {
 
                             for(let j = 0; j < itemsFromCart.length; j++){
                                 let obj = {
+                                    itemId: itemsFromCart[j].item_id,
                                     itemName: itemsFromCart[j].product_name,
                                     itemQuantity: itemsFromCart[j].quantity,
                                     itemPrice: itemsFromCart[j].price * itemsFromCart[j].quantity,
@@ -375,7 +396,6 @@ app.get("/getItemCategory",(req,res)=>{
 });
 
 
-
 app.get("/getNumberOfImages",(req,res)=>{
     fs.readdir("./productImages", (err, files) => {
         let productImageNumber = [];
@@ -431,17 +451,45 @@ app.listen(3001,()=>{
 });
 
 
+app.post("/addMoney", (req, res)=>{
+    const amount=req.body.amount;
+    const userId = req.session.user[0].id;
+    db.query(
+        "update bank set value = value + ? where users_id = ?",
+        [amount,userId],
+        (err,result)=>{
+            console.log(err)
+        }
+    )
+});
+
+app.post("/subMoney", (req, res)=>{
+    const amount=req.body.amount;
+    const userId = req.session.user[0].id;
+    db.query(
+        "update bank set value = value - ? where users_id = ?",
+        [amount,userId],
+        (err,result)=>{
+            console.log(err)
+            console.log(amount)
+        }
+    )
+    });
+
 app.get("/accountInfo", (req, res) => {
     const userId = req.session.user[0].id;
-
     db.query(
         "SELECT * FROM users WHERE id = ?",
         userId,
-        (err,result)=>{
-            res.send(result[0]);
+        (err,result1)=>{
+            db.query(
+                "SELECT value FROM bank WHERE users_id = ?",
+                userId,
+                (err,result2)=>{
+                    res.send([{res1: result1[0], res2: result2[0]}])
+                });
         }
-    );
-
+    )
 });
 
 app.post("/clearCart",(req,res)=>{
@@ -494,17 +542,16 @@ app.post("/message/get", (req, res) => {
 // Getting list of people that user had a conversation with
 app.post("/message/getlist", (req, res) => {
     const idFrom = req.body.idFrom;
-
     db.query("SELECT message.id, message.UsersFrom, message.UsersTo, users.username " +
             "FROM message " +
             "JOIN users ON message.UsersFrom = users.id " +
-            "AND (message.UsersTo = ?)" +
+            "AND message.UsersTo = ? " +
             "GROUP BY users.username " +
             "ORDER BY message.id",
-            [idFrom, idFrom],
+            idFrom,
             (err, result) => {
+                //console.log(err)
                 res.send({result});
-                //console.log(result);
             })
 });
 

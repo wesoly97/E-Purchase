@@ -1,0 +1,44 @@
+  footer .row {
+    margin-bottom: 0;
+  }
+  footer .footer-icon {
+    color: #383535;
+    font-size: 20px;
+   
+  }
+  footer .footer-icon:hover {
+    color: red;
+   
+  }
+  footer .footer-icon-link {
+    background-color: white;
+
+   
+    margin-left: 2%;
+  }
+  footer .footer-icon-link:hover {
+    background-color: #383535;
+  }
+  
+  footer .footer-social {
+    color: #383535;
+    
+  }
+  footer .footer-social:hover {
+    color: white;
+    
+  }
+  footer .footer-social-link {
+    background-color: red;
+    margin-left: 1%;
+  
+    
+  }
+  footer .footer-social-link:hover {
+    background-color: #383535;
+  }
+  
+  .footer {
+    align-self: flex-end;
+    width: 100%;
+  }
