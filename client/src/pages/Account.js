@@ -4,11 +4,8 @@ import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import $ from "jquery";
 import M from "materialize-css";
-
+import Foot from "../layout/Footer";
 import "../styles/accountStyles.css"
-
-
-
 
 export default function Account(){
 
@@ -21,8 +18,10 @@ export default function Account(){
     const[money,setMoney] = useState("");
     const[isVerified,setisVerified] = useState("");
     const[orders,setOrders] = useState("");
+    const[stars,setStars] = useState(0);
 
     let tmpImg = " ";
+    const numbers = [1, 2, 3, 4, 5];
 
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.tooltipped');
@@ -98,6 +97,16 @@ export default function Account(){
 
         });
     }
+
+    const getNumberOfOpinions=()=>{
+        Axios.get("http://localhost:3001/getNumberOfOpinions").then((response) => {
+        setStars(response.data.result[0].number)
+        console.log(stars)
+        });
+    }
+
+
+
     function setImg(img, id1, id2){
         Axios.post('http://localhost:3001/getImage',
             {
@@ -110,7 +119,7 @@ export default function Account(){
             );
         });
     }
-    
+
 
     if(typeof(orders[0]) !== 'undefined' && orders[0] != null) {
     return(
@@ -120,7 +129,7 @@ export default function Account(){
             <div className="container">
                 <div className="row">
                     <div className="col s6">
-                        <h1>Informacje o koncie</h1>
+                        <h1 class="dontmove">Informacje o koncie</h1>
                     </div>
                 </div>
 
@@ -130,7 +139,14 @@ export default function Account(){
                         <h3><b>Nick:</b> {nick}</h3>
                         <h3><b>Imie: </b>{name}</h3>
                         <h3><b>Nazwisko:</b> {surname}</h3>
-                        <h3><b>Reputacja: </b><a className="btn-floating tooltipped pulse " data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek"><i className=" material-icons">star</i></a></h3>
+                        <h3><b>Reputacja: </b></h3>
+                        {
+                            getNumberOfOpinions(),
+                            numbers.map((number) =>
+                            number<=stars &&
+                            <a className="btn-floating tooltipped pulse" data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek, zalezy od zainteresowania użytkowników"><i className=" material-icons">star</i></a>
+                            )
+                        }
                         <h3><b>Zweryfikowany : </b>
                         {isVerified==1 &&
                         <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">done</i></a>
@@ -167,7 +183,7 @@ export default function Account(){
                     </div>
                 <div className="row">
                         <div className="col s6">
-                            <h1>Stan konta:</h1>
+                            <h1 class="dontmove">Stan konta:</h1>
                             <h3 id="h3money">{money} zł</h3>
                             
                             <button onClick={addMoney.bind(null,100)}className="btn waves-effect waves-light tooltipped green " type="submit" name="action" data-position="bottom" data-tooltip="Dodaj pieniadze">
@@ -182,6 +198,7 @@ export default function Account(){
 
                     </div>
                 </div>
+                <Foot></Foot>
             </div>
         
     )
@@ -193,7 +210,7 @@ export default function Account(){
             <div className="container">
                 <div className="row">
                     <div className="col s6">
-                        <h1>Informacje o koncie</h1>
+                        <h1 class="dontmove">Informacje o koncie</h1>
                     </div>
                 </div>
 
@@ -203,7 +220,14 @@ export default function Account(){
                         <h3><b>Nick:</b> {nick}</h3>
                         <h3><b>Imie: </b>{name}</h3>
                         <h3><b>Nazwisko:</b> {surname}</h3>
-                        <h3><b>Reputacja: </b><a className="btn-floating tooltipped pulse " data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek"><i className=" material-icons">star</i></a></h3>
+                        <h3><b>Reputacja: </b></h3>
+                        {
+                            getNumberOfOpinions(),
+                            numbers.map((number) =>
+                            number<=stars &&
+                            <a className="btn-floating tooltipped pulse " data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek, zalezy od zainteresowania użytkowników"><i className=" material-icons">star</i></a>
+                            )
+                        }
                         <h3><b>Zweryfikowany : </b>
                             {isVerified==1 &&
                             <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">done</i></a>
@@ -225,7 +249,7 @@ export default function Account(){
                 </div>
                 <div className="row">
                     <div className="col s6">
-                        <h1>Stan konta:</h1>
+                        <h1 class="dontmove">Stan konta:</h1>
                         <h3 id="h3money">{money} zł</h3>
 
                         <button onClick={addMoney.bind(null,100)}className="btn waves-effect waves-light tooltipped green " type="submit" name="action" data-position="bottom" data-tooltip="Dodaj pieniadze">
@@ -240,6 +264,7 @@ export default function Account(){
 
                 </div>
             </div>
+            <Foot></Foot>
         </div>)
     }
 }

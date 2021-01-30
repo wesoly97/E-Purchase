@@ -11,3 +11,12 @@ ul, li {
 .h3money{
     margin-top: 0px;
 }
+a{
+    margin-left: 5px;
+}
+.dontmove{
+    align-items: unset;
+    text-align: left;
+    display: unset;
+    justify-content: unset;
+}
