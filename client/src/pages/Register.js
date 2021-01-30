@@ -45,8 +45,23 @@ export default function Register(){
         }
 
         // Checking city
-        else if (!city.match(/[a-zA-Z]+\W*/)) {
-            Materialize.toast({html: "Niedozwolone znaki nazwie miasta!"});
+        else if (!city.match(/^[a-zA-Z\W]+$/)) {
+            Materialize.toast({html: "Niedozwolone znaki w nazwie miasta!"});
+        }
+
+        // Checking post-code (xx-xxx)
+        else if (!postCode.match(/[0-9][0-9]\-[0-9][0-9][0-9]/)) {
+            Materialize.toast({html: "Nieprawidłowy kod pocztowy (XX-XXX)!"});
+        }
+
+        // Checking street
+        else if (!street.match(/[[a-zA-Z]+\W]*[0-9]*[\/]*[0-9]*/)) {
+            Materialize.toast({html: "Nieprawidłowy adres"});
+        }
+
+        // Checking phone number
+        else if (!phoneContact.match(/[0-9]/)) {
+            Materialize.toast({html: "Numer telefonu może zawierać tylko cyfry!"});
         }
 
         // If everything is OK
