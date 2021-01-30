@@ -136,6 +136,7 @@ app.get("/getAllAuctions",(req,res)=>{
     db.query(
         "SELECT * FROM items",
         (err, result) => {
+            console.log(result);
             res.send(result);
         }
     )
@@ -625,3 +626,14 @@ app.post("/message/findUser", (req, res) => {
             console.log(result);
         })
 })
+
+app.get("/getNumberOfOpinions", (req, res) => {
+    const userId = req.session.user[0].id;
+
+    db.query("SELECT count(id) as number FROM message WHERE UsersTo = ?",
+    userId,
+        (err, result) => {
+            res.send({result})
+        })
+
+    })
