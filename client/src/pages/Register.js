@@ -177,7 +177,7 @@ export default function Register(){
           </div>      
               </form>
 
-             <button onClick={register} className="btn waves-effect waves-light btnRegister" type="submit" name="action">Register
+             <button onClick={register} className="btn waves-effect waves-light btnRegister brown darken-3" type="submit" name="action">Register
              <i className="material-icons right">send</i>
              </button>
              <h5>Posiadasz konto? Zaloguj sie
