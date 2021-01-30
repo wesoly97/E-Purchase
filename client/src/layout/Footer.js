@@ -79,7 +79,7 @@ const Foot = () => {
 
 */}
  <div class="col s5 push-s2">
-        <h5 class="white-text">Navigation:</h5>
+        <h5 class="white-text foott">Navigation:</h5>
         
         <Link to="/account" className="footer-social-link btn-floating waves-effect waves-light">
 				<i class="footer-icon" aria-hidden="true">                     

@@ -50,8 +50,8 @@ export default function Login(){
 <div className="animation">
 <div className="row">
 <div className="col s12 ">
-<h1><span className="eLetter">E-</span><span className="restLetter">PURCHASE</span></h1> 
-<h5 className="brown-text">Proszę, Zaloguj się do swojego konta</h5>
+<h1 class="size"><span className="eLetter">E-</span><span className="restLetter">PURCHASE</span></h1> 
+<h5 className="brown-text size">Proszę, Zaloguj się do swojego konta</h5>
 </div></div>
         <div className="container containerLogin ">
             
@@ -78,7 +78,7 @@ export default function Login(){
     </button>
 
  
-    <h5>Nie masz konta?
+    <h5 class="size">Nie masz konta?
         <button id="btnGoToRegsiter" onClick={goToRegister} className="btn waves-effect amber btnReg" type="submit" name="action">Zarejestruj się...
             <i className="material-icons right"><Icon path={mdiAccountPlusOutline} title="Log in"size={1} color="brown"/></i>
         </button>

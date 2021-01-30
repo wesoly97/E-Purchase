@@ -42,3 +42,7 @@
     align-self: flex-end;
     width: 100%;
   }
+  .foott
+  {
+    text-align: left !important;
+  }

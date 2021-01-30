@@ -117,8 +117,8 @@ export default function Register(){
 <div className="animation">
 <div className="row">
 <div className="col s12 ">
-<h1><span className="eLetter">E-</span><span className="restLetter">PURCHASE</span></h1> 
-<h5 className="brown-text">Proszę, Zarejestruj się!</h5>
+<h1 class="size"><span className="eLetter">E-</span><span className="restLetter">PURCHASE</span></h1> 
+<h5 className="brown-text size">Proszę, Zarejestruj się!</h5>
 </div></div>
         <div className="container containerRegister ">
             
@@ -181,7 +181,7 @@ export default function Register(){
              <button onClick={register} className="btn waves-effect waves-light btnRegister brown darken-3" type="submit" name="action">Register
              <i className="material-icons right"><Icon path={mdiAccountPlusOutline} title="Log in"size={1} color="white"/></i>
              </button>
-             <h5>Posiadasz konto? Zaloguj sie
+             <h5 class="size">Posiadasz konto? Zaloguj sie
              <button  onClick={goToLogin}  className="btn waves-effect amber btnLogin" type="submit" name="action">Zaloguj się...
              <i className="material-icons right"><Icon path={mdiLogin} title="Log in"size={1} color="brown"/></i>
              </button>
