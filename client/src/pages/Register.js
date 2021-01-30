@@ -112,86 +112,83 @@ export default function Register(){
     }, [name, surname, city]);
 
     return(
-        <div className="main">
-                    <h1>Register</h1>
-                        <div className="row">
-                            <div className="col s4">
-                                <label>Username</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setUsernameReg(e.target.value)
-                                    }
-                                />
-                                <label>Password</label>
-                                <input
-                                    type="password"
-                                    onChange={(e)=>
-                                        setPasswordReg(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div className="col s4">
-                                <label>Name</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setName(e.target.value)
-                                    }
-                                />
+        <div className="bodyRegister">    
+<div className="animation">
+<div className="row">
+<div className="col s12 ">
+<h1><span className="eLetter">E-</span><span className="restLetter">PURCHASE</span></h1> 
+<h5 className="brown-text">Proszę, Zarejestruj się!</h5>
+</div></div>
+        <div className="container containerRegister ">
+            
+        <div className="row rowRegister">
+       
+        <form className="col s12 ">
+        <h4>Dane osobowe:</h4>
+          <div className="row rowRegister">
+            <div className="input-field col s6">
+              
+              <label for="Username">Username</label>
+              <input id="Username" type="text" onChange={(e)=>setUsernameReg(e.target.value)}  />
+            </div>
+            <div className="input-field col s6">
+            
+            <label for="password">Password</label>
+            <input id="password" type="password"onChange={(e)=> setPasswordReg(e.target.value)} />
+          </div>
+            </div>
+          <div className="row rowRegister">
+            <div className="input-field col s6">
+            
+              <label for="name">Name</label>
+              <input id="name" type="text"onChange={(e)=>setName(e.target.value)} />
+            </div>
+            <div className="input-field col s6 ">
+            
+            <label for="Surname">Surname</label>
+            <input id="Surname" type="text"onChange={(e)=>setSurname(e.target.value)}/>
+          </div>
+          </div>
+          <div className="row rowRegister">
+          <h4 class="left-center">Adres:</h4>
+            <div className="input-field col s6">
+            
+              <label for="City">City</label>
+              <input id="City" type="text"onChange={(e)=>setCity(e.target.value)} />
+            </div>
+            <div className="input-field col s6 ">
+            
+            <label for="Postcode">Post code</label>
+            <input id="Postcode" type="text" onChange={(e)=>setPostCode(e.target.value)}/>
+          </div>
+          </div>  
+          
+          <div className="row rowRegister">
+            <div className="input-field col s6">
+            
+              <label for="Street">Street</label>
+              <input id="Street" type="text"onChange={(e)=>setStreet(e.target.value)} />
+            </div>
+            <div className="input-field col s6 ">
+            
+            <label for="Phonenumber">Phone number</label>
+            <input id="Phonenumber" type="text" onChange={(e)=>setPhoneContact(e.target.value)}/>
+          </div>
+          </div>      
+              </form>
 
-                                <label>Surname</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setSurname(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div className="col s4">
-                                <label>City</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setCity(e.target.value)
-                                    }
-                                />
-
-                                <label>Post code</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setPostCode(e.target.value)
-                                    }
-                                />
-
-                                <label>Street</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setStreet(e.target.value)
-                                    }
-                                />
-
-                                <label>Phone number</label>
-                                <input
-                                    type="text"
-                                    onChange={(e)=>
-                                        setPhoneContact(e.target.value)
-                                    }
-                                />
-
-
-                                <button onClick={register} className="btn waves-effect waves-light" type="submit" name="action">Register
-                                    <i className="material-icons right">send</i>
-                                </button>
-
-                                <button id="btnGoToRegsiter" onClick={goToLogin}  className="btn waves-effect amber" type="submit" name="action">Zaloguj się...
-                                    <i className="material-icons right">account_circle</i>
-                                </button>
-                            </div>
-                        </div>
-                        
-        </div>
+             <button onClick={register} className="btn waves-effect waves-light btnRegister" type="submit" name="action">Register
+             <i className="material-icons right">send</i>
+             </button>
+             <h5>Posiadasz konto? Zaloguj sie
+             <button  onClick={goToLogin}  className="btn waves-effect amber btnLogin" type="submit" name="action">Zaloguj się...
+             <i className="material-icons right">account_circle</i>
+             </button>
+             </h5>
+              </div>
+            
+              </div>
+              </div> 
+              </div>
     );
 }

@@ -34,6 +34,10 @@
     cursor: pointer;
     width: 100%;
   }
+  .btnReg
+    {
+        margin-left: 10px;
+    }
   .rowLogin
    {
      margin-bottom: 10px;
