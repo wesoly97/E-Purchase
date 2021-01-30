@@ -3,7 +3,8 @@ import Axios from "axios"; //http request library
 import { useHistory } from 'react-router-dom';
 import "../styles/Register.css"
 import Materialize from "materialize-css";
-
+import { mdiLogin, mdiAccountPlusOutline } from '@mdi/js';
+import Icon from '@mdi/react'
 export default function Register(){
     //User data to register
     const [usernameReg, setUsernameReg] = useState('');
@@ -178,11 +179,11 @@ export default function Register(){
               </form>
 
              <button onClick={register} className="btn waves-effect waves-light btnRegister brown darken-3" type="submit" name="action">Register
-             <i className="material-icons right">send</i>
+             <i className="material-icons right"><Icon path={mdiAccountPlusOutline} title="Log in"size={1} color="white"/></i>
              </button>
              <h5>Posiadasz konto? Zaloguj sie
              <button  onClick={goToLogin}  className="btn waves-effect amber btnLogin" type="submit" name="action">Zaloguj się...
-             <i className="material-icons right">account_circle</i>
+             <i className="material-icons right"><Icon path={mdiLogin} title="Log in"size={1} color="red"/></i>
              </button>
              </h5>
               </div>

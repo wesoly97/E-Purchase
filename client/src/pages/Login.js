@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react"
 import Axios from "axios"; //http request library
 import { useHistory } from 'react-router-dom';
 import "../styles/login.css"
-
+import { mdiLogin, mdiAccountPlusOutline } from '@mdi/js';
+import Icon from '@mdi/react'
 export default function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -73,13 +74,13 @@ export default function Login(){
               </form>
 
               <button onClick={login} className="btn waves-effect waves-light brown darken-3 btnlogin" type="submit" name="action">Login
-        <i className="material-icons right">send</i>
+        <i className="material-icons right"><Icon path={mdiLogin} title="Log in"size={1} color="white"/></i>
     </button>
 
  
     <h5>Nie masz konta?
         <button id="btnGoToRegsiter" onClick={goToRegister} className="btn waves-effect amber btnReg" type="submit" name="action">Zarejestruj się...
-            <i className="material-icons right">account_circle</i>
+            <i className="material-icons right"><Icon path={mdiAccountPlusOutline} title="Log in"size={1} color="brown"/></i>
         </button>
     </h5>
               </div>
