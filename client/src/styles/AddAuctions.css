@@ -1,55 +1,27 @@
-.textWhite{
-    color:black;
+.rowaddAuctions
+ {
+    background: white;
+    padding: 20px 25px;
+    border: 1px solid #3f2c2c;
+    height: auto;
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+    
+  }
+  textarea 
+  {
+    height: 8rem !important;
+    border: 1px solid #26a69a !important;
+   
 }
-
-#newOfferForm{
-    margin: 0 auto;
+.materialize-textarea:focus:not([readonly]) + label 
+{
+    margin-top: -15px !important;
 }
-
-#napisDodaj{
-    text-align: center;
-}
-
-#itemName{
-    width: 20%;
-    background: #b2dfdb;
-}
-
-#btnRow{
-    text-align: right;
-}
-
-#itemCena{
-    max-width: 5%;
-    background: #b2dfdb;
-}
-
-#itemKategoria{
-    max-width: 20%;
-}
-
-label{
-    font-size: 24px;
-}
-
-#selectInput{
-    background: #b2dfdb;
-    max-width: 20%;
-}
-
-#itemTextAre{
-    background: #b2dfdb;
-}
-
-#labelKategoria{
-    font-size: 24px;
-}
-
-#imageCol{
-    margin: auto;
-}
-
-#btnDiv{
-    max-width: 30%;
-    min-width: 30%;
+.materialize-textarea + label 
+{
+    margin-left:5px ;
+        
 }

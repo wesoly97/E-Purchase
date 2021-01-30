@@ -7,6 +7,7 @@ import $ from "jquery"
 import M from "materialize-css"
 import ImageUpload from "../components/ImageUpload"
 import Foot from "../layout/Footer";
+import { Select } from 'react-materialize';
 //#4db6ac
 
 export default function AddAuction(){
@@ -81,115 +82,110 @@ export default function AddAuction(){
         return(
             <div>
                 <Navbar/>
-                <div className="row">
-                    <div className="col s1">
-
+               <div className="container">
+                   <h1>Narzędzie dodawania ofert:</h1>
+                    <div className="row rowaddAuctions">
+                        <div className="col s12">
+                            <h5>Podstawowe informacje na temat produktu:</h5>
+                            <form>
+                            <div className="input-field col s12">
+                            <input id="nazwaProduktu" type="text" onChange={(e)=>setItemName(e.target.value) }/>
+                            <label htmlFor="nazwaProduktu">Nazwa produktu</label>
+                            </div>
+                            <div className="col s12">
+                            <div id="selectInput" className="input-field">
+                            <Select
+                            id="Select-9"
+                            multiple={false}
+                            label="Wybierz kategorie"
+                            onChange={(e)=> {
+                            setItemCategory(e.target.value);}}
+                            options={{
+                            classes: '',
+                            dropdownOptions: {
+                            alignment: 'left',
+                            autoTrigger: true,
+                            closeOnClick: true,
+                            constrainWidth: true,
+                            coverTrigger: true,
+                            hover: false,
+                            inDuration: 150,
+                            onCloseEnd: null,
+                            onCloseStart: null,
+                            onOpenEnd: null,
+                            onOpenStart: null,
+                            outDuration: 250 }}}
+                            value="1">
+                        <optgroup label="AGD">
+                        <option value="1">Telewizory</option>
+                        <option value="2">Pralki</option>
+                        <option value="3">Lodówki</option>
+                    </optgroup>
+                    <optgroup label="Komputery i laptopy">
+                        <option value="4">Podzespoły komputerowe</option>
+                        <option value="5">Myszki</option>
+                        <option value="6">Klawiatury</option>
+                    </optgroup>
+                    <optgroup label="Ubrania">
+                        <option value="7">Koszulki męskie</option>
+                        <option value="8">Koszulki damskie</option>
+                        <option value="9">Krawaty</option>
+                    </optgroup>
+                    </Select>
+                            </div>
+                             </div>
+                             <div className="input-field col s1">
+                            <input id="quantity" type="text" onChange={(e)=>setItemQuant(e.target.value) }/>
+                            <label htmlFor="quantity">ilość</label>
+                            </div>
+                            <div className="input-field col s1">
+                            <input id="price" type="text" onChange={(e)=>setItemPrice(e.target.value) }/>
+                            <label htmlFor="price">Cena</label>
+                            </div>
+                            </form>
+                        </div>
                     </div>
-                    <div className="col s5">
-                        <h3 id="napisDodaj" className="textWhite"><b>Dodaj nową ofertę</b></h3>
-                        <form id="newOfferForm">
-
-                            <div className="row">
-                                <label className="textWhite" htmlFor="last_name"><b>Nazwa produktu:</b></label>
-                                <input
-                                    id="itemName"
-                                    type="text"
-                                    className="validate"
-                                    onChange={(e)=>
-                                        setItemName(e.target.value)
-                                    }
-                                />
+                    <div className="row rowaddAuctions">
+                        <div className="col s12">
+                            <h5>Opis:</h5>
+                            <form>
+                            <div class="input-field col s12">
+                            <textarea id="textarea" class="materialize-textarea inline"      onChange={(e)=>
+                    setItemDesc(e.target.value)
+                } ></textarea>
+                            <label id="textAreaLabel" for="textarea " className="active">Textarea</label>
                             </div>
-
-                            <br></br><br></br>
-                            <div className="row">
-                                <label id="labelKategoria" htmlFor="itemKategoria" className="textWhite"><b>Kategoria:</b></label>
-                                <div id="selectInput" className="input-field">
-                                    <select
-                                        id="itemKategoria"
-                                        onChange={(e)=> {
-                                            setItemCategory(e.target.value);
-                                        }
-                                        }
-                                    >
-                                        <optgroup label="AGD">
-                                            <option value="1">Telewizory</option>
-                                            <option value="2">Pralki</option>
-                                            <option value="3">Lodówki</option>
-                                        </optgroup>
-                                        <optgroup label="Komputery i laptopy">
-                                            <option value="4">Podzespoły komputerowe</option>
-                                            <option value="5">Myszki</option>
-                                            <option value="6">Klawiatury</option>
-                                        </optgroup>
-                                        <optgroup label="Ubrania">
-                                            <option value="7">Koszulki męskie</option>
-                                            <option value="8">Koszulki damskie</option>
-                                            <option value="9">Krawaty</option>
-                                        </optgroup>
-                                    </select>
-
-
-                                </div>
-                            </div>
-
-                            <br></br><br></br>
-                            <div className="row">
-                                <label htmlFor="itemTextAre" className="textWhite"><b>Szczegółowy opis:</b></label>
-                                <textarea
-                                    id="itemTextAre"
-                                    className="materialize-textarea"
-                                    onChange={(e)=>
-                                        setItemDesc(e.target.value)
-                                    }
-                                ></textarea>
-                            </div>
-
-                            <br></br><br></br>
-                            <div className="row">
-                                <label htmlFor="last_name" className="textWhite"><b>Ilosc dostępnych sztuk: </b></label>
-                                <input
-                                    id="itemCena"
-                                    type="text"
-                                    className="validate"
-                                    onChange={(e)=>
-                                        setItemQuant(e.target.value)
-                                    }
-                                />szt
-                            </div>
-
-                            <br></br><br></br>
-                            <div className="row">
-                                <label htmlFor="last_name" className="textWhite"><b>Cena jednostkowa produktu: </b></label>
-                                <input
-                                    id="itemCena"
-                                    type="text"
-                                    className="validate"
-                                    onChange={(e)=>
-                                        setItemPrice(e.target.value)
-                                    }
-                                />zł
-                            </div>
-
-
-                        </form>
-
-
+                            </form>
+                        </div>
                     </div>
-                    <div id="imageCol" className="col s4">
+                    <div className="row rowaddAuctions">
+                        <div className="col s12">
+                            <h5>Dodaj zdjęcie:</h5>
+                            <form>
+                            <div class="input-field col s12">
                             <ImageUpload/>
-                    </div>
-                    <div id="divSubmit" className="col s2">
-                        <form>
-                            <div id="btnRow" className="row">
-                                <button onClick={addNewAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj ofertę
-                                    <i className="material-icons right">send</i>
-                                </button>
                             </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-
-                </div>
+                    <div className="row rowaddAuctions">
+                        <div className="col s12">
+                       
+                            <form>
+                            <div class="input-field col s10">
+                            Jeżeli umieściełeś potrzebne informacje kliknij na przycisk po prawej stronie, który umieści ofrtę!
+                            </div>
+                            <div class="input-field col s1">
+                            <div id="btnRow" className="row">
+            <button onClick={addNewAuction} className="btn waves-effect waves-light" type="submit" name="action">Dodaj ofertę
+                <i className="material-icons right">send</i>
+            </button>
+        </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+               </div>
                 <Foot></Foot>
             </div>
             );
