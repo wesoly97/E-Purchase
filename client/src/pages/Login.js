@@ -78,7 +78,7 @@ export default function Login(){
 
  
     <h5>Nie masz konta?
-        <button id="btnGoToRegsiter" onClick={goToRegister} className="btn waves-effect amber" type="submit" name="action">Zarejestruj się...
+        <button id="btnGoToRegsiter" onClick={goToRegister} className="btn waves-effect amber btnReg" type="submit" name="action">Zarejestruj się...
             <i className="material-icons right">account_circle</i>
         </button>
     </h5>
