@@ -15,10 +15,10 @@ export default function Main(props){
 
     if(typeof(props.tmpImg) !== 'undefined' && props.tmpImg != null) {
         return (
-            <div className="card">
+            <div className="card background">
                 <a href="#1">
                     <div className="card-image ">
-                        <img src={props.tmpImg} className="responsive-img circle" height="256" width="256"></img>
+                        <img src={props.tmpImg} className="responsive-img  " height="256" width="256"></img>
                     </div>
                     <div className="card-content">
                     </div>
@@ -31,7 +31,7 @@ export default function Main(props){
             <div className="card">
                 <a href="#1">
                     <div className="card-image ">
-                        <img src={logo} className="responsive-img circle" height="256" width="256"></img>
+                        <img src={logo} className="responsive-img  " height="256" width="256"></img>
                     </div>
                     <div className="card-content">
                     </div>

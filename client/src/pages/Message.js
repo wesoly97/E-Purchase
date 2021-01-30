@@ -5,12 +5,11 @@ import { useHistory } from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Materialize from "materialize-css";
 import $ from 'jquery';
-
+import Foot from "../layout/Footer";
 export default function Main(){
 
     const history = useHistory();
     Axios.defaults.withCredentials = true;//zajebiscie wazne
-
 
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
@@ -28,13 +27,6 @@ export default function Main(){
         console.log(response);
         setIdFrom(response.data[0].res1.id);
     });
-
-    Axios.get('http://localhost:3001/accountInfo',
-    ).then((response)=> {
-        console.log(response);
-        setIdFrom(response.data.id);
-    });
-
 
     useEffect(()=>{
         //jQuerry reload page once after load to make 'select' work - stupid but works
@@ -63,8 +55,9 @@ export default function Main(){
         Axios.post("http://localhost:3001/message/getlist", {
             idFrom: idFrom
         }).then((response) => {
-            setInterlocutorArray([]);
+            //setInterlocutorArray([]);
             setInterlocutorArray(response.data.result);
+
         })
     }, [idFrom]);
 
@@ -161,6 +154,7 @@ export default function Main(){
 
     }, [messes]);
 
+
     for(const [index, value] of interlocutorArray.entries()){
         interlocutors.push(<a href="#" value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item grey darken-3">{value.username}</a>)
     }
@@ -228,7 +222,10 @@ export default function Main(){
                         </div>
                     </div>
                 </div>
+                
             </div>
+            <br></br><br></br><br></br><br></br><br></br>
+            <Foot></Foot>
         </div>
     )
 
