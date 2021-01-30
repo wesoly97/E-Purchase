@@ -217,7 +217,7 @@ app.post("/buyOneItem",(req,res)=>{
     const itemQuant = req.body.itemQuant;
     const itemPrice = req.body.itemPrice;
 
-    let itemBougth = [{itemName: itemName, itemQuantity: itemQuant, itemPrice:itemPrice}]
+    let itemBougth = [{itemId:itemId, itemName: itemName, itemQuantity: itemQuant, itemPrice:itemPrice}]
 
     console.log("ID = "+itemId)
     db.query(

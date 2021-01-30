@@ -74,7 +74,6 @@ export default function Main(){
         Axios.post('http://localhost:3001/addOpinion',
             {
                 itemId: itemId,
-               
                 opinion:document.getElementById(opinion).value
             }).then((response)=> {
         });
