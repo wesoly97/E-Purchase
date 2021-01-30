@@ -26,7 +26,7 @@ export default function Main(){
     Axios.get('http://localhost:3001/accountInfo',
     ).then((response)=> {
         console.log(response);
-        setIdFrom(response.data.id);
+        setIdFrom(response.data[0].res1.id);
     });
 
     Axios.get('http://localhost:3001/accountInfo',
