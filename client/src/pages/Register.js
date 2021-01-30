@@ -183,7 +183,7 @@ export default function Register(){
              </button>
              <h5>Posiadasz konto? Zaloguj sie
              <button  onClick={goToLogin}  className="btn waves-effect amber btnLogin" type="submit" name="action">Zaloguj się...
-             <i className="material-icons right"><Icon path={mdiLogin} title="Log in"size={1} color="red"/></i>
+             <i className="material-icons right"><Icon path={mdiLogin} title="Log in"size={1} color="brown"/></i>
              </button>
              </h5>
               </div>
