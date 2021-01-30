@@ -25,9 +25,8 @@ export default function Main(){
     Axios.get('http://localhost:3001/accountInfo',
     ).then((response)=> {
         console.log(response);
-        setIdFrom(response.data.id);
+        setIdFrom(response.data[0].res1.id);
     });
-
 
     useEffect(()=>{
         //jQuerry reload page once after load to make 'select' work - stupid but works
@@ -157,7 +156,7 @@ export default function Main(){
 
 
     for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item ">{value.username}</a>)
+        interlocutors.push(<a href="#" value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item grey darken-3">{value.username}</a>)
     }
 
 
@@ -206,7 +205,6 @@ export default function Main(){
                         <div id="scroll" style={{overflowY: "auto", height: "400px", overflowX: "hidden"}}>
                             <div className="row">
                                 {messes}
-                                <input id="scrollHere" type="hidden"/>
 
                             </div>
                         </div>
