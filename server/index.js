@@ -15,6 +15,7 @@ const session = require('express-session');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const { Console } = require('console');
+const { request } = require('http');
 
 const app = express();
 
@@ -637,3 +638,24 @@ app.get("/getNumberOfOpinions", (req, res) => {
         })
 
     })
+
+    app.post("/setVerified", (req, res) => {
+        const userId = req.session.user[0].id;
+        const number = req.body.number;
+        console.log(number + "siema")
+        if(number>2){
+        db.query("update users set isVerified = 1 where id = ?",
+        userId,
+            (err, result) => {
+                res.send({result})
+            })
+        }
+        else{
+            db.query("update users set isVerified = 0 where id = ?",
+            userId,
+                (err, result) => {
+                    res.send({result})
+                })
+            }
+    
+        })

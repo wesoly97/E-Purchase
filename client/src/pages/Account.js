@@ -52,6 +52,7 @@ export default function Account(){
     useEffect(()=>{
 
         //jQuerry reload page once after load to make 'select' work - stupid but works
+        getNumberOfOpinions();
         accountInfo();
         getUserOrders();
         $(document).ready(function(){
@@ -81,7 +82,7 @@ export default function Account(){
             setName(response.data[0].res1.name);
             setSurname(response.data[0].res1.surname);
             setMoney(response.data[0].res2.value);
-            setisVerified(response.data[0].res1.isVerified)
+            setisVerified(response.data[0].res1.isVerified);
         });
     }
 
@@ -101,9 +102,16 @@ export default function Account(){
     const getNumberOfOpinions=()=>{
         Axios.get("http://localhost:3001/getNumberOfOpinions").then((response) => {
         setStars(response.data.result[0].number)
-        console.log(stars)
         });
     }
+
+    const setVerified = (stars) => {
+        Axios.post('http://localhost:3001/setVerified',
+            {
+                number:stars
+            }).then((response) => {
+            });
+    };
 
 
 
@@ -142,6 +150,7 @@ export default function Account(){
                         <h3><b>Reputacja: </b></h3>
                         {
                             getNumberOfOpinions(),
+                            setVerified(stars),
                             numbers.map((number) =>
                             number<=stars &&
                             <a className="btn-floating tooltipped pulse" data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek, zalezy od zainteresowania użytkowników"><i className=" material-icons">star</i></a>
