@@ -359,6 +359,7 @@ export default function Main() {
                         </div>
                     </div>
                 </div>
+                <div className="AppAu"></div>
                 <Foot></Foot>
             </div>
         )
@@ -380,6 +381,7 @@ export default function Main() {
                     </div>
 
                 </div>
+                
                 <Foot></Foot>
             </div>
         )
