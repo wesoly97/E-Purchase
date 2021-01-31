@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Axios from "axios";
-
+import { Row,Col,Preloader } from 'react-materialize';
 import {useHistory} from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Carousel from "../layout/Carousel";
@@ -12,11 +12,13 @@ export default function Main(){
 
     const[role,setRole] = useState("");
     const history = useHistory();
-
+    
     const[tmpImg1,setTmpImg1] = useState("");
     const[tmpImg2,setTmpImg2] = useState("");
     const[tmpImg3,setTmpImg3] = useState("");
     const[tmpImg4,setTmpImg4] = useState("");
+const [isLoading,setLoading]=useState(true);
+const licznik=0;
 
     Axios.defaults.withCredentials = true;//zajebiscie wazne
     useEffect(()=>{
@@ -28,7 +30,7 @@ export default function Main(){
             if(document.URL.indexOf("#")===-1){
                 let url = document.URL+"#";
                 window.location = "#";
-                window.location.reload(true);
+                
             }
         });
 
@@ -47,19 +49,30 @@ export default function Main(){
     async function createThreeImages(){
         await Axios.get('http://localhost:3001/getNumberOfImages',
                 {
+                  
                 }).then((response)=> {
                     let imgNum = response.data;
                     runSetImages(imgNum[0], imgNum[1], imgNum[2], imgNum[3]).then(r  => console.log("test"))
+                   
+                    
                 }
     )}
-
+    function timeout(delay) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
     //////////////////////////////////////
     async function runSetImages(img1,img2,img3,img4){
         await Promise.all([
             (async()=>console.log(await setImg1(img1)))(),
+            await timeout(1000), 
             (async()=>console.log(await setImg2(img2)))(),
+            await timeout(1000), 
             (async()=>console.log(await setImg3(img3)))(),
-            (async()=>console.log(await setImg4(img4)))(),
+            await timeout(1000), 
+            (async()=>console.log(await setImg4(img4)))(),      
+            await timeout(1000),   
+            setLoading(false),
+            
         ]);
     }
 
@@ -71,7 +84,9 @@ export default function Main(){
             }).then((response)=> {
             setTmpImg1('data:image/png;base64,'+response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, ""));
             console.log("SET IMAGE 1");
-        });
+          
+
+        }).catch();
     }
 
     async function setImg2(img){
@@ -81,44 +96,46 @@ export default function Main(){
             }).then((response)=> {
             setTmpImg2('data:image/png;base64,'+response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, ""));
             console.log("SET IMAGE 2");
-        });
+            
+        }).catch(
+            
+        )
     }
 
-    async function setImg3(img){
-        await Axios.post('http://localhost:3001/getImage',
-            {
-                imgNum: img
-            }).then((response)=> {
-            setTmpImg3('data:image/png;base64,'+response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, ""));
-            console.log("SET IMAGE 3");
-        });
-    }
-
-    async function setImg4(img){
-        await Axios.post('http://localhost:3001/getImage',
-            {
-                imgNum: img
-            }).then((response)=> {
-            setTmpImg4('data:image/png;base64,'+response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, ""));
-            console.log("SET IMAGE 4");
-        });
-    }
-
-    window.onload = function() {
-        if(!window.location.hash) {
-            window.location = window.location + '#loaded';
-            window.location.reload();
-            window.location.reload();
+        async function setImg3(img){
+            await Axios.post('http://localhost:3001/getImage',
+                {
+                    imgNum: img
+                }).then((response)=> {
+                setTmpImg3('data:image/png;base64,'+response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, ""));
+                console.log("SET IMAGE 3");
+                
+            }).catch()
         }
-    }
+            async function setImg4(img){
+                await Axios.post('http://localhost:3001/getImage',
+                    {
+                        imgNum: img
+                    }).then((response)=> {
+                    setTmpImg4('data:image/png;base64,'+response.data.imgBase64.replace(/(\r\n|\n|\r)/gm, ""));
+                    console.log("SET IMAGE 4");
+                    
+                }).catch()
+
+            }
 
     //////////////////////////////////////
     if(typeof(tmpImg4) !== 'undefined' && tmpImg4 != null) {
         return (
             <div>
+                {!isLoading && 
+                <div>
                 <Navbar/>
+                
                 <div className="container">
+                    
                     <Carousel/>
+                    
                     <div className="row">
                         <h3>Najbardziej popularne!</h3>
                         <div className="col s8 m5 l3 center-align">
@@ -142,8 +159,28 @@ export default function Main(){
                             />
                         </div>
                     </div>
+                    
                 </div>
                 <Foot></Foot>
+           </div>
+           
+            }
+                
+                
+            {isLoading&&
+            <div class="back">
+              <div class="wrapper">
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="circle"></div>
+              <div class="shadow"></div>
+              <div class="shadow"></div>
+              <div class="shadow"></div>
+              <span>Loading</span>
+              
+          </div>
+          </div>
+           }
             </div>
         )
     }

@@ -66,7 +66,7 @@ const Navbar = () => {
                                     <i className="material-icons">menu</i>
                                 </a>
                             </div>
-                            <div className="col s3">
+                            <div className="col s4">
                                 <form action="" method="post">
                                     <div className="input-field hide-on-med-and-down">
                                         <input id="search" type="search" name="search"></input>
@@ -77,9 +77,7 @@ const Navbar = () => {
                                 </form>
                             </div>
 
-                            <div className="col s2 hide-on-med-and-down">
-                                <h5>${userBalance}</h5>
-                            </div>
+                        
 
                             <div className="col s5">
                                 <ul className="right hide-on-med-and-down">
@@ -113,6 +111,7 @@ const Navbar = () => {
                 <li> <NavLink to="/home"><i className="material-icons left">home</i>HOME</NavLink></li>
                 <li> <NavLink to="/account" ><i className="material-icons left">account_circle</i>INFORMACJE O KONCIE</NavLink></li>
                 <li> <NavLink to="/orders" ><i className="material-icons left">business_center</i>ZAMÓWIENIA</NavLink></li>
+                <li> <NavLink to="/cart"><i className="material-icons left">shopping_cart</i>KOSZYK</NavLink></li>
                 <li> <NavLink to="/message" ><i className="material-icons left">message</i>WIADOMOŚĆI</NavLink></li>
                 <li> <NavLink to="/auctions" ><i className="material-icons left">shop</i>WSZYSTKIE AUKCJE</NavLink></li>
                 <li> <NavLink to="/addAuction" ><i className="material-icons left">shop_two</i>DODAJ AUKCJE</NavLink></li>
@@ -132,6 +131,8 @@ const Navbar = () => {
                 <li> <NavLink to="/addAuction" ><i className="material-icons left">shop_two</i>Dodaj Aukcje</NavLink></li>
             </ul>
             <ul id='dropdownAccount' className='dropdown-content'>
+            
+            <li > <NavLink to="/account" ><i className=" material-icons left">attach_money</i> Balance: ${userBalance}</NavLink></li>
                 <li > <NavLink to="/account" ><i className=" material-icons left">account_circle</i>Informacje o koncie</NavLink></li>
                 <li> <NavLink to="/orders" ><i className="material-icons left">business_center</i>Zamówienia</NavLink></li>
             </ul>

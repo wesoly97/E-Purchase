@@ -24,3 +24,10 @@ ul, li {
 .simpleBtn{
     margin-left: 10px;
 }
+.AppAu {
+    text-align: center;
+    display: flex;
+    min-height: 15vh;
+    margin: 0;
+  }
+  
