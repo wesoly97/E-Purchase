@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import "../styles/login.css"
 import { mdiLogin, mdiAccountPlusOutline } from '@mdi/js';
 import Icon from '@mdi/react'
+import Materialize from "materialize-css";
 export default function Login(){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -23,6 +24,7 @@ export default function Login(){
             if(response.data.message){
                 console.log(response);
                 setLoginStatus(response.data.message);
+                Materialize.toast({html: response.data.message}); // alert when user does not exist or wrong credentials
             }
             else{
                 console.log(response);
@@ -40,7 +42,6 @@ export default function Login(){
         Axios.get("http://localhost:3001/login").then((response) => {
             if (response.data.loggedIn === true) {
                 setLoginStatus(response.data.user[0].username);
-        
             }
         });
     }, []);
