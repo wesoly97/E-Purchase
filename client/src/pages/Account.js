@@ -52,7 +52,6 @@ export default function Account(){
     useEffect(()=>{
 
         //jQuerry reload page once after load to make 'select' work - stupid but works
-        getNumberOfOpinions();
         accountInfo();
         getUserOrders();
         $(document).ready(function(){
@@ -128,7 +127,6 @@ export default function Account(){
         });
     }
 
-
     if(typeof(orders[0]) !== 'undefined' && orders[0] != null) {
     return(
         
@@ -149,8 +147,9 @@ export default function Account(){
                         <h3><b>Nazwisko:</b> {surname}</h3>
                         <h3><b>Reputacja: </b></h3>
                         {
-                            getNumberOfOpinions(),
+                            
                             setVerified(stars),
+                            getNumberOfOpinions(),
                             numbers.map((number) =>
                             number<=stars &&
                             <a className="btn-floating tooltipped pulse" data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek, zalezy od zainteresowania użytkowników"><i className=" material-icons">star</i></a>
@@ -163,7 +162,7 @@ export default function Account(){
                         {isVerified==0 &&
                         <a className="btn-floating tooltipped red pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">close</i></a>
                         }</h3>
-
+                        {console.log(isVerified)}
                     </div>
                     <div className="col s6">
                         <h2>Historia Zakupów</h2>
@@ -231,20 +230,23 @@ export default function Account(){
                         <h3><b>Nazwisko:</b> {surname}</h3>
                         <h3><b>Reputacja: </b></h3>
                         {
+                            
+                            setVerified(stars),
                             getNumberOfOpinions(),
                             numbers.map((number) =>
                             number<=stars &&
-                            <a className="btn-floating tooltipped pulse " data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek, zalezy od zainteresowania użytkowników"><i className=" material-icons">star</i></a>
+                            <a className="btn-floating tooltipped pulse" data-position="bottom" data-tooltip="Skala reputacji do max 5 gwiazdek, zalezy od zainteresowania użytkowników"><i className=" material-icons">star</i></a>
                             )
                         }
                         <h3><b>Zweryfikowany : </b>
-                            {isVerified==1 &&
-                            <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">done</i></a>
-                            }
-                            {isVerified==0 &&
-                            <a className="btn-floating tooltipped red pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">close</i></a>
-                            }</h3>
-
+                        {isVerified==1 &&
+                        <a className="btn-floating tooltipped green pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">done</i></a>
+                        }
+                        {isVerified==0 &&
+                        <a className="btn-floating tooltipped red pulse" data-position="bottom" data-tooltip="Aby być zweryfikowanym musisz mieć conajmniej 3 gwiazdki reputacji"><i className="material-icons">close</i></a>
+                        }
+                        {console.log(isVerified)}
+                        </h3>
                     </div>
                     <div className="col s6">
                         <h2>Historia Zakupów</h2>

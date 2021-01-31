@@ -643,6 +643,7 @@ app.get("/getNumberOfOpinions", (req, res) => {
         const userId = req.session.user[0].id;
         const number = req.body.number;
         console.log(number + "siema")
+        if(number>0){
         if(number>2){
         db.query("update users set isVerified = 1 where id = ?",
         userId,
@@ -657,5 +658,5 @@ app.get("/getNumberOfOpinions", (req, res) => {
                     res.send({result})
                 })
             }
-    
+        }
         })
