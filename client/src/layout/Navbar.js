@@ -57,7 +57,7 @@ const Navbar = () => {
             <nav>
                 <div className="nav-wrapper grey darken-3">
                     <div className="container">
-                        <div className="row">
+                        <div className="row navRow">
                             <div className="col s1">
                                 <Link to="/Home" className="brand-logo ">E-Purchase</Link>
                             </div>

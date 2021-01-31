@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Axios from "axios";
-import { Row,Col,Preloader } from 'react-materialize';
+import {Parallax} from 'react-parallax';
 import {useHistory} from 'react-router-dom';
 import Navbar from "../layout/Navbar";
 import Carousel from "../layout/Carousel";
@@ -8,6 +8,8 @@ import Card from "../layout/Card";
 import '../styles/Home.css'
 import $ from "jquery";
 import Foot from "../layout/Footer";
+import home from '../img/HomeImg.jpg';
+import { mdiDotsVertical } from "@mdi/js";
 export default function Main(){
 
     const[role,setRole] = useState("");
@@ -123,6 +125,7 @@ const licznik=0;
                 }).catch()
 
             }
+            const image1="https://www.goodfreephotos.com/albums/other-photos/numbers/red-number-1.png"
 
     //////////////////////////////////////
     if(typeof(tmpImg4) !== 'undefined' && tmpImg4 != null) {
@@ -131,13 +134,23 @@ const licznik=0;
                 {!isLoading && 
                 <div>
                 <Navbar/>
-                
+                <div className="row homeimg">
+                    <div className="col s12">
+                        
+                <Parallax  bgImage={home} >
+                    <div className="homeimg"style={{height:1000}} ></div>
+            </Parallax>
+            </div>
+            </div> 
                 <div className="container">
+ 
+                <div className="row">
                     
-                    <Carousel/>
-                    
-                    <div className="row">
-                        <h3>Najbardziej popularne!</h3>
+                    <div class="col s12">
+                    </div>
+                    </div>
+                    <div className="row rowaddAuctions">
+                        <h3>Musisz Zobaczyć te rzeczy!</h3>
                         <div className="col s8 m5 l3 center-align">
                             <Card
                                 tmpImg={tmpImg1}

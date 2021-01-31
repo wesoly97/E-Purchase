@@ -31,3 +31,7 @@ nav .right{
 {
 color: green;
 }
+.navRow
+{
+  margin-bottom: 0px !important;
+}
