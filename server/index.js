@@ -19,6 +19,8 @@ const { request } = require('http');
 
 const app = express();
 
+app.set('view engine','ejs')
+
 app.use(express.json());
 app.use(cors({
     origin: ["http://localhost:3000"],
