@@ -14,11 +14,11 @@ export default function Main(){
     const [role,setRole] = useState("");
     const [messageText, setMessageText] = useState("");
     const [idFrom, setIdFrom] = useState("");
-    const [idTo, setIdTo] = useState(""); // user id to who we write message
+    const [idTo, setIdTo] = useState(null); // user id to who we write message
     const [messages, setMessages] = useState([]);
     const [interlocutorArray, setInterlocutorArray] = useState([]);
     const [username, setUsername] = useState("");
-    const [writeTo, setWriteTo] = useState("");
+    const [writeTo, setWriteTo] = useState("Wybierz osobę do rozmowy");
     let interlocutors = [];
     let messes = [];
 
@@ -129,8 +129,8 @@ export default function Main(){
             if(response.data.result[0] != null){
                 setIdTo(response.data.result[0].id);
                 Materialize.toast({html: 'Pobieranie rozmowy...'});
-                Materialize.toast({html: 'Piszesz wiadomość do ' + username});
-                setWriteTo(">> Nowa wiadomość do " + username);
+                Materialize.toast({html: 'Piszesz wiadomość do użytkownika ' + username});
+                setWriteTo(username);
             }
             else {
                 Materialize.toast({html: 'Nie znaleziono użytkownika!'});
@@ -139,9 +139,10 @@ export default function Main(){
     }
 
     // Wybór osoby do rozmowy z panelu po boku
-    const selectInterlocutor = (id) =>{
+    const selectInterlocutor = (id, username) =>{
         history.push("/message");
         setIdTo(id);
+        setWriteTo(username);
         Materialize.toast({html: 'Pobieranie rozmowy...'});
     }
 
@@ -156,22 +157,27 @@ export default function Main(){
 
 
     for(const [index, value] of interlocutorArray.entries()){
-        interlocutors.push(<a href="#" value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom)} className="collection-item grey darken-3">{value.username}</a>)
+        interlocutors.push(<a style={{borderColor: "rgb(22, 22, 22)"}} href="#" value={value.UsersFrom} onClick={() => selectInterlocutor(value.UsersFrom, value.username)} className="collection-item grey darken-3">{value.username}</a>)
     }
 
 
     const sendMessage = () => {
-        Axios.post("http://localhost:3001/message/send", {
-            messageText: messageText,
-            idFrom: idFrom,
-            idTo: idTo
-        }).then((response) => {
-        });
-        document.getElementById("messageText").value = "";
+        if(idTo!=null){
+            Axios.post("http://localhost:3001/message/send", {
+                messageText: messageText,
+                idFrom: idFrom,
+                idTo: idTo
+            }).then((response) => {
+            });
+            document.getElementById("messageText").value = "";
 
-        setMessageText("");
-        Materialize.toast({html: 'Wiadomość została wysłana'});
-        history.push("/message");
+            setMessageText("");
+            Materialize.toast({html: 'Wiadomość została wysłana'});
+            history.push("/message");
+        }
+        else{
+            Materialize.toast({html: "Musisz wybrać rozmówcę!"});
+        }
 
     };
 
@@ -181,9 +187,10 @@ export default function Main(){
             <Navbar/>
 
             <div className="container grey darken-4">
-            <h1 style={{textAlign: "center", paddingTop: "20px", color: "white", fontSize: "40px", fontWeight: "lighter"}}>Wiadomości <span style={{fontSize: "medium"}}>{writeTo}</span></h1>
+            <h1 style={{textAlign: "center", paddingTop: "20px", color: "white", fontSize: "40px", fontWeight: "lighter"}}>Wiadomości</h1>
+                <h5 style={{borderRadius: "20px", color: "white", textAlign: "center", backgroundColor: "rgb(244, 67, 54)", paddingBottom: "5px", marginLeft: "35%", marginRight: "35%"}}>{writeTo}</h5>
                 <hr style={{border: "1px solid white"}}/>
-                <div className="row ">
+                <div className="row">
                     <div className="col s3">
                         <div class="row">
                             <div class="col s9">
@@ -193,11 +200,13 @@ export default function Main(){
                                 </div>
                             </div>
                             <div class="col s3">
-                                <a onClick={newMessage} className="btn-floating btn-large waves-effect waves-light red"><i
+                                <br/>
+                                <a style={{marginLeft: "-15px"}} onClick={newMessage} className="btn-floating btn-large waves-effect waves-light red pulse"><i
                                     className="material-icons">search</i></a>
                             </div>
                         </div>
-                        <div className="collection">
+                        <div style={{marginTop: "-20px"}}><span style={{color: "white"}}>Osoby, z którymi pisałeś:</span></div>
+                        <div style={{overflowY: "auto", height: "340px", overflowX: "hidden", borderColor: "rgb(33, 33, 33)"}} className="collection">
                             {interlocutors}
                         </div>
                     </div>
