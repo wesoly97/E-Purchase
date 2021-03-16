@@ -1,6 +1,5 @@
 # E-PURCHASE
 > E-PURCHASE is e-commerce web application that facilitates the sale of goods between third-party buyers and sellers. Buyers visit the site to search for products they want to buy from individual sellers. 
-> Project made by Murczkiewicz Kacper;  Drzymalski Hubert;  Wesołek Mikołaj;  Szymański Łukasz;
 
 ## Table of contents
 * [General info](#general-info)
@@ -74,7 +73,7 @@ $ npm start
 ```
 
 ## Status
-Project is:_no longer continue_ 
+Project is: _no longer continue_ 
 
 
 ## Contact
