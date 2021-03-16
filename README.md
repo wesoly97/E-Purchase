@@ -78,7 +78,7 @@ Project is:_no longer continue_
 
 
 ## Contact
-Created by [ME](https://github.com/wesoly97) - feel free to contact me!
-Created by [Kacper Murczkiewicz](https://github.com/kmurczkiewicz) - feel free to contact me!
-Created by [Hubert Drzymalski](https://github.com/HubertDrzymalski) - feel free to contact me!
-Created by [Łukasz Szymański](https://github.com/szyman-9) - feel free to contact me!
+>Created by [ME](https://github.com/wesoly97) - feel free to contact me!
+>Created by [Kacper Murczkiewicz](https://github.com/kmurczkiewicz) - feel free to contact me!
+>Created by [Hubert Drzymalski](https://github.com/HubertDrzymalski) - feel free to contact me!
+>Created by [Łukasz Szymański](https://github.com/szyman-9) - feel free to contact me!
