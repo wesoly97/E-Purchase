@@ -25,27 +25,27 @@ During the project we used tools such as github, heroku and jira. My tasks inclu
 
 ## Screenshots
 Login Form:
-![Example screenshot](./ImagesOfEPurchase/loginForm.png)
+![Example screenshot](./ImagesOfEPurchase/loginForm.PNG)
 Register Form:
-![Example screenshot](./ImagesOfEPurchase/registerForm.png)
+![Example screenshot](./ImagesOfEPurchase/registerForm.PNG)
 Home:
-![Example screenshot](./ImagesOfEPurchase/mainWebsite.png)
+![Example screenshot](./ImagesOfEPurchase/mainWebsite.PNG)
 Messages:
-![Example screenshot](./ImagesOfEPurchase/message.png)
+![Example screenshot](./ImagesOfEPurchase/message.PNG)
 Auctions:
-![Example screenshot](./ImagesOfEPurchase/auctions.png)
+![Example screenshot](./ImagesOfEPurchase/auctions.PNG)
 Add Offer:
-![Example screenshot](./ImagesOfEPurchase/addOffer.png)
+![Example screenshot](./ImagesOfEPurchase/addOffer.PNG)
 User Cart:
-![Example screenshot](./ImagesOfEPurchase/cart.png)
+![Example screenshot](./ImagesOfEPurchase/cart.PNG)
 Buy Items:
-![Example screenshot](./ImagesOfEPurchase/buy.png)
+![Example screenshot](./ImagesOfEPurchase/buy.PNG)
 Orders:
-![Example screenshot](./ImagesOfEPurchase/orders.png)
+![Example screenshot](./ImagesOfEPurchase/orders.PNG)
 Add Opinion:
-![Example screenshot](./ImagesOfEPurchase/sendOpinion.png)
+![Example screenshot](./ImagesOfEPurchase/sendOpinion.PNG)
 Opinions About items:
-![Example screenshot](./ImagesOfEPurchase/opinion.png)
+![Example screenshot](./ImagesOfEPurchase/opinion.PNG)
 
 ## Technologies
 * React - version 17.0.1
@@ -55,6 +55,8 @@ Opinions About items:
 * Express - version 4.17.1
 * NodeJS - version 14.15.0
 ## Setup
+
+before you start, you have to install on your computer the newest version of nodeJS, mySQL and React.
 
 To run this project, install it locally using npm:
 
@@ -67,9 +69,11 @@ $ cd npm install
 $ node index.js
 ```
 Open new Terminal then go client directory and use npm start
+
 ```
 $ cd client
 $ npm start
+```
 
 ## Status
 Project is:_no longer continue_ 
